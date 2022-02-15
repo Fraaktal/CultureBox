@@ -7,7 +7,23 @@ on:
     branches: [ master ]
 
 jobs:
-  release:
+  BuildAndTest:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+  
+  UploadImage:
+    needs: [BuildAndTest]
     runs-on: ubuntu-latest
     steps:
       - name: Login to Docker Hub
@@ -29,7 +45,10 @@ jobs:
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
         
-        
+  DeployProduction:
+    needs: [UploadImage]
+    runs-on: ubuntu-latest       
+    steps:
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
@@ -48,7 +67,7 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_HOST: server-fraaktal.ddns.net
 
-      - name: Stop the server
+      - name: Deploying on the production server
         run: ssh staging 'docker-compose pull && docker-compose up -d --remove-orphans && docker image prune -f'
    
    
