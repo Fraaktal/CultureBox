@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CultureBox.DAO;
 
 namespace CultureBox
 {
@@ -26,6 +27,8 @@ namespace CultureBox
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSwaggerDocument();
+            ConfigureDependency(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +49,14 @@ namespace CultureBox
             {
                 endpoints.MapControllers();
             });
+
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
+        }
+
+        private void ConfigureDependency(IServiceCollection services)
+        {
+            services.AddSingleton<IDbExecutor, DbExecutor>();
         }
     }
 }

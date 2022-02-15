@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,8 +12,11 @@ namespace CultureBox
 {
     public class Program
     {
+        public static string DbPath { get; set; }
+
         public static void Main(string[] args)
         {
+            DbPath = Path.Combine(Directory.GetCurrentDirectory(), "culturebox.db");
             CreateHostBuilder(args).Build().Run();
         }
 
