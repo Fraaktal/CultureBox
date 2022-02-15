@@ -19,11 +19,6 @@ namespace CultureBox.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
         private readonly ILogger<UserController> _logger;
         private readonly IUserDAO _userDao;
 
@@ -41,22 +36,30 @@ namespace CultureBox.Controllers
         }
 
         [HttpGet("login")]
-        public string login(string username, string password)
+        public string login([FromBody] APIRequestUser u)
         {
-            var apiKey = _userDao.GetApiKey(username, password);
+            var apiKey = _userDao.GetApiKey(u.Username, u.Password);
             return apiKey;
         }
 
         [HttpPost]
-        public void CreateUser(string username, string password)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public void CreateUser([FromBody] APIRequestUser u)
         {
-            _userDao.CreateUser(username, password);
+            _userDao.CreateUser(u.Username, u.Password);
         }
 
         [HttpDelete("{id}")]
-        public void DeleteUser(int id, string password)
+        public void DeleteUser(int id, [FromBody] string password)
         {
             _userDao.DeleteUser(id, password);
         }
+    }
+
+    public class APIRequestUser
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
     }
 }

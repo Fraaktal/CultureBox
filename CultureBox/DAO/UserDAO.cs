@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using CultureBox.Model;
+using LiteDB;
 
 namespace CultureBox.DAO
 {
@@ -31,6 +33,7 @@ namespace CultureBox.DAO
                 col.EnsureIndex(x => x.Id);
                 
                 user = col.FindOne(x => x.Id == id);
+                user.Password = "No security breach here ;)";
             });
 
             return user;
@@ -63,13 +66,32 @@ namespace CultureBox.DAO
                 {
                     Username = username,
                     Password = password,
-                    APIKey = new Guid().ToString()
+                    APIKey = GenerateApiKey(col)
                 };
                 
                 isOk = col.Insert(user) >= 0;
             });
 
             return isOk;
+        }
+
+        private string GenerateApiKey(ILiteCollection<ApiUser> col)
+        {
+            string res = null;
+            while (res == null || col.Exists(u => res == u.APIKey))
+            {
+                res = RandomString(10) + "_" + RandomString(10);
+            }
+
+            return res;
+        }
+
+        public static string RandomString(int length)
+        {
+            Random r = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[r.Next(s.Length)]).ToArray());
         }
 
         public bool DeleteUser(int id, string password)

@@ -57,6 +57,7 @@ namespace CultureBox
         private void ConfigureDependency(IServiceCollection services)
         {
             services.AddSingleton<IDbExecutor, DbExecutor>();
+            services.AddScoped<IUserDAO, UserDAO>();
         }
     }
 }
