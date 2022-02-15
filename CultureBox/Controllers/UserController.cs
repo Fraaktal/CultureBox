@@ -40,8 +40,8 @@ namespace CultureBox.Controllers
             return Ok(user);
         }
 
-        [HttpGet("login")]
-        public string login([FromBody] APIRequestUser u)
+        [HttpGet("apikey")]
+        public string GetApiKey([FromBody] APIRequestUser u)
         {
             var apiKey = _userDao.GetApiKey(u.Username, u.Password);
             return apiKey;

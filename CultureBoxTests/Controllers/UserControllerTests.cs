@@ -6,19 +6,13 @@ namespace CultureBoxTests.Controllers
     public class UserControllerTests
     {
         [TestMethod()]
-        public void UserControllerTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
         public void GetTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void loginTest()
+        public void LoginTest()
         {
             Assert.Fail();
         }
