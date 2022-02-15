@@ -29,12 +29,25 @@ jobs:
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
         
-      - name: SSH Deploy 
-        uses: appleboy/ssh-action@master
-        with:
-          host: server-fraaktal.ddns.net
-          username: ${{ secrets.USER_SSH }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 4207
-          fingerprint: ${{ secrets.FINGERPRINT }}
-          script: docker-compose pull && docker-compose up -d --remove-orphans && docker image prune -f
+        
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/staging.key
+          chmod 600 ~/.ssh/staging.key
+          cat >>~/.ssh/config <<END
+          Host staging
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/staging.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_USER: ${{ secrets.USER_SSH }}
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: server-fraaktal.ddns.net
+
+      - name: Stop the server
+        run: ssh staging 'docker-compose pull && docker-compose up -d --remove-orphans && docker image prune -f'
+   
+   
