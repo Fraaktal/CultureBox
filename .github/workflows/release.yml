@@ -28,12 +28,13 @@ jobs:
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
-
-      - name: SSH Command
-        uses: D3rHase/ssh-command-action@v0.2
+        
+      - name: ssh key passphrase
+        uses: appleboy/ssh-action@master
         with:
-          HOST: server-fraaktal.ddns.net
-          PORT: 4207
-          USER: ${{ secrets.USER_SSH }}
-          PRIVATE_SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          COMMAND: docker-compose pull && docker-compose up -d --remove-orphans && docker image prune -f
+          host: server-fraaktal.ddns.net
+          username: ${{ secrets.USER_SSH }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 4207
+          fingerprint: ${{ secrets.FINGERPRINT }}
+          script: docker-compose pull && docker-compose up -d --remove-orphans && docker image prune -f
