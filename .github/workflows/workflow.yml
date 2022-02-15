@@ -23,6 +23,7 @@ jobs:
       run: dotnet test --no-build --verbosity normal
   
   UploadImage:
+    if: startsWith(github.event.ref, 'refs/tags/v')
     needs: [BuildAndTest]
     runs-on: ubuntu-latest
     steps:
@@ -47,7 +48,7 @@ jobs:
         
   DeployProduction:
     needs: [UploadImage]
-    runs-on: ubuntu-latest       
+    runs-on: ubuntu-latest   
     steps:
       - name: Configure SSH
         run: |
