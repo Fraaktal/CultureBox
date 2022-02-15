@@ -1,3 +1,3 @@
-[![Docker Image CI](https://github.com/Fraaktal/CultureBox/actions/workflows/docker-image.yml/badge.svg)](https://github.com/Fraaktal/CultureBox/actions/workflows/docker-image.yml)
+[![CI/CD](https://github.com/Fraaktal/CultureBox/actions/workflows/workflow.yml/badge.svg)](https://github.com/Fraaktal/CultureBox/actions/workflows/workflow.yml)
 
 # CultureBox
