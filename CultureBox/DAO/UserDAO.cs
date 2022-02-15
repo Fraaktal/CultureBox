@@ -49,7 +49,7 @@ namespace CultureBox.DAO
 
                 col.EnsureIndex(x => x.Id);
 
-                apiKey = col.FindOne(x => x.Username == username && Equals(x.Password, password)).APIKey;
+                apiKey = col.FindOne(x => x.Username == username && x.Password == password)?.APIKey;
             });
 
             return apiKey;

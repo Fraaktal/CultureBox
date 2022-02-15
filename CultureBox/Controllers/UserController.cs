@@ -29,10 +29,15 @@ namespace CultureBox.Controllers
         }
 
         [HttpGet("{id}")]
-        public ApiUser Get(int id)
+        public IActionResult Get(int id)
         {
             var user = _userDao.GetUserById(id);
-            return user;
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
         }
 
         [HttpGet("login")]
