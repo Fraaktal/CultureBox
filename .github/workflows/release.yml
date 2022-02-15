@@ -1,4 +1,4 @@
-name: Release to Docker Hub
+name: CI/CD
 
 on:
   push:
@@ -7,7 +7,23 @@ on:
     branches: [ master ]
 
 jobs:
-  release:
+  BuildAndTest:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+  
+  UploadImage:
+    needs: [BuildAndTest]
     runs-on: ubuntu-latest
     steps:
       - name: Login to Docker Hub
@@ -29,12 +45,29 @@ jobs:
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
         
-      - name: ssh key passphrase
-        uses: appleboy/ssh-action@master
-        with:
-          host: server-fraaktal.ddns.net
-          username: ${{ secrets.USER_SSH }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 4207
-          fingerprint: ${{ secrets.FINGERPRINT }}
-          script: docker-compose pull && docker-compose up -d --remove-orphans && docker image prune -f
+  DeployProduction:
+    needs: [UploadImage]
+    runs-on: ubuntu-latest       
+    steps:
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/staging.key
+          chmod 600 ~/.ssh/staging.key
+          cat >>~/.ssh/config <<END
+          Host staging
+            HostName $SSH_HOST
+            Port 4207
+            User $SSH_USER
+            IdentityFile ~/.ssh/staging.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_USER: ${{ secrets.USER_SSH }}
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: server-fraaktal.ddns.net
+
+      - name: Deploying on the production server
+        run: ssh staging 'docker-compose pull && docker-compose up -d --remove-orphans && docker image prune -f'
+   
+   
