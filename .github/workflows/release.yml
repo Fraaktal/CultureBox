@@ -34,7 +34,7 @@ jobs:
         with:
           host: server-fraaktal.ddns.net
           username: ${{ secrets.USER_SSH }}
-          key: ${{ secrets.USER_SSH }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 4207
           fingerprint: ${{ secrets.FINGERPRINT }}
           script: docker-compose pull && docker-compose up -d --remove-orphans && docker image prune -f
