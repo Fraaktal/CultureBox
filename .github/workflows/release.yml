@@ -38,6 +38,7 @@ jobs:
           cat >>~/.ssh/config <<END
           Host staging
             HostName $SSH_HOST
+            Port 4207
             User $SSH_USER
             IdentityFile ~/.ssh/staging.key
             StrictHostKeyChecking no
