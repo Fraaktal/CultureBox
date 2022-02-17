@@ -105,6 +105,7 @@ namespace CultureBoxTests.Controllers
 
             Assert.AreEqual(objectResult.StatusCode, 200);
             Assert.AreEqual(objectResult2.StatusCode, 200);
+            //Pas d'user
             Assert.AreEqual(objectResult3.StatusCode, 404);
         }
     }
