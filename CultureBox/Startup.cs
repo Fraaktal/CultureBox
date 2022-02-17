@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CultureBox.Control;
 using CultureBox.DAO;
 
 namespace CultureBox
@@ -58,6 +59,8 @@ namespace CultureBox
         {
             services.AddSingleton<IDbExecutor, DbExecutor>();
             services.AddScoped<IUserDAO, UserDAO>();
+            services.AddScoped<IBookDAO, BookDAO>();
+            services.AddScoped<IApiBookController, ApiBookController>();
         }
     }
 }

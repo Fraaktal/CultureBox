@@ -65,19 +65,23 @@ namespace CultureBox.DAO
             _dbExecutor.Execute(db =>
             {
                 var col = db.GetCollection<ApiUser>("apiusers");
-                
-                var user = new ApiUser()
+
+                var res = col.FindOne(u => u.Username == username);
+                if (res == null)
                 {
-                    Username = username,
-                    Password = password,
-                    APIKey = GenerateApiKey(col)
-                };
-                
-                int id = col.Insert(user);
-                userCreated = col.FindById(id);
-                if (userCreated != null)
-                {
-                    userCreated.Password = "*****";
+                    var user = new ApiUser()
+                    {
+                        Username = username,
+                        Password = password,
+                        APIKey = GenerateApiKey(col)
+                    };
+
+                    int id = col.Insert(user);
+                    userCreated = col.FindById(id);
+                    if (userCreated != null)
+                    {
+                        userCreated.Password = "*****";
+                    }
                 }
             });
 

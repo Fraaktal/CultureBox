@@ -1,19 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Runtime.InteropServices.ComTypes;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
-using CultureBox.DAO;
+﻿using CultureBox.DAO;
 using CultureBox.Model;
 using Microsoft.AspNetCore.Http;
-using NSwag.Annotations;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CultureBox.Controllers
+namespace CultureBox.APIControllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -32,7 +22,7 @@ namespace CultureBox.Controllers
             var user = _userDao.GetUserById(id);
             if (user == null)
             {
-                return NotFound(null);
+                return NotFound("USER_NOT_FOUND");
             }
 
             return Ok(user);
@@ -47,7 +37,7 @@ namespace CultureBox.Controllers
                 return Ok(apiKey);
             }
 
-            return NotFound(null);
+            return NotFound("INVALID_CREDENTIALS");
         }
 
         [HttpPost]
@@ -61,7 +51,7 @@ namespace CultureBox.Controllers
                 return Ok(user);
             }
 
-            return BadRequest(null);
+            return BadRequest("USERNAME_ALREADY_TAKEN");
         }
 
         [HttpDelete("{id}")]
@@ -73,7 +63,7 @@ namespace CultureBox.Controllers
                 return Ok(true);
             }
 
-            return NotFound(false);
+            return NotFound("USER_NOT_FOUND");
         }
     }
 
