@@ -9,9 +9,9 @@ namespace CultureBox.Model
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public string Authors { get; set; }
+        public List<string> Authors { get; set; }
         public string Description { get; set; }
-        public string Theme { get; set; }
+        public List<string> Themes { get; set; }
         public string ISBN { get; set; }
     }
 }

@@ -10,6 +10,7 @@ namespace CultureBox.DAO
     {
         List<ApiBook> GetAllBooks();
         ApiBook GetBookById(int id);
+        void AddOrUpdateBook(ApiBook book);
     }
 
     public class BookDAO : IBookDAO
@@ -47,12 +48,23 @@ namespace CultureBox.DAO
             return res;
         }
 
-        public void CreateBook(ApiBook book)
+        public void AddOrUpdateBook(ApiBook book)
         {
             _dbExecutor.Execute(db =>
             {
                 var col = db.GetCollection<ApiBook>("apibook");
-                col.Insert(book);
+                var existingBook = col.FindOne(b => b.ISBN == book.ISBN);
+
+                if (existingBook == null)
+                {
+                    col.Insert(book);
+                }
+                else
+                {
+                    //est récupéré via API, on doit set l'id et on met les informations à jour.
+                    book.Id = existingBook.Id;
+                    col.Update(book);
+                }
             });
         }
     }

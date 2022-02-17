@@ -45,7 +45,7 @@ namespace CultureBox.APIControllers
         }
 
         [HttpGet("search")]
-        public ActionResult<List<ApiBook>> SearchBook([FromBody] APIRequestBook b)
+        public ActionResult<List<ApiBook>> SearchBook([FromBody] ApiRequestBook b)
         {
             var res = _apiBookController.Search(b);
             if (res != null)
@@ -57,10 +57,8 @@ namespace CultureBox.APIControllers
         }
     }
 
-    public class APIRequestBook
+    public class ApiRequestBook
     {
         public string Title { get; set; }
-        public string[] Authors { get; set; }
-        public string ISBN { get; set; }
     }
 }

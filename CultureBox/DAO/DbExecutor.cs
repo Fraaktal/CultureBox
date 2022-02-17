@@ -14,7 +14,7 @@ namespace CultureBox.DAO
 
     public class DbExecutor : IDbExecutor
     {
-        private object SyncRoot { get; set; }
+        private object SyncRoot { get; }
 
         public DbExecutor()
         {
