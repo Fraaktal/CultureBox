@@ -18,7 +18,7 @@ namespace CultureBoxTests.APIControllers
         {
             DbExecutor = new DbExecutor();
             DbExecutor.DbPath = Path.Combine(Directory.GetCurrentDirectory(), "testdb.db");
-            UserController = new UserController(new UserDAO(DbExecutor));
+            UserController = new UserController(new UserDAO(DbExecutor), new CollectionDAO(DbExecutor));
         }
 
         [TestCleanup]
@@ -94,7 +94,7 @@ namespace CultureBoxTests.APIControllers
             var objectResult = (OkObjectResult)res.Result;
             var createdUser = (ApiUser)(objectResult).Value;
 
-            var res2 = UserController.DeleteUser(createdUser.Id, user.Password);
+            var res2 = UserController.DeleteUser(createdUser.Id, createdUser.ApiKey);
 
             var objectResult2 = (OkObjectResult)res2.Result;
             var isOk = (bool)(objectResult2).Value;
