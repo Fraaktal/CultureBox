@@ -19,46 +19,61 @@ namespace CultureBox.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly ILogger<UserController> _logger;
         private readonly IUserDAO _userDao;
 
-        public UserController(ILogger<UserController> logger, IUserDAO userDAO)
+        public UserController(IUserDAO userDAO)
         {
-            _logger = logger;
             _userDao = userDAO;
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public ActionResult<ApiUser> Get(int id)
         {
             var user = _userDao.GetUserById(id);
             if (user == null)
             {
-                return NotFound();
+                return NotFound(null);
             }
 
             return Ok(user);
         }
 
         [HttpGet("apikey")]
-        public string GetApiKey([FromBody] APIRequestUser u)
+        public ActionResult<string> GetApiKey([FromBody] APIRequestUser u)
         {
             var apiKey = _userDao.GetApiKey(u.Username, u.Password);
-            return apiKey;
+            if (!string.IsNullOrEmpty(apiKey))
+            {
+                return Ok(apiKey);
+            }
+
+            return NotFound(null);
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public void CreateUser([FromBody] APIRequestUser u)
+        public ActionResult<ApiUser> CreateUser([FromBody] APIRequestUser u)
         {
-            _userDao.CreateUser(u.Username, u.Password);
+            var user = _userDao.CreateUser(u.Username, u.Password);
+            if (user != null)
+            {
+                return Ok(user);
+            }
+
+            return BadRequest(null);
         }
 
         [HttpDelete("{id}")]
-        public void DeleteUser(int id, [FromBody] string password)
+        public ActionResult<bool> DeleteUser(int id, [FromBody] string password)
         {
-            _userDao.DeleteUser(id, password);
+            bool res = _userDao.DeleteUser(id, password);
+            if (res)
+            {
+                return Ok(true);
+            }
+
+            return NotFound(false);
         }
     }
 

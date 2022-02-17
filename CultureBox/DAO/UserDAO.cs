@@ -9,7 +9,7 @@ namespace CultureBox.DAO
     {
         ApiUser GetUserById(int id);
         string GetApiKey(string username, string password);
-        bool CreateUser(string username, string password);
+        ApiUser CreateUser(string username, string password);
         bool DeleteUser(int id, string password);
     }
 
@@ -33,7 +33,11 @@ namespace CultureBox.DAO
                 col.EnsureIndex(x => x.Id);
                 
                 user = col.FindOne(x => x.Id == id);
-                user.Password = "No security breach here ;)";
+
+                if (user != null)
+                {
+                    user.Password = "*****";
+                }
             });
 
             return user;
@@ -55,9 +59,9 @@ namespace CultureBox.DAO
             return apiKey;
         }
 
-        public bool CreateUser(string username, string password)
+        public ApiUser CreateUser(string username, string password)
         {
-            bool isOk = false;
+            ApiUser userCreated = null;
             _dbExecutor.Execute(db =>
             {
                 var col = db.GetCollection<ApiUser>("apiusers");
@@ -69,10 +73,15 @@ namespace CultureBox.DAO
                     APIKey = GenerateApiKey(col)
                 };
                 
-                isOk = col.Insert(user) >= 0;
+                int id = col.Insert(user);
+                userCreated = col.FindById(id);
+                if (userCreated != null)
+                {
+                    userCreated.Password = "*****";
+                }
             });
 
-            return isOk;
+            return userCreated;
         }
 
         private string GenerateApiKey(ILiteCollection<ApiUser> col)
@@ -101,7 +110,7 @@ namespace CultureBox.DAO
             {
                 var col = db.GetCollection<ApiUser>("apiusers");
 
-                if (col.FindOne(x => x.Id == id && Equals(x.Password, password)) != null)
+                if (col.FindOne(x => x.Id == id && x.Password == password) != null)
                 {
                     isOk = col.Delete(id);
                 }

@@ -12,11 +12,9 @@ namespace CultureBox
 {
     public class Program
     {
-        public static string DbPath { get; set; }
 
         public static void Main(string[] args)
         {
-            DbPath = Path.Combine(Directory.GetCurrentDirectory(), "culturebox.db");
             CreateHostBuilder(args).Build().Run();
         }
 

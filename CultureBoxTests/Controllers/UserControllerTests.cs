@@ -1,32 +1,111 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.IO;
+using CultureBox.Controllers;
+using CultureBox.DAO;
+using CultureBox.Model;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CultureBoxTests.Controllers
 {
-    [TestClass()]
+    [TestClass]
     public class UserControllerTests
     {
-        [TestMethod()]
-        public void GetTest()
+        public UserController UserController { get; set; }
+        public DbExecutor DbExecutor { get; set; }
+
+        [TestInitialize]
+        public void Initialize()
         {
-            Assert.Fail();
+            DbExecutor = new DbExecutor();
+            DbExecutor.DbPath = Path.Combine(Directory.GetCurrentDirectory(), "testdb.db");
+            UserController = new UserController(new UserDAO(DbExecutor));
         }
 
-        [TestMethod()]
-        public void LoginTest()
+        [TestCleanup]
+        public void Cleanup()
         {
-            Assert.Fail();
+            File.Delete(DbExecutor.DbPath);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void CreateUserTest()
         {
-            Assert.Fail();
+            var user = new APIRequestUser() {Username = "Test", Password = "pass"};
+            var res = UserController.CreateUser(user);
+
+            var objectResult = (OkObjectResult) res.Result;
+            var result = (ApiUser)(objectResult).Value;
+
+            Assert.AreEqual(result.Username, user.Username);
+            Assert.AreNotEqual(result.Password, user.Password);
+            Assert.AreEqual(objectResult.StatusCode, 200);
         }
 
-        [TestMethod()]
+        [TestMethod]
+        public void GetTest()
+        {
+            var user = new APIRequestUser() { Username = "Test", Password = "pass" };
+            var res = UserController.CreateUser(user);
+
+            var objectResult = (OkObjectResult)res.Result;
+            var createdUser = (ApiUser)(objectResult).Value;
+
+            var res2 = UserController.Get(createdUser.Id);
+
+            var objectResult2 = (OkObjectResult)res2.Result;
+            var gotUser = (ApiUser)(objectResult2).Value;
+
+            Assert.AreEqual(gotUser.Username, user.Username);
+            Assert.AreNotEqual(gotUser.Password, user.Password);
+
+            Assert.AreEqual(createdUser.Username, gotUser.Username);
+            Assert.AreEqual(createdUser.Password, gotUser.Password);
+
+            Assert.AreEqual(objectResult.StatusCode, 200);
+            Assert.AreEqual(objectResult2.StatusCode, 200);
+        }
+
+        [TestMethod]
+        public void GetApiKeyTest()
+        {
+            var user = new APIRequestUser() { Username = "Test", Password = "pass" };
+            var res = UserController.CreateUser(user);
+
+            var objectResult = (OkObjectResult)res.Result;
+
+            var res2 = UserController.GetApiKey(user);
+
+            var objectResult2 = (OkObjectResult)res2.Result;
+            var apiKey = (string)(objectResult2).Value;
+
+            Assert.IsNotNull(apiKey);
+            Assert.AreNotEqual(apiKey, "");
+
+            Assert.AreEqual(objectResult.StatusCode, 200);
+            Assert.AreEqual(objectResult2.StatusCode, 200);
+        }
+
+        [TestMethod]
         public void DeleteUserTest()
         {
-            Assert.Fail();
+            var user = new APIRequestUser() { Username = "Test", Password = "pass" };
+            var res = UserController.CreateUser(user);
+
+            var objectResult = (OkObjectResult)res.Result;
+            var createdUser = (ApiUser)(objectResult).Value;
+
+            var res2 = UserController.DeleteUser(createdUser.Id, user.Password);
+
+            var objectResult2 = (OkObjectResult)res2.Result;
+            var isOk = (bool)(objectResult2).Value;
+
+            var res3 = UserController.Get(createdUser.Id);
+
+            var objectResult3 = (NotFoundObjectResult)res3.Result;
+
+            Assert.AreEqual(objectResult.StatusCode, 200);
+            Assert.AreEqual(objectResult2.StatusCode, 200);
+            Assert.AreEqual(objectResult3.StatusCode, 404);
         }
     }
 }
