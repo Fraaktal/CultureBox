@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace CultureBox.Model
 {
-    public class ApiUser
+    public class ApiCollection
     {
         public int Id { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string ApiKey { get; set; }
+        public string Name { get; set; }
+        public int IdUser { get; set; }
+        public List<ApiBook> Books { get; set; }
     }
 }

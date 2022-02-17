@@ -10,10 +10,12 @@ namespace CultureBox.APIControllers
     public class UserController : ControllerBase
     {
         private readonly IUserDAO _userDao;
+        private readonly ICollectionDAO _collectionDao;
 
-        public UserController(IUserDAO userDAO)
+        public UserController(IUserDAO userDAO, ICollectionDAO collectionDAO)
         {
             _userDao = userDAO;
+            _collectionDao = collectionDAO;
         }
 
         [HttpGet("{id}")]
@@ -55,15 +57,36 @@ namespace CultureBox.APIControllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<bool> DeleteUser(int id, [FromBody] string password)
+        public ActionResult<bool> DeleteUser(int id, [FromBody] string apiKey)
         {
-            bool res = _userDao.DeleteUser(id, password);
+            bool res = _userDao.DeleteUser(id, apiKey);
             if (res)
             {
                 return Ok(true);
             }
 
             return NotFound("USER_NOT_FOUND");
+        }
+
+        [HttpGet("{id}/Collection")]
+        public ActionResult<bool> GetAllCollection(int id, [FromBody] string apiKey)
+        {
+            bool apiKeyOk = _userDao.CheckApiKey(id, apiKey);
+            if (apiKeyOk)
+            {
+                var res = _collectionDao.GetAllCollection(id);
+                if (res != null)
+                {
+                    return Ok(true);
+                }
+
+                return NotFound("COLLECTION_NOT_FOUND");
+
+            }
+            else
+            {
+                return BadRequest("INVALID_CREDENTIALS");
+            }
         }
     }
 

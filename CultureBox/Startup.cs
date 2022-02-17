@@ -61,6 +61,7 @@ namespace CultureBox
             services.AddScoped<IUserDAO, UserDAO>();
             services.AddScoped<IBookDAO, BookDAO>();
             services.AddScoped<IApiBookController, ApiBookController>();
+            services.AddScoped<ICollectionDAO, CollectionDAO>();
         }
     }
 }

@@ -10,7 +10,8 @@ namespace CultureBox.DAO
         ApiUser GetUserById(int id);
         string GetApiKey(string username, string password);
         ApiUser CreateUser(string username, string password);
-        bool DeleteUser(int id, string password);
+        bool DeleteUser(int id, string apiKey);
+        bool CheckApiKey(int id, string apiKey);
     }
 
     public class UserDAO : IUserDAO
@@ -53,7 +54,7 @@ namespace CultureBox.DAO
 
                 col.EnsureIndex(x => x.Id);
 
-                apiKey = col.FindOne(x => x.Username == username && x.Password == password)?.APIKey;
+                apiKey = col.FindOne(x => x.Username == username && x.Password == password)?.ApiKey;
             });
 
             return apiKey;
@@ -73,7 +74,7 @@ namespace CultureBox.DAO
                     {
                         Username = username,
                         Password = password,
-                        APIKey = GenerateApiKey(col)
+                        ApiKey = GenerateApiKey(col)
                     };
 
                     int id = col.Insert(user);
@@ -91,7 +92,7 @@ namespace CultureBox.DAO
         private string GenerateApiKey(ILiteCollection<ApiUser> col)
         {
             string res = null;
-            while (res == null || col.Exists(u => res == u.APIKey))
+            while (res == null || col.Exists(u => res == u.ApiKey))
             {
                 res = RandomString(10) + "_" + RandomString(10);
             }
@@ -107,16 +108,32 @@ namespace CultureBox.DAO
                 .Select(s => s[r.Next(s.Length)]).ToArray());
         }
 
-        public bool DeleteUser(int id, string password)
+        public bool DeleteUser(int id, string apiKey)
         {
             bool isOk = false;
             _dbExecutor.Execute(db =>
             {
                 var col = db.GetCollection<ApiUser>("apiusers");
 
-                if (col.FindOne(x => x.Id == id && x.Password == password) != null)
+                if (col.FindOne(x => x.Id == id && x.ApiKey == apiKey) != null)
                 {
                     isOk = col.Delete(id);
+                }
+            });
+
+            return isOk;
+        }
+
+        public bool CheckApiKey(int id, string apiKey)
+        {
+            bool isOk = false;
+            _dbExecutor.Execute(db =>
+            {
+                var col = db.GetCollection<ApiUser>("apiusers");
+
+                if (col.FindOne(x => x.Id == id && x.ApiKey == apiKey) != null)
+                {
+                    isOk = true;
                 }
             });
 
