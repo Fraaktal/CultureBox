@@ -31,7 +31,7 @@ namespace CultureBox.APIControllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<string> GetBookById(int id)
+        public ActionResult<ApiBook> GetBookById(int id)
         {
             var res = _apiBookController.GetBookById(id);
             if (res != null)
