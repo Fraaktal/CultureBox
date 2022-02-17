@@ -23,7 +23,7 @@ jobs:
       run: dotnet test --no-build --verbosity normal
   
   UploadImage:
-    if: startsWith(github.event.ref, 'refs/tags/v')
+    if: "contains(github.event.head_commit.message, '[Deploy]')"
     needs: [BuildAndTest]
     runs-on: ubuntu-latest
     steps:
