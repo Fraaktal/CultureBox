@@ -12,6 +12,8 @@ namespace CultureBox.Control
     public interface IApiBookController
     {
         List<ApiBook> Search(ApiRequestBook apiRequestBook);
+        ApiBook GetBookById(int id);
+        List<ApiBook> GetAllBooks();
     }
 
     public class ApiBookController : IApiBookController
@@ -41,6 +43,16 @@ namespace CultureBox.Control
             }
 
             return books;
+        }
+
+        public ApiBook GetBookById(int id)
+        {
+            return _bookDao.GetBookById(id);
+        }
+
+        public List<ApiBook> GetAllBooks()
+        {
+            return _bookDao.GetAllBooks();
         }
 
         private List<ApiBook> ConvertToApiBook(List<Volume> googleBooks)

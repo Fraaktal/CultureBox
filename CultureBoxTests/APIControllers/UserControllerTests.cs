@@ -5,7 +5,7 @@ using CultureBox.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CultureBoxTests.Controllers
+namespace CultureBoxTests.APIControllers
 {
     [TestClass]
     public class UserControllerTests

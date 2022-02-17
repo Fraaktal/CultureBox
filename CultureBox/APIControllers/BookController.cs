@@ -10,20 +10,18 @@ namespace CultureBox.APIControllers
     [Route("[controller]")]
     public class BookController : ControllerBase
     {
-        private readonly IBookDAO _bookDAO;
         private readonly IApiBookController _apiBookController;
 
-        public BookController(IBookDAO bookDAO, IApiBookController apiBookController)
+        public BookController(IApiBookController apiBookController)
         {
-            _bookDAO = bookDAO;
             _apiBookController = apiBookController;
         }
 
-        //pagination
+        //todo pagination
         [HttpGet]
-        public ActionResult<List<ApiBook>> Get()
+        public ActionResult<List<ApiBook>> GetAll()
         {
-            var books = _bookDAO.GetAllBooks();
+            var books = _apiBookController.GetAllBooks();
             if (books == null)
             {
                 return Problem("BOOKS_NOT_FOUND");
@@ -35,7 +33,7 @@ namespace CultureBox.APIControllers
         [HttpGet("{id}")]
         public ActionResult<string> GetBookById(int id)
         {
-            var res = _bookDAO.GetBookById(id);
+            var res = _apiBookController.GetBookById(id);
             if (res != null)
             {
                 return Ok(res);
