@@ -11,7 +11,6 @@ namespace CultureBox.Control
 
     public class ApiBookController : IApiBookController
     {
-        private const string APIKEY = "key=AIzaSyAwFEt2OT_741yiGFP5GSW3CULc4W5KiEs";
 
         public List<ApiBook> Search(APIRequestBook apiRequestBook)
         {
