@@ -41,32 +41,28 @@ Linq
 LiteDB
 Google.Apis
 
-###### Documentation des Fonctions (a preciser, mettre en forme)
+###### Documentation des Fonctions (Completer Utilisateur -> GetApiKey)
 
-Pour les livres(APIControllers BookController)
+Gestion des Livres
 
+GetAll -> permet de récupérer tous les livres
+GetBookById -> permet de récupérer un livre selon un identifiant 
+SearchBook -> permet de rechercher un livre à partir des inforamtions que l'on dispose (catégorie, titre, etc)
 
-GetAll() -> permet de récuperer tous les éléments d'une collection
-GetByBookId() -> permet de récuperer tous les informations de l'élément correspondant a l'id pris en argument
-SearchBook() ->
+Gestion des Utilisateurs
 
-Pour les Users(APIControllers UserController)
+Get -> permet de récupérer un livre selon un identifiant
+GetAllUser -> permet de récupérer tous les utilisateurs
+GetApiKey ->
+CreateUser -> permet de créer un utilisateur avec un mot de passe et un pseudo unique
+DeleteUser -> permet de supprimer un utilisateur
 
-Get() -> recupère un utilisateur par son Id
-GetAllUser() -> récupère tout les users
-GetApiKey() ->
-CreateUser() -> crée un user
-DeleteUser() -> effacer un utilisateur, defini par son Id et ???
-GetAllCollection() ->
+Gestion de Collections de livres
 
-
-
-IDKnow (ApiBookController)
-Search() ->
-ConvertToApiBook() -> convertis les livres de l'api Google vers la nôtre?
-GetISBN() -> récupère l'isbn d'un livre
-
-StillDontK(Model ApiBook)
-Equals() -> Verifie si tout les champs de deux livres sont égaux, si oui c'est le même livre
-GetHashCode() -> ??
+GetAllCollection -> permet de récupérer toutes les collections d'un utilisateur
+GetCollectionById -> permet de récupérer une collection selon un identifiant
+CreateCollection -> permet de créer une collection
+DeleteCollection -> permet de supprimer une collection
+AddBookToCollection -> permet d'ajouter un livre dans une collection
+RemoveBookFromCollection -> permet de retirer un livre d'une collection
 
