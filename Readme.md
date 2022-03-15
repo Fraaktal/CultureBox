@@ -17,8 +17,10 @@
 # CultureBox
 
 ## Description (a retravailler)
-Cette application est destinée a répertorier et gérer les collections de livres des utilisateurs. Chaque utilisateur peut créer plusieurs collections auxquelles, il peut ajouter et retirer des livres. Ces derniers auront un certain nombre d'informations renseignées comme
-Application contenue dans docker et disponible en ligne, hébergée sur serveur.
+Cette application est destinée a répertorier et gérer les collections de livres des utilisateurs. Chaque utilisateur peut créer plusieurs collections auxquelles, il peut ajouter et retirer des livres. Ces derniers auront un certain nombre d'informations renseignées comme leur titre, leurs auteurs ou encore les thèmes qu'ils abordent.
+Notre application se sert d'une Api Google et est contenue dans/sur Docker.
+Etant hebergé sur un serveur, la page web est constamment accessible.
+
 
 
 #### Documentation des Routes
