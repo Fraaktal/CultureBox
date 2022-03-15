@@ -30,6 +30,18 @@ namespace CultureBox.APIControllers
             return Ok(user);
         }
 
+        [HttpGet]
+        public ActionResult<ApiUser> GetAllUser()
+        {
+            var users = _userDao.GetAllUsers();
+            if (users == null)
+            {
+                return NotFound("USERS_NOT_FOUND");
+            }
+
+            return Ok(users);
+        }
+
         [HttpGet("apikey")]
         public ActionResult<string> GetApiKey([FromBody] APIRequestUser u)
         {

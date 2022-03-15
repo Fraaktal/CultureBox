@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CultureBox.Model;
 using LiteDB;
@@ -12,6 +13,7 @@ namespace CultureBox.DAO
         ApiUser CreateUser(string username, string password);
         bool DeleteUser(int id, string apiKey);
         bool CheckApiKey(int id, string apiKey);
+        List<ApiUser> GetAllUsers();
     }
 
     public class UserDAO : IUserDAO
@@ -138,6 +140,28 @@ namespace CultureBox.DAO
             });
 
             return isOk;
+        }
+
+        public List<ApiUser> GetAllUsers()
+        {
+            List<ApiUser> users = null;
+
+            _dbExecutor.Execute(db =>
+            {
+                var col = db.GetCollection<ApiUser>("apiusers");
+
+                users = col.FindAll().ToList();
+
+                if (users != null)
+                {
+                    foreach (var apiUser in users)
+                    {
+                        apiUser.Password = "*****";
+                    }
+                }
+            });
+
+            return users;
         }
     }
 }
