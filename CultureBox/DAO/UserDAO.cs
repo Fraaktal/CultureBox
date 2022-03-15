@@ -129,6 +129,7 @@ namespace CultureBox.DAO
         public bool CheckApiKey(int id, string apiKey)
         {
             bool isOk = false;
+
             _dbExecutor.Execute(db =>
             {
                 var col = db.GetCollection<ApiUser>("apiusers");
