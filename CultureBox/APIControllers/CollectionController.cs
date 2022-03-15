@@ -39,7 +39,7 @@ namespace CultureBox.APIControllers
             return BadRequest("INVALID_CREDENTIALS");
         }
 
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         public ActionResult<ApiCollection> GetCollectionById(int id, [FromBody] string apiKey)
         {
             int userId = _userDao.GetUserId(apiKey);
@@ -83,7 +83,7 @@ namespace CultureBox.APIControllers
             return BadRequest("INVALID_CREDENTIALS");
         }
 
-        [HttpDelete("/{id}")]
+        [HttpDelete("{id}")]
         public ActionResult DeleteCollection(int id, [FromBody] string apiKey)
         {
             int userId = _userDao.GetUserId(apiKey);
@@ -102,7 +102,7 @@ namespace CultureBox.APIControllers
             return BadRequest("INVALID_CREDENTIALS");
         }
 
-        [HttpPost("/{id}")]
+        [HttpPost("{id}")]
         public ActionResult<ApiCollection> AddBookToCollection(int id, [FromBody] ApiCollectionItemRequest req)
         {
             int userId = GetUserId(req.ApiKey);
