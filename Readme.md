@@ -41,7 +41,7 @@ Linq
 LiteDB
 Google.Apis
 
-###### Documentation des Fonctions (a preciser, 
+###### Documentation des Fonctions (a preciser, mettre en forme)
 
 Pour les livres(APIControllers BookController)
 
