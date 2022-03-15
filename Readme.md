@@ -12,6 +12,6 @@
 ![](https://img.shields.io/github/repo-size/Fraaktal/CultureBox)
 
 ## Contributors
-![Contributors](https://contrib.rocks/image?repo=Fraaktal/CultureBox)
+![Contributors](https://contrib.rocks/image?repo=Fraaktal/CultureBox) 
 
 # CultureBox
