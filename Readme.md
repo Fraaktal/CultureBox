@@ -20,11 +20,12 @@
 
 # CultureBox
 
-###### Description (a retravailler)
+## Description (a retravailler)
 Cette application est destinée a répertorier et gerer une bibliothèque de livres en fonction de leur ISBN, auteur, etc. Composé de différentes collections permettant de créer, supprimer et modifier des urilisateurs, livres ou bibliothèques. Application contenue dans docker et disponible en ligne, hébergée sur serveur.
 
 [Docker](https://hub.docker.com/r/fraaktal/culturebox)
 
+###### Documentation des Routes
 [Swagger](http://server-fraaktal.ddns.net:4208/swagger/index.html#/User/User_GetAllUser)
 
 [Lien](lien serveur)
@@ -40,7 +41,7 @@ Linq
 LiteDB
 Google.Apis
 
-###### Fonctions
+###### Documentation des Fonctions
 
 
 
