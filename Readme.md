@@ -41,7 +41,32 @@ Linq
 LiteDB
 Google.Apis
 
-###### Documentation des Fonctions
+###### Documentation des Fonctions (a preciser, 
+
+Pour les livres(APIControllers BookController)
 
 
+GetAll() -> permet de récuperer tous les éléments d'une collection
+GetByBookId() -> permet de récuperer tous les informations de l'élément correspondant a l'id pris en argument
+SearchBook() ->
+
+Pour les Users(APIControllers UserController)
+
+Get() -> recupère un utilisateur par son Id
+GetAllUser() -> récupère tout les users
+GetApiKey() ->
+CreateUser() -> crée un user
+DeleteUser() -> effacer un utilisateur, defini par son Id et ???
+GetAllCollection() ->
+
+
+
+IDKnow (ApiBookController)
+Search() ->
+ConvertToApiBook() -> convertis les livres de l'api Google vers la nôtre?
+GetISBN() -> récupère l'isbn d'un livre
+
+StillDontK(Model ApiBook)
+Equals() -> Verifie si tout les champs de deux livres sont égaux, si oui c'est le même livre
+GetHashCode() -> ??
 
