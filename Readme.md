@@ -33,7 +33,12 @@ Cette application est destinée a répertorier et gerer une bibliothèque de liv
 ` docker pull fraaktal/culturebox:latest `
 
 
-###### Librairies
+###### Librairies (A verifier)
+Microsoft AspNetCore
+Microsoft Extensions
+Linq
+LiteDB
+Google.Apis
 
 ###### Fonctions
 
