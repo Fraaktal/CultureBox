@@ -6,7 +6,9 @@
 ![](https://img.shields.io/github/issues-closed-raw/Fraaktal/CultureBox)
 
 [![Documentation Status](https://readthedocs.org/projects/ansicolortags/badge/?version=latest)](http://ansicolortags.readthedocs.io/?badge=latest)
+
 [![GitHub license](https://img.shields.io/github/license/Fraaktal/CultureBox.svg)](https://github.com/Fraaktal/CultureBox/blob/master/LICENSE)
+[![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html)
 [![GitHub tag](https://img.shields.io/github/tag/Fraaktal/CultureBox.svg)](https://GitHub.com/Fraaktal/CultureBox/tags/)
 [![GitHub latest commit](https://badgen.net/github/last-commit/Fraaktal/CultureBox)](https://GitHub.com/Fraaktal/CultureBox/commit/)
 [![Docker](https://badgen.net/badge/icon/docker?icon=docker&label)](https://https://docker.com/)
