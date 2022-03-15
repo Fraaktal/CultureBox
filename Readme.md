@@ -17,7 +17,8 @@
 # CultureBox
 
 ## Description (a retravailler)
-Cette application est destinée a répertorier et gerer une bibliothèque de livres en fonction de leur ISBN, auteur, etc. Composé de différentes collections permettant de créer, supprimer et modifier des urilisateurs, livres ou bibliothèques. Application contenue dans docker et disponible en ligne, hébergée sur serveur.
+Cette application est destinée a répertorier et gérer les collections de livres des utilisateurs. Chaque utilisateur peut créer plusieurs collections auxquelles, il peut ajouter et retirer des livres. Ces derniers auront un certain nombre d'informations renseignées comme
+Application contenue dans docker et disponible en ligne, hébergée sur serveur.
 
 
 #### Documentation des Routes
