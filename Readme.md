@@ -15,3 +15,12 @@
 ![Contributors](https://contrib.rocks/image?repo=Fraaktal/CultureBox) 
 
 # CultureBox
+
+###### Description (a retravailler)
+Cette application est destinée a répertorier et gerer une bibliothèque de livres en fonction de leur ISBN, auteur, etc. Composé de différentes collections permettant de créer, supprimer et modifier des urilisateurs, livres ou bibliothèques. Application contenue dans docker et disponible en ligne  sur serveur.
+
+lien serveur
+
+###### Librairies
+
+###### Fonctions
