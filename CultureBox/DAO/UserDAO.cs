@@ -12,8 +12,8 @@ namespace CultureBox.DAO
         string GetApiKey(string username, string password);
         ApiUser CreateUser(string username, string password);
         bool DeleteUser(int id, string apiKey);
-        bool CheckApiKey(int id, string apiKey);
         List<ApiUser> GetAllUsers();
+        int GetUserId(string apiKey);
     }
 
     public class UserDAO : IUserDAO
@@ -126,23 +126,6 @@ namespace CultureBox.DAO
             return isOk;
         }
 
-        public bool CheckApiKey(int id, string apiKey)
-        {
-            bool isOk = false;
-
-            _dbExecutor.Execute(db =>
-            {
-                var col = db.GetCollection<ApiUser>("apiusers");
-
-                if (col.FindOne(x => x.Id == id && x.ApiKey == apiKey) != null)
-                {
-                    isOk = true;
-                }
-            });
-
-            return isOk;
-        }
-
         public List<ApiUser> GetAllUsers()
         {
             List<ApiUser> users = null;
@@ -163,6 +146,23 @@ namespace CultureBox.DAO
             });
 
             return users;
+        }
+
+        public int GetUserId(string apiKey)
+        {
+            int id = -1;
+
+            _dbExecutor.Execute(db =>
+            {
+                var col = db.GetCollection<ApiUser>("apiusers");
+                var usr = col.FindOne(x => x.ApiKey == apiKey);
+                if (usr != null)
+                {
+                    id = usr.Id;
+                }
+            });
+
+            return id;
         }
     }
 }

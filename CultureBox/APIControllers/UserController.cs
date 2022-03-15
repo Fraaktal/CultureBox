@@ -79,27 +79,6 @@ namespace CultureBox.APIControllers
 
             return NotFound("USER_NOT_FOUND");
         }
-
-        [HttpGet("{id}/Collection")]
-        public ActionResult<bool> GetAllCollection(int id, [FromBody] string apiKey)
-        {
-            bool apiKeyOk = _userDao.CheckApiKey(id, apiKey);
-            if (apiKeyOk)
-            {
-                var res = _collectionDao.GetAllCollection(id);
-                if (res != null)
-                {
-                    return Ok(true);
-                }
-
-                return NotFound("COLLECTION_NOT_FOUND");
-
-            }
-            else
-            {
-                return BadRequest("INVALID_CREDENTIALS");
-            }
-        }
     }
 
     public class APIRequestUser
