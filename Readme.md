@@ -25,31 +25,31 @@ Cette application est destinée a répertorier et gerer une bibliothèque de liv
 
 [Docker](https://hub.docker.com/r/fraaktal/culturebox)
 
-###### Documentation des Routes
+### Documentation des Routes
 [Swagger](http://server-fraaktal.ddns.net:4208/swagger/index.html#/User/User_GetAllUser)
 
 [Lien](lien serveur)
 
-###### Installation Docker
+## Installation Docker
 ` docker pull fraaktal/culturebox:latest `
 
 
-###### Librairies (A verifier)
+## Librairies (A verifier)
 Microsoft AspNetCore
 Microsoft Extensions
 Linq
 LiteDB
 Google.Apis
 
-###### Documentation des Fonctions (Completer Utilisateur -> GetApiKey)
+## Documentation des Fonctions (Completer Utilisateur -> GetApiKey)
 
-Gestion des Livres
+###### Gestion des Livres
 
 GetAll -> permet de récupérer tous les livres
 GetBookById -> permet de récupérer un livre selon un identifiant 
 SearchBook -> permet de rechercher un livre à partir des inforamtions que l'on dispose (catégorie, titre, etc)
 
-Gestion des Utilisateurs
+###### Gestion des Utilisateurs
 
 Get -> permet de récupérer un livre selon un identifiant
 GetAllUser -> permet de récupérer tous les utilisateurs
@@ -57,7 +57,7 @@ GetApiKey ->
 CreateUser -> permet de créer un utilisateur avec un mot de passe et un pseudo unique
 DeleteUser -> permet de supprimer un utilisateur
 
-Gestion de Collections de livres
+###### Gestion de Collections de livres
 
 GetAllCollection -> permet de récupérer toutes les collections d'un utilisateur
 GetCollectionById -> permet de récupérer une collection selon un identifiant
