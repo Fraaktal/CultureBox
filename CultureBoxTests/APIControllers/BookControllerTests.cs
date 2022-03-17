@@ -80,6 +80,17 @@ namespace CultureBoxTests.APIControllers
             Assert.AreEqual(objectResult2.StatusCode, 200);
         }
         
+        [TestMethod]
+        public void SearchBookNoTitle()
+        {
+            var res = BookController.SearchBook(new ApiRequestBook() {  });
+
+            var objectResult = (ObjectResult)res.Result;
+            var result = (List<ApiBook>)(objectResult).Value;
+
+            Assert.AreEqual(400, objectResult.StatusCode);
+        }
+        
         
     }
 }
