@@ -32,6 +32,10 @@ Etant hebergé sur un serveur, la page web est constamment accessible.
 
 ` docker pull fraaktal/culturebox:latest `
 
+#### Monitoring
+[Prometheus](http://server-fraaktal.ddns.net:4209/targets)
+[Grafana](http://server-fraaktal.ddns.net:4210/)  
+
 
 ## Librairies (A verifier)
 -Microsoft AspNetCore
