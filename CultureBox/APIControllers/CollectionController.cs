@@ -31,13 +31,7 @@ namespace CultureBox.APIControllers
             if (userId != -1)
             {
                 var res = _collectionDao.GetAllCollection(userId);
-                if (res != null)
-                {
-                    return Ok(res);
-                }
-
-                return NotFound("COLLECTION_NOT_FOUND");
-
+                return Ok(res);
             }
 
             return BadRequest("INVALID_CREDENTIALS");
@@ -70,6 +64,11 @@ namespace CultureBox.APIControllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<ApiCollection> CreateCollection([FromBody] ApiCollectionRequest req)
         {
+            if (req == null)
+            {
+                return BadRequest("EMPTY_PARAMETERS");
+            }
+            
             int userId = GetUserId(req.ApiKey);
 
             if (userId != -1)

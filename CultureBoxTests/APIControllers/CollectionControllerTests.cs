@@ -50,32 +50,14 @@ namespace CultureBoxTests.APIControllers
             Assert.AreEqual(objectResult.StatusCode, 200);
             Assert.AreEqual(result.Count, 0);
         }
-        
-        [TestMethod]
-        public void GetAllCollectionNotFound()
-        {
-            var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
-            var usr = (ObjectResult)user.Result;
-            string apiKey = ((ApiUser)usr.Value).ApiKey;
-            
-            var res = null;
-            var objectResult = (ObjectResult)res.Result;
-            var result = (List<ApiCollection>)(objectResult).Value;
-            
-            Assert.IsNull(result);
-            Assert.AreEqual(objectResult.StatusCode, 404);
-        }
-        
+
         [TestMethod]
         public void GetAllCollectionBadReq()
         {
-            
-            var res = CollectionController.GetAllCollection(-1);
+            var res = CollectionController.GetAllCollection("dfsdfsd");
 
             var objectResult = (ObjectResult)res.Result;
-            var result = (List<ApiCollection>)(objectResult).Value;
             
-            Assert.IsNull(result);
             Assert.AreEqual(objectResult.StatusCode, 400);
         }
 
@@ -130,26 +112,25 @@ namespace CultureBoxTests.APIControllers
             
             var res = CollectionController.GetCollectionById(3, apiKey);
             var objectResult = (ObjectResult)res.Result;
-            var result = (List<ApiCollection>)(objectResult).Value;
             
-            Assert.IsNull(result);
             Assert.AreEqual(objectResult.StatusCode, 404);
         }
         
         [TestMethod]
         public void GetCollectionByIdBadReq()
         {
-            var apikey = -1;
+            var user = UserController.CreateUser(new APIRequestUser() { Username = "test", Password = "test" });
+            var usr = (ObjectResult)user.Result;
+            string apiKey = ((ApiUser)usr.Value).ApiKey;
+            var apiKey2 = "dfgdfgdfg";
             
             var collection = CollectionController.CreateCollection(new ApiCollectionRequest() {ApiKey = apiKey, Name = "Collection"});
             var colres = (ObjectResult)collection.Result;
             var col = (ApiCollection)(colres.Value);
             
-            var res = CollectionController.GetCollectionById(col.Id, apiKey);
+            var res = CollectionController.GetCollectionById(col.Id, apiKey2);
             var objectResult = (ObjectResult)res.Result;
-            var result = (List<ApiCollection>)(objectResult).Value;
             
-            Assert.IsNull(result);
             Assert.AreEqual(objectResult.StatusCode, 400);
         }
         
@@ -182,9 +163,7 @@ namespace CultureBoxTests.APIControllers
             
             var res = CollectionController.CreateCollection(null);
             var objectResult = (ObjectResult)res.Result;
-            var result = (ApiCollection)(objectResult.Value);
             
-            Assert.IsNull(result);
             Assert.AreEqual(objectResult.StatusCode, 400);
         }
         
@@ -199,24 +178,20 @@ namespace CultureBoxTests.APIControllers
             
             var res = CollectionController.CreateCollection(req);
             var objectResult = (ObjectResult)res.Result;
-            var result = (ApiCollection)(objectResult.Value);
             
-            Assert.IsNull(result);
             Assert.AreEqual(objectResult.StatusCode, 400);
         }
         
         [TestMethod]
         public void CreateCollectionBadReqInvalid()
         {
-            var apikey = -1;
+            var apiKey = "dfsdfsd";
             
             var req = new ApiCollectionRequest(){ApiKey= apiKey, Name= "Collection"};
             
             var res = CollectionController.CreateCollection(req);
             var objectResult = (ObjectResult)res.Result;
-            var result = (ApiCollection)(objectResult.Value);
             
-            Assert.IsNull(result);
             Assert.AreEqual(objectResult.StatusCode, 400);
         }
         
@@ -250,30 +225,28 @@ namespace CultureBoxTests.APIControllers
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
             
-            CollectionController.DeleteCollection(0, apiKey);
-            var res = CollectionController.GetAllCollection(apiKey);
-            var objectResult = (ObjectResult)res.Result;
-            var result = (List<ApiCollection>)(objectResult).Value;
-            
-            Assert.IsNull(result);          
-            Assert.AreEqual(objectResult.StatusCode, 404);
+            var res = CollectionController.DeleteCollection(0, apiKey);
+            var objectResult = (ObjectResult)res;
+              
+            Assert.AreEqual(404, objectResult.StatusCode);
         }
         
         [TestMethod]
         public void DeleteCollectionBadReq()
         {
-            var apikey = -1,
+            var user = UserController.CreateUser(new APIRequestUser() { Username = "test", Password = "test" });
+            var usr = (ObjectResult)user.Result;
+            string apiKey = ((ApiUser)usr.Value).ApiKey;
+            var apiKey2 = "dvsdf";
             
             var collection = CollectionController.CreateCollection(new ApiCollectionRequest() {ApiKey = apiKey, Name = "Collection"});
             var colres = (ObjectResult)collection.Result;
             var col = (ApiCollection)(colres.Value);
 
-            CollectionController.DeleteCollection(col.Id, apiKey);
-            var res = CollectionController.GetAllCollection(apiKey);
-            var objectResult = (ObjectResult)res.Result;
-            var result = (List<ApiCollection>)(objectResult).Value;
             
-            Assert.IsNull(result);          
+            var res = CollectionController.DeleteCollection(col.Id, apiKey2);
+            var objectResult = (ObjectResult)res;
+            
             Assert.AreEqual(objectResult.StatusCode, 400);
         }
         
@@ -312,19 +285,12 @@ namespace CultureBoxTests.APIControllers
             var res = BookController.SearchBook(new ApiRequestBook(){Title = "Harry Potter"});
             var bookRes = (ObjectResult)res.Result;
             var books = (List<ApiBook>)(bookRes.Value);
-            
-            var collection = null;
-            var colres = (ObjectResult)collection.Result;
-            var col = (ApiCollection)(colres.Value);
-            
-            
+
             var req = new ApiCollectionItemRequest(){ApiKey = apiKey, BookId = books[0].Id};
 
-            var res2 = CollectionController.AddBookToCollection(col.Id, req);
+            var res2 = CollectionController.AddBookToCollection(1000, req);
             var objectResult = (ObjectResult)res2.Result;
-            var result = (ApiCollection)(objectResult.Value);
             
-            Assert.IsNull(result);
             Assert.AreEqual(objectResult.StatusCode, 404);
         }
         
@@ -343,16 +309,18 @@ namespace CultureBoxTests.APIControllers
 
             var res2 = CollectionController.AddBookToCollection(col.Id, req);
             var objectResult = (ObjectResult)res2.Result;
-            var result = (ApiCollection)(objectResult.Value);
             
-            Assert.IsNull(result);
             Assert.AreEqual(objectResult.StatusCode, 404);
         }
         
         [TestMethod]
         public void AddBookToCollectionBadReq()
         {
-            var apikey = -1;
+            var user = UserController.CreateUser(new APIRequestUser() { Username = "test", Password = "test" });
+            var usr = (ObjectResult)user.Result;
+            string apiKey = ((ApiUser)usr.Value).ApiKey;
+
+            var apiKey2 = "dsfsdf";
                         
             var res = BookController.SearchBook(new ApiRequestBook(){Title = "Harry Potter"});
             var bookRes = (ObjectResult)res.Result;
@@ -362,13 +330,11 @@ namespace CultureBoxTests.APIControllers
             var colres = (ObjectResult)collection.Result;
             var col = (ApiCollection)(colres.Value);
             
-            var req = new ApiCollectionItemRequest(){ApiKey = apiKey, BookId = 1};
+            var req = new ApiCollectionItemRequest(){ApiKey = apiKey2, BookId = 1};
 
             var res2 = CollectionController.AddBookToCollection(col.Id, req);
             var objectResult = (ObjectResult)res2.Result;
-            var result = (ApiCollection)(objectResult.Value);
             
-            Assert.IsNull(result);
             Assert.AreEqual(objectResult.StatusCode, 400);
         }
         
@@ -409,19 +375,12 @@ namespace CultureBoxTests.APIControllers
             var res = BookController.SearchBook(new ApiRequestBook(){Title = "Harry Potter"});
             var bookRes = (ObjectResult)res.Result;
             var books = (List<ApiBook>)(bookRes.Value);
-            
-            var collection = null;
-            var colres = (ObjectResult)collection.Result;
-            var col = (ApiCollection)(colres.Value);
-            
-            
+
             var req = new ApiCollectionItemRequest(){ApiKey = apiKey, BookId = books[0].Id};
 
-            var res2 = CollectionController.RemoveBookToCollection(col.Id, req);
+            var res2 = CollectionController.RemoveBookFromCollection(15454, req);
             var objectResult = (ObjectResult)res2.Result;
-            var result = (ApiCollection)(objectResult.Value);
             
-            Assert.IsNull(result);
             Assert.AreEqual(objectResult.StatusCode, 404);
         }
         
@@ -436,20 +395,21 @@ namespace CultureBoxTests.APIControllers
             var colres = (ObjectResult)collection.Result;
             var col = (ApiCollection)(colres.Value);
 
-            var req = new ApiCollectionItemRequest(){ApiKey = apiKey, BookId = 1};
+            var req = new ApiCollectionItemRequest(){ApiKey = apiKey, BookId = 1000000000};
 
-            var res2 = CollectionController.RemoveBookToCollection(col.Id, req);
+            var res2 = CollectionController.RemoveBookFromCollection(col.Id, req);
             var objectResult = (ObjectResult)res2.Result;
-            var result = (ApiCollection)(objectResult.Value);
             
-            Assert.IsNull(result);
-            Assert.AreEqual(objectResult.StatusCode, 404);
+            Assert.AreEqual(404, objectResult.StatusCode);
         }
         
         [TestMethod]
         public void RemoveBookToCollectionBadReq()
         {
-            var apikey = -1;
+            var user = UserController.CreateUser(new APIRequestUser() { Username = "test", Password = "test" });
+            var usr = (ObjectResult)user.Result;
+            string apiKey = ((ApiUser)usr.Value).ApiKey;
+            var apiKey2 = "31561651";
                         
             var res = BookController.SearchBook(new ApiRequestBook(){Title = "Harry Potter"});
             var bookRes = (ObjectResult)res.Result;
@@ -459,14 +419,12 @@ namespace CultureBoxTests.APIControllers
             var colres = (ObjectResult)collection.Result;
             var col = (ApiCollection)(colres.Value);
             
-            var req = new ApiCollectionItemRequest(){ApiKey = apiKey, BookId = 1};
+            var req = new ApiCollectionItemRequest(){ApiKey = apiKey2, BookId = 1};
 
-            var res2 = CollectionController.RemoveBookToCollection(col.Id, req);
+            var res2 = CollectionController.RemoveBookFromCollection(col.Id, req);
             var objectResult = (ObjectResult)res2.Result;
-            var result = (ApiCollection)(objectResult.Value);
             
-            Assert.IsNull(result);
-            Assert.AreEqual(objectResult.StatusCode, 400);
+            Assert.AreEqual(400, objectResult.StatusCode);
         }
     }
 }

@@ -110,16 +110,15 @@ namespace CultureBox.DAO
 
         public ApiCollection RemoveBookFromCollection(ApiCollection collection, int bookId, out bool res)
         {
-            bool isOk = false;
-            collection.Books.RemoveAll(b => b.Id == bookId);
+            int removed = collection.Books.RemoveAll(b => b.Id == bookId);
+            res = removed > 0;
 
             _dbExecutor.Execute(db =>
             {
                 var col = db.GetCollection<ApiCollection>("apicollection");
-                isOk = col.Update(collection);
+                col.Update(collection);
             });
-
-            res = isOk;
+            
             return collection;
         }
     }
