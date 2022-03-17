@@ -84,10 +84,7 @@ namespace CultureBoxTests.APIControllers
         public void SearchBookNoTitle()
         {
             var res = BookController.SearchBook(new ApiRequestBook() {  });
-
             var objectResult = (ObjectResult)res.Result;
-            var result = (List<ApiBook>)(objectResult).Value;
-
             Assert.AreEqual(400, objectResult.StatusCode);
         }
         
