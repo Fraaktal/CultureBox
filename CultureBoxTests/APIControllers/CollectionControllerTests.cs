@@ -161,6 +161,22 @@ namespace CultureBoxTests.APIControllers
             
             var req = new ApiCollectionRequest(){ApiKey= apiKey, Name= "Collection"};
             
+            var res = CollectionController.CreateCollection(req);
+            res = CollectionController.CreateCollection(req);
+            var objectResult = (ObjectResult)res.Result;
+            
+            Assert.AreEqual(objectResult.StatusCode, 400);
+        } 
+        
+        [TestMethod]
+        public void CreateCollectionBadReqEmpty()
+        {
+            var user = UserController.CreateUser(new APIRequestUser() { Username = "test", Password = "test" });
+            var usr = (ObjectResult)user.Result;
+            string apiKey = ((ApiUser)usr.Value).ApiKey;
+            
+            var req = new ApiCollectionRequest(){ApiKey= apiKey, Name= "Collection"};
+            
             var res = CollectionController.CreateCollection(null);
             var objectResult = (ObjectResult)res.Result;
             

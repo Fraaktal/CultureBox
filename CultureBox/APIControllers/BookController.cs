@@ -25,11 +25,6 @@ namespace CultureBox.APIControllers
         public ActionResult<List<ApiBook>> GetAll()
         {
             var books = _apiBookController.GetAllBooks();
-            if (books == null)
-            {
-                return NotFound("BOOKS_NOT_FOUND");
-            }
-
             return Ok(books);
         }
 
@@ -56,14 +51,9 @@ namespace CultureBox.APIControllers
             {
                 return BadRequest("INVALID_PARAMETERS");
             }
-
+            
             var res = _apiBookController.Search(b);
-            if (res != null)
-            {
-                return Ok(res);
-            }
-
-            return BadRequest("INVALID_PARAMETERS");
+            return Ok(res);
         }
     }
 
