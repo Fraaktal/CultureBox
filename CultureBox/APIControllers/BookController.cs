@@ -2,6 +2,7 @@
 using CultureBox.Control;
 using CultureBox.DAO;
 using CultureBox.Model;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CultureBox.APIControllers
@@ -19,18 +20,22 @@ namespace CultureBox.APIControllers
 
         //todo pagination
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<List<ApiBook>> GetAll()
         {
             var books = _apiBookController.GetAllBooks();
             if (books == null)
             {
-                return Problem("BOOKS_NOT_FOUND");
+                return NotFound("BOOKS_NOT_FOUND");
             }
 
             return Ok(books);
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<ApiBook> GetBookById(int id)
         {
             var res = _apiBookController.GetBookById(id);
@@ -43,6 +48,8 @@ namespace CultureBox.APIControllers
         }
 
         [HttpGet("search")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<List<ApiBook>> SearchBook([FromBody] ApiRequestBook b)
         {
             var res = _apiBookController.Search(b);

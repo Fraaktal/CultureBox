@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using CultureBox.DAO;
 using CultureBox.Model;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CultureBox.APIControllers
@@ -21,6 +22,9 @@ namespace CultureBox.APIControllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<List<ApiCollection>> GetAllCollection([FromBody] string apiKey)
         {
             int userId = _userDao.GetUserId(apiKey);
@@ -40,6 +44,9 @@ namespace CultureBox.APIControllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<ApiCollection> GetCollectionById(int id, [FromBody] string apiKey)
         {
             int userId = _userDao.GetUserId(apiKey);
@@ -59,6 +66,8 @@ namespace CultureBox.APIControllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<ApiCollection> CreateCollection([FromBody] ApiCollectionRequest req)
         {
             int userId = GetUserId(req.ApiKey);
@@ -84,6 +93,9 @@ namespace CultureBox.APIControllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult DeleteCollection(int id, [FromBody] string apiKey)
         {
             int userId = _userDao.GetUserId(apiKey);
@@ -103,6 +115,9 @@ namespace CultureBox.APIControllers
         }
 
         [HttpPost("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<ApiCollection> AddBookToCollection(int id, [FromBody] ApiCollectionItemRequest req)
         {
             int userId = GetUserId(req.ApiKey);
@@ -128,6 +143,9 @@ namespace CultureBox.APIControllers
         }
 
         [HttpDelete("/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<ApiCollection> RemoveBookFromCollection(int id, [FromBody] ApiCollectionItemRequest req)
         {
             int userId = GetUserId(req.ApiKey);

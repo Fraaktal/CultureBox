@@ -19,6 +19,8 @@ namespace CultureBox.APIControllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<ApiUser> Get(int id)
         {
             var user = _userDao.GetUserById(id);
@@ -31,6 +33,8 @@ namespace CultureBox.APIControllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<ApiUser> GetAllUser()
         {
             var users = _userDao.GetAllUsers();
@@ -43,6 +47,8 @@ namespace CultureBox.APIControllers
         }
 
         [HttpGet("apikey")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<string> GetApiKey([FromBody] APIRequestUser u)
         {
             var apiKey = _userDao.GetApiKey(u.Username, u.Password);
@@ -84,6 +90,9 @@ namespace CultureBox.APIControllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<bool> DeleteUser(int id, [FromBody] string apiKey)
         {
             var user = _userDao.GetUserById(id);
