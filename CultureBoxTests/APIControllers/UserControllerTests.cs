@@ -108,5 +108,40 @@ namespace CultureBoxTests.APIControllers
             //Pas d'user
             Assert.AreEqual(objectResult3.StatusCode, 404);
         }
+        
+        
+        [TestMethod]
+        public void CreateFalseUserNoPass()
+        {
+            var user = new APIRequestUser() {Username = "Test"};
+            var res = UserController.CreateUser(user);
+
+            var objectResult = (OkObjectResult) res.Result;
+            var result = (ApiUser)(objectResult).Value;
+
+            Assert.AreEqual(objectResult.StatusCode, 400);
+        }
+        [TestMethod]
+        public void CreateFalseUserNoUser()
+        {
+            var user = new APIRequestUser() { };
+            var res = UserController.CreateUser(user);
+
+            var objectResult = (OkObjectResult) res.Result;
+            var result = (ApiUser)(objectResult).Value;
+
+            Assert.AreEqual(objectResult.StatusCode, 400);
+        }
+        [TestMethod]
+        public void CreateFalseUserNoUser()
+        {
+            var user = new APIRequestUser() { Password = "pass"  };
+            var res = UserController.CreateUser(user);
+
+            var objectResult = (OkObjectResult) res.Result;
+            var result = (ApiUser)(objectResult).Value;
+
+            Assert.AreEqual(objectResult.StatusCode, 400);
+        }
     }
 }
