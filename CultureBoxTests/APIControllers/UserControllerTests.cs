@@ -163,9 +163,7 @@ namespace CultureBoxTests.APIControllers
 
             var objectResult = (ObjectResult)res.Result;
             var apiKey = (string)(objectResult).Value;
-            Assert.AreEqual(404, objectResult.StatusCode);
-            Assert.IsNull(apiKey);
-            
+            Assert.AreEqual(400, objectResult.StatusCode);
         } 
         
         [TestMethod]
@@ -182,7 +180,7 @@ namespace CultureBoxTests.APIControllers
             var res = UserController.DeleteUser(1, "test");
 
             var objectResult = (ObjectResult)res.Result;
-            Assert.AreEqual(400, objectResult.StatusCode);
+            Assert.AreEqual(404, objectResult.StatusCode);
         }
     }
 }

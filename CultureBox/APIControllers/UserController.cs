@@ -51,7 +51,7 @@ namespace CultureBox.APIControllers
                 return Ok(apiKey);
             }
 
-            return NotFound("INVALID_CREDENTIALS");
+            return BadRequest("INVALID_CREDENTIALS");
         }
 
         [HttpPost]
@@ -86,6 +86,25 @@ namespace CultureBox.APIControllers
         [HttpDelete("{id}")]
         public ActionResult<bool> DeleteUser(int id, [FromBody] string apiKey)
         {
+            var user = _userDao.GetUserById(id);
+
+            if (user == null)
+            {
+                return NotFound("USER_NOT_FOUND");
+            }
+
+            var userId = _userDao.GetUserId(apiKey);
+
+            if (userId == -1)
+            {
+                return BadRequest("INVALID_CREDENTIALS");
+            }
+
+            if (userId != id)
+            {
+                return BadRequest("CANNOT_DELETE_OTHER_USER");
+            }
+
             bool res = _userDao.DeleteUser(id, apiKey);
             if (res)
             {
