@@ -150,7 +150,7 @@ namespace CultureBoxTests.APIControllers
             var user = new APIRequestUser() { };
             var res = UserController.GetApiKey(user);
 
-            var objectResult = (OkObjectResult)res.Result;
+            var objectResult = (ObjectResult)res.Result;
             var apiKey = (string)(objectResult).Value;
             Assert.AreEqual(400, objectResult.StatusCode);
         }
@@ -161,7 +161,7 @@ namespace CultureBoxTests.APIControllers
             var user = new APIRequestUser() { Username = "Toto", Password = "tata" };
             var res = UserController.GetApiKey(user);
 
-            var objectResult = (OkObjectResult)res.Result;
+            var objectResult = (ObjectResult)res.Result;
             var apiKey = (string)(objectResult).Value;
             Assert.AreEqual(404, objectResult.StatusCode);
             Assert.IsNull(apiKey);
@@ -173,7 +173,7 @@ namespace CultureBoxTests.APIControllers
         {  
             var res = UserController.DeleteUser(999, "aaaaaaa");
 
-            var objectResult = (OkObjectResult)res.Result;
+            var objectResult = (ObjectResult)res.Result;
             Assert.AreEqual(404, objectResult.StatusCode);
         }
         [TestMethod]
@@ -181,7 +181,7 @@ namespace CultureBoxTests.APIControllers
         {  
             var res = UserController.DeleteUser(1, "test");
 
-            var objectResult = (OkObjectResult)res.Result;
+            var objectResult = (ObjectResult)res.Result;
             Assert.AreEqual(400, objectResult.StatusCode);
         }
     }
