@@ -169,18 +169,6 @@ namespace CultureBoxTests.APIControllers
         } 
         
         [TestMethod]
-        public void GetApiKeyNoUser()
-        {  
-            var user = new APIRequestUser() { };
-            var res = UserController.GetApiKey(user);
-
-            var objectResult = (OkObjectResult)res.Result;
-            var apiKey = (string)(objectResult).Value;
-            Assert.AreEqual(400, objectResult.StatusCode);
-            Assert.IsNull(apiKey);
-            
-        }
-        [TestMethod]
         public void TestDeleteBadUser()
         {  
             var res = UserController.DeleteUser(999, "aaaaaaa");
