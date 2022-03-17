@@ -87,7 +87,5 @@ namespace CultureBoxTests.APIControllers
             var objectResult = (ObjectResult)res.Result;
             Assert.AreEqual(400, objectResult.StatusCode);
         }
-        
-        
     }
 }
