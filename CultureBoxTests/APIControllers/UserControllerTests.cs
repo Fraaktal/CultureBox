@@ -171,12 +171,12 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void GetApiKeyBadUser()
         {  
-            var user = new APIRequestUser() { Username = "Toto", Password = "tata" };
+            var user = new APIRequestUser() { };
             var res = UserController.GetApiKey(user);
 
             var objectResult = (OkObjectResult)res.Result;
             var apiKey = (string)(objectResult).Value;
-            Assert.AreEqual(404, objectResult.StatusCode);
+            Assert.AreEqual(400, objectResult.StatusCode);
             Assert.IsNull(apiKey);
             
         }
