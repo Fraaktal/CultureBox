@@ -116,8 +116,8 @@ namespace CultureBoxTests.APIControllers
             var user = new APIRequestUser() {Username = "Test"};
             var res = UserController.CreateUser(user);
 
-            var objectResult = (OkObjectResult) res.Result;
-            var result = (ApiUser)(objectResult).Value;
+            var objectResult = (BadRequestObjectResult) res.Result;
+            var result = (string)(objectResult).Value;
 
             Assert.AreEqual(400, objectResult.StatusCode);
         }
@@ -127,8 +127,8 @@ namespace CultureBoxTests.APIControllers
             var user = new APIRequestUser() { };
             var res = UserController.CreateUser(user);
 
-            var objectResult = (OkObjectResult) res.Result;
-            var result = (ApiUser)(objectResult).Value;
+            var objectResult = (BadRequestObjectResult) res.Result;
+            var result = (string)(objectResult).Value;
 
             Assert.AreEqual(400, objectResult.StatusCode);
         }
@@ -138,8 +138,8 @@ namespace CultureBoxTests.APIControllers
             var user = new APIRequestUser() { Password = "pass"  };
             var res = UserController.CreateUser(user);
 
-            var objectResult = (OkObjectResult) res.Result;
-            var result = (ApiUser)(objectResult).Value;
+            var objectResult = (BadRequestObjectResult) res.Result;
+            var result = (string)(objectResult).Value;
 
             Assert.AreEqual(400, objectResult.StatusCode);
         }

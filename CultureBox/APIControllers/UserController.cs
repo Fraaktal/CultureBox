@@ -59,6 +59,21 @@ namespace CultureBox.APIControllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<ApiUser> CreateUser([FromBody] APIRequestUser u)
         {
+            if (string.IsNullOrEmpty(u.Username) && string.IsNullOrEmpty(u.Password))
+            {
+                return BadRequest("MISSING_USERNAME_AND_PASSWORD");
+            }
+
+            if (string.IsNullOrEmpty(u.Username))
+            {
+                return BadRequest("MISSING_USERNAME");
+            }
+
+            if (string.IsNullOrEmpty(u.Password))
+            {
+                return BadRequest("MISSING_PASSWORD");
+            }
+
             var user = _userDao.CreateUser(u.Username, u.Password);
             if (user != null)
             {
