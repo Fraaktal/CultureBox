@@ -60,7 +60,7 @@ Get -> permet de récupérer un livre selon un identifiant
 
 GetAllUser -> permet de récupérer tous les utilisateurs
 
-GetApiKey ->
+GetApiKey -> permet de te connecter sans mote de passe et nom d'utilisateur 
 
 CreateUser -> permet de créer un utilisateur avec un mot de passe et un pseudo unique
 
