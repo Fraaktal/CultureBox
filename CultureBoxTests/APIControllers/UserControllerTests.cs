@@ -166,6 +166,35 @@ namespace CultureBoxTests.APIControllers
             Assert.AreEqual(404, objectResult.StatusCode);
             Assert.IsNull(apiKey);
             
+        } 
+        
+        [TestMethod]
+        public void GetApiKeyBadUser()
+        {  
+            var user = new APIRequestUser() { Username = "Toto", Password = "tata" };
+            var res = UserController.GetApiKey(user);
+
+            var objectResult = (OkObjectResult)res.Result;
+            var apiKey = (string)(objectResult).Value;
+            Assert.AreEqual(404, objectResult.StatusCode);
+            Assert.IsNull(apiKey);
+            
+        }
+        [TestMethod]
+        public void TestDeleteBadUser()
+        {  
+            var res = UserController.DeleteUser(999, "aaaaaaa");
+
+            var objectResult = (OkObjectResult)res.Result;
+            Assert.AreEqual(404, objectResult.StatusCode);
+        }
+        [TestMethod]
+        public void TestDeleteNoUser()
+        {  
+            var res = UserController.DeleteUser();
+
+            var objectResult = (OkObjectResult)res.Result;
+            Assert.AreEqual(400, objectResult.StatusCode);
         }
     }
 }
