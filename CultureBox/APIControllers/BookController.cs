@@ -52,6 +52,11 @@ namespace CultureBox.APIControllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<List<ApiBook>> SearchBook([FromBody] ApiRequestBook b)
         {
+            if (string.IsNullOrEmpty(b.Title))
+            {
+                return BadRequest("INVALID_PARAMETERS");
+            }
+
             var res = _apiBookController.Search(b);
             if (res != null)
             {
