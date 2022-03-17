@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using CultureBox.APIControllers;
+using CultureBox.Control;
 using CultureBox.DAO;
 using CultureBox.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,7 @@ namespace CultureBoxTests.APIControllers
         public CollectionController CollectionController { get; set; }
 
         public UserController UserController { get; set; }
-
+        public BookController BookController { get; set; }
         public DbExecutor DbExecutor { get; set; }
         
         [TestInitialize]
@@ -24,6 +25,7 @@ namespace CultureBoxTests.APIControllers
             DbExecutor.DbPath = Path.Combine(Directory.GetCurrentDirectory(), "testdb.db");
             CollectionController = new CollectionController(new UserDAO(DbExecutor),new CollectionDAO(DbExecutor), new BookDAO(DbExecutor));
             UserController = new UserController(new UserDAO(DbExecutor), new CollectionDAO(DbExecutor));
+            BookController = new BookController(new ApiBookController(new BookDAO(DbExecutor)));
         }
         
         [TestCleanup]
@@ -36,12 +38,12 @@ namespace CultureBoxTests.APIControllers
         public void GetAllCollectionTest()
         {
             var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
-            var usr = (OkObjectResult)user.Result;
+            var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
 
             var res = CollectionController.GetAllCollection(apiKey);
 
-            var objectResult = (OkObjectResult)res.Result;
+            var objectResult = (ObjectResult)res.Result;
             var result = (List<ApiCollection>)(objectResult).Value;
 
             Assert.IsNotNull(result);
@@ -53,15 +55,15 @@ namespace CultureBoxTests.APIControllers
         public void GetAllCollectionTest_1()
         {
             var user = UserController.CreateUser(new APIRequestUser() { Username = "test", Password = "test" });
-            var usr = (OkObjectResult)user.Result;
+            var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
 
             var collection = CollectionController.CreateCollection(new ApiCollectionRequest() {ApiKey = apiKey, Name = "Collection"});
-            var objectResult1 = (OkObjectResult)collection.Result;
+            var objectResult1 = (ObjectResult)collection.Result;
             var result1 = (ApiCollection)(objectResult1).Value;
 
             var res = CollectionController.GetAllCollection(apiKey);
-            var objectResult = (OkObjectResult)res.Result;
+            var objectResult = (ObjectResult)res.Result;
             var result = (List<ApiCollection>)(objectResult).Value;
 
             Assert.IsNotNull(result);
@@ -75,52 +77,54 @@ namespace CultureBoxTests.APIControllers
         public void GetCollectionByIdTest()
         {
             var user = UserController.CreateUser(new APIRequestUser() { Username = "test", Password = "test" });
-            var usr = (OkObjectResult)user.Result;
+            var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
             
             var collection = CollectionController.CreateCollection(new ApiCollectionRequest() {ApiKey = apiKey, Name = "Collection"});
-            
-            var res = CollectionController.GetCollectionById(0,apikey);
-            var objectResult = (OkObjectResult)res.Result;
-            var result = (List<ApiCollection>)(objectResult).Value;
+            var colres = (ObjectResult)collection.Result;
+            var col = (ApiCollection)(colres.Value);
+
+            var res = CollectionController.GetCollectionById(col.Id, apiKey);
+            var objectResult = (ObjectResult)res.Result;
+            var result = (ApiCollection)(objectResult.Value);
             
             Assert.IsNotNull(result);
             Assert.AreEqual(objectResult.StatusCode, 200);
-            Assert.AreEqual(result.Count, 1);
+            Assert.IsNotNull(result);
         }
         
         [TestMethod]
         public void CreateCollectionTest()
         {
             var user = UserController.CreateUser(new APIRequestUser() { Username = "test", Password = "test" });
-            var usr = (OkObjectResult)user.Result;
+            var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
             
-            var collection = CollectionController.CreateCollection(new ApiCollectionRequest() {ApiKey = apiKey, Name = "Collection"});
+            var req = new ApiCollectionRequest(){ApiKey= apiKey, Name= "Collection"};
             
-            var req = new ApiCollectionRequest(){Apikey=apikey,Name= "Collection"};
-            
-            var res = Collection.Controller.CreateCollection(req);
-            var objectResult = (OkObjectResult)res.Result;
-            var result = (List<ApiCollection>)(objectResult).Value;
+            var res = CollectionController.CreateCollection(req);
+            var objectResult = (ObjectResult)res.Result;
+            var result = (ApiCollection)(objectResult.Value);
             
             Assert.IsNotNull(result);
             Assert.AreEqual(objectResult.StatusCode, 200);
-            Assert.AreEqual(result.Count, 1);   
+            Assert.IsNotNull(result);   
         }
         
         [TestMethod]
         public void DeleteCollection()
         {
             var user = UserController.CreateUser(new APIRequestUser() { Username = "test", Password = "test" });
-            var usr = (OkObjectResult)user.Result;
+            var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
             
             var collection = CollectionController.CreateCollection(new ApiCollectionRequest() {ApiKey = apiKey, Name = "Collection"});
-            
-            CollectionController.DeleteCollection(0, apikey);
-            var res = CollectionController.GetAllCollection(apikey);
-            var objectResult = (OkOjectResult)res.Result;
+            var colres = (ObjectResult)collection.Result;
+            var col = (ApiCollection)(colres.Value);
+
+            CollectionController.DeleteCollection(col.Id, apiKey);
+            var res = CollectionController.GetAllCollection(apiKey);
+            var objectResult = (ObjectResult)res.Result;
             var result = (List<ApiCollection>)(objectResult).Value;
             
             Assert.IsNotNull(result);          
@@ -132,18 +136,22 @@ namespace CultureBoxTests.APIControllers
         public void AddBookToCollectionTest()
         {
             var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
-            var usr = (OkObjectResult)user.Result;
+            var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
             
             var res = BookController.SearchBook(new ApiRequestBook(){Title = "Harry Potter"});
-            
+            var bookRes = (ObjectResult)res.Result;
+            var books = (List<ApiBook>)(bookRes.Value);
+
             var collection = CollectionController.CreateCollection(new ApiCollectionRequest() {ApiKey = apiKey, Name = "Collection"});
-            
-            var req = new ApiCollectionItemRequest(){Apikey = apikey, BookId = 0};
-            
-            var res = CollectionController.AddBookToCollection(0, req)
-            var objectResult = (OkObjectResult)res.Result;
-            var result = (List<ApiCollection>)(objectResult).Value;
+            var colres = (ObjectResult)collection.Result;
+            var col = (ApiCollection)(colres.Value);
+
+            var req = new ApiCollectionItemRequest(){ApiKey = apiKey, BookId = books[0].Id};
+
+            var res2 = CollectionController.AddBookToCollection(col.Id, req);
+            var objectResult = (ObjectResult)res2.Result;
+            var result = (ApiCollection)(objectResult.Value);
             
             Assert.IsNotNull(result);          
             Assert.AreEqual(objectResult.StatusCode, 200);
@@ -153,36 +161,27 @@ namespace CultureBoxTests.APIControllers
         public void RemoveBookFromCollectionTest()
         {
             var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
-            var usr = (OkObjectResult)user.Result;
+            var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
             
             var res = BookController.SearchBook(new ApiRequestBook(){Title = "Harry Potter"});
+            var bookRes = (ObjectResult)res.Result;
+            var books = (List<ApiBook>)(bookRes.Value);
+
+            var collection = CollectionController.CreateCollection(new ApiCollectionRequest() {ApiKey = apiKey, Name = "Collection"}); 
+            var colres = (ObjectResult)collection.Result;
+            var col = (ApiCollection)(colres.Value);
+
+            var req = new ApiCollectionItemRequest(){ApiKey = apiKey, BookId = books[0].Id};
+
+            var r = CollectionController.AddBookToCollection(col.Id, req);
             
-            var collection = CollectionController.CreateCollection(new ApiCollectionRequest() {ApiKey = apiKey, Name = "Collection"});
+            var res2 = CollectionController.RemoveBookFromCollection(col.Id, req);
+            var objectResult = (ObjectResult)res2.Result;
+            var result = (ApiCollection)(objectResult.Value);
             
-            var req = new ApiCollectionItemRequest(){Apikey = apikey, BookId = 0};
-            
-            var res = CollectionController.AddBookToCollection(0, req)
-            var objectResult = (OkObjectResult)res.Result;
-            var result = (List<ApiCollection>)(objectResult).Value;
-            
-            Assert.IsNull(result);          
+            Assert.AreEqual(result.Books.Count, 0);          
             Assert.AreEqual(objectResult.StatusCode, 200);
         }
-        
-        [TestMethod]
-        public void GetUserIdTest()
-        {
-            var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
-            var usr = (OkObjectResult)user.Result;
-            string apiKey = ((ApiUser)usr.Value).ApiKey;
-            
-            var res = CollectionController.GetUserId(apikey);
-            
-            Assert.IsNotNull(res);
-            Assert.AreEqual(res, apikey);
-            Assert.AreEqual(res, -1);
-        }
-        
     }
 }
