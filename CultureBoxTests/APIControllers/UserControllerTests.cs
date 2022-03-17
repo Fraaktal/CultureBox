@@ -133,7 +133,7 @@ namespace CultureBoxTests.APIControllers
             Assert.AreEqual(objectResult.StatusCode, 400);
         }
         [TestMethod]
-        public void CreateFalseUserNoUser()
+        public void CreateFalseUserNoUserButPasswd()
         {
             var user = new APIRequestUser() { Password = "pass"  };
             var res = UserController.CreateUser(user);
