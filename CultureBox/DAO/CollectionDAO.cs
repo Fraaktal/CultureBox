@@ -60,7 +60,7 @@ namespace CultureBox.DAO
             _dbExecutor.Execute(db =>
             {
                 var col = db.GetCollection<ApiCollection>("apicollection");
-                var collection = col.FindOne(x => Equals(x.Name, name));
+                var collection = col.FindOne(x => x.Name == name);
                 if(collection == null)
                 {
                     int id = col.Insert(res);
