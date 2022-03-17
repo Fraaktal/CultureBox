@@ -38,7 +38,7 @@ namespace CultureBoxTests.APIControllers
 
             Assert.AreEqual(result.Username, user.Username);
             Assert.AreNotEqual(result.Password, user.Password);
-            Assert.AreEqual(objectResult.StatusCode, 200);
+            Assert.AreEqual(200, objectResult.StatusCode);
         }
 
         [TestMethod]
@@ -61,8 +61,8 @@ namespace CultureBoxTests.APIControllers
             Assert.AreEqual(createdUser.Username, gotUser.Username);
             Assert.AreEqual(createdUser.Password, gotUser.Password);
 
-            Assert.AreEqual(objectResult.StatusCode, 200);
-            Assert.AreEqual(objectResult2.StatusCode, 200);
+            Assert.AreEqual(200, objectResult.StatusCode);
+            Assert.AreEqual(200, objectResult2.StatusCode);
         }
 
         [TestMethod]
@@ -81,8 +81,8 @@ namespace CultureBoxTests.APIControllers
             Assert.IsNotNull(apiKey);
             Assert.AreNotEqual(apiKey, "");
 
-            Assert.AreEqual(objectResult.StatusCode, 200);
-            Assert.AreEqual(objectResult2.StatusCode, 200);
+            Assert.AreEqual(200, objectResult.StatusCode);
+            Assert.AreEqual(200, objectResult2.StatusCode);
         }
 
         [TestMethod]
@@ -103,10 +103,10 @@ namespace CultureBoxTests.APIControllers
 
             var objectResult3 = (NotFoundObjectResult)res3.Result;
 
-            Assert.AreEqual(objectResult.StatusCode, 200);
-            Assert.AreEqual(objectResult2.StatusCode, 200);
+            Assert.AreEqual(200, objectResult.StatusCode);
+            Assert.AreEqual(200, objectResult2.StatusCode);
             //Pas d'user
-            Assert.AreEqual(objectResult3.StatusCode, 404);
+            Assert.AreEqual(404, objectResult3.StatusCode);
         }
         
         
@@ -119,7 +119,7 @@ namespace CultureBoxTests.APIControllers
             var objectResult = (OkObjectResult) res.Result;
             var result = (ApiUser)(objectResult).Value;
 
-            Assert.AreEqual(objectResult.StatusCode, 400);
+            Assert.AreEqual(400, objectResult.StatusCode);
         }
         [TestMethod]
         public void CreateFalseUserNoUser()
@@ -130,7 +130,7 @@ namespace CultureBoxTests.APIControllers
             var objectResult = (OkObjectResult) res.Result;
             var result = (ApiUser)(objectResult).Value;
 
-            Assert.AreEqual(objectResult.StatusCode, 400);
+            Assert.AreEqual(400, objectResult.StatusCode);
         }
         [TestMethod]
         public void CreateFalseUserNoUserButPasswd()
@@ -141,7 +141,7 @@ namespace CultureBoxTests.APIControllers
             var objectResult = (OkObjectResult) res.Result;
             var result = (ApiUser)(objectResult).Value;
 
-            Assert.AreEqual(objectResult.StatusCode, 400);
+            Assert.AreEqual(400, objectResult.StatusCode);
         }
     }
 }
