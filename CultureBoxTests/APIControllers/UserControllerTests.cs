@@ -177,9 +177,9 @@ namespace CultureBoxTests.APIControllers
             Assert.AreEqual(404, objectResult.StatusCode);
         }
         [TestMethod]
-        public void TestDeleteNoUser()
+        public void TestDeleteUser()
         {  
-            var res = UserController.DeleteUser();
+            var res = UserController.DeleteUser(1, "test");
 
             var objectResult = (OkObjectResult)res.Result;
             Assert.AreEqual(400, objectResult.StatusCode);
