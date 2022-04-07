@@ -176,11 +176,22 @@ namespace CultureBoxTests.APIControllers
         }
         [TestMethod]
         public void TestDeleteUser()
-        {  
+        {
+            var user = new APIRequestUser() { Username = "Test", Password = "pass" };
+            UserController.CreateUser(user);
             var res = UserController.DeleteUser(1, "test");
 
             var objectResult = (ObjectResult)res.Result;
-            Assert.AreEqual(404, objectResult.StatusCode);
+            Assert.AreEqual(400, objectResult.StatusCode);
+        }
+
+        [TestMethod]
+        public void TestDeleteUserBadRequest_NoApiKey()
+        {
+            var res = UserController.DeleteUser(1, "");
+
+            var objectResult = (ObjectResult)res.Result;
+            Assert.AreEqual(400, objectResult.StatusCode);
         }
     }
 }

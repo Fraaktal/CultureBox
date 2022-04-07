@@ -38,11 +38,6 @@ namespace CultureBox.APIControllers
         public ActionResult<ApiUser> GetAllUser()
         {
             var users = _userDao.GetAllUsers();
-            if (users == null)
-            {
-                return NotFound("USERS_NOT_FOUND");
-            }
-
             return Ok(users);
         }
 
@@ -95,6 +90,11 @@ namespace CultureBox.APIControllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<bool> DeleteUser(int id, [FromBody] string apiKey)
         {
+            if (string.IsNullOrEmpty(apiKey))
+            {
+                return BadRequest("INVALID_CREDENTIALS");
+            }
+
             var user = _userDao.GetUserById(id);
 
             if (user == null)
