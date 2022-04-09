@@ -222,16 +222,6 @@ namespace CultureBoxTests.APIControllers
         }
         
         [TestMethod]
-        public void TestDeleteUserBadRequest_NoApiKey()
-        {
-            var res = UserController.DeleteUser(1, "");
-
-            var objectResult = (ObjectResult)res.Result;
-            Assert.AreEqual(400, objectResult.StatusCode);
-        }
-        
-        
-        [TestMethod]
         public void TestDeleteUser_BadAPIKey()
         {
             // User id = 1 because the database is truncated.
