@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using CultureBox.APIControllers;
 using CultureBox.DAO;
 using CultureBox.Model;
@@ -225,15 +226,15 @@ namespace CultureBoxTests.APIControllers
             // User id = 1 because the database is truncated.
             var user = new APIRequestUser() { Username = "Test", Password = "pass" };
             UserController.CreateUser(user);
-            var apiKey1 = UserController.GetApiKey(user);
             
             // User id = 2 because the database is truncated.
             var user2 = new APIRequestUser() { Username = "Test2", Password = "pass2" };
             UserController.CreateUser(user2);
             var apiKey2 = UserController.GetApiKey(user2);
+            var apiKey2s = ((ObjectResult) apiKey2.Result).Value.ToString();
             
             // We test to delete user1 with apikey from user2
-            var res = UserController.DeleteUser(1, apiKey2);
+            var res = UserController.DeleteUser(1, apiKey2s);
 
             var objectResult = (ObjectResult)res.Result;
             Assert.AreEqual(400, objectResult.StatusCode);
