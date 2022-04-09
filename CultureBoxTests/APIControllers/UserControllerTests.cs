@@ -62,10 +62,8 @@ namespace CultureBoxTests.APIControllers
             // We get all users, and verify that there is only 1 user
             var list = UserController.GetAllUser();            
             var objectResultList = (ObjectResult) list.Result;
-            var result = (List<ApiUser>)(objectResultList).Value;
-            Assert.AreEqual(1, list.Count);
-            
-            
+            var resultList = (List<ApiUser>)(objectResultList).Value;
+            Assert.AreEqual(1, resultList.Count);            
         }
 
         [TestMethod]
