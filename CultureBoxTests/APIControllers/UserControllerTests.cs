@@ -40,6 +40,33 @@ namespace CultureBoxTests.APIControllers
             Assert.AreNotEqual(result.Password, user.Password);
             Assert.AreEqual(200, objectResult.StatusCode);
         }
+        
+        [TestMethod]
+        public void CreateUserTest_2UsersSamePseudo()
+        {
+            // We test to create 1 user (OK)
+            var user = new APIRequestUser() {Username = "Test", Password = "pass"};
+            var res1 = UserController.CreateUser(user);
+            var objectResult = (ObjectResult) res1.Result;
+            var result = (ApiUser)(objectResult).Value;
+            Assert.AreEqual(result.Username, user.Username);
+            Assert.AreNotEqual(result.Password, user.Password); // Pas de MDP retourné en clair !!
+            Assert.AreEqual(200, objectResult.StatusCode);
+            
+            // Now, we test to add another user with the same username
+            var user2 = new APIRequestUser() {Username = "Test", Password = "pass2"};
+            var res2 = UserController.CreateUser(user2);
+            var objectResult2 = (ObjectResult2) res2.Result;
+            Assert.AreEqual(400, objectResult2.StatusCode);
+            
+            // We get all users, and verify that there is only 1 user
+            var list = UserController.GetAllUsers();            
+            var objectResultList = (objectResultList) list.Result;
+            var result = (List<ApiUser>)(objectResultList).Value;
+            Assert.AreEqual(1, list.Count);
+            
+            
+        }
 
         [TestMethod]
         public void GetTest()
@@ -189,6 +216,36 @@ namespace CultureBoxTests.APIControllers
         public void TestDeleteUserBadRequest_NoApiKey()
         {
             var res = UserController.DeleteUser(1, "");
+
+            var objectResult = (ObjectResult)res.Result;
+            Assert.AreEqual(400, objectResult.StatusCode);
+        }
+        
+        [TestMethod]
+        public void TestDeleteUserBadRequest_NoApiKey()
+        {
+            var res = UserController.DeleteUser(1, "");
+
+            var objectResult = (ObjectResult)res.Result;
+            Assert.AreEqual(400, objectResult.StatusCode);
+        }
+        
+        
+        [TestMethod]
+        public void TestDeleteUser_BadAPIKey()
+        {
+            // User id = 1 because the database is truncated.
+            var user = new APIRequestUser() { Username = "Test", Password = "pass" };
+            UserController.CreateUser(user);
+            var apiKey1 = UserController.GetApiKey(user);
+            
+            // User id = 2 because the database is truncated.
+            var user2 = new APIRequestUser() { Username = "Test2", Password = "pass2" };
+            UserController.CreateUser(user2);
+            var apiKey2 = UserController.GetApiKey(user2);
+            
+            // We test to delete user1 with apikey from user2
+            var res = UserController.DeleteUser(1, apiKey2);
 
             var objectResult = (ObjectResult)res.Result;
             Assert.AreEqual(400, objectResult.StatusCode);
