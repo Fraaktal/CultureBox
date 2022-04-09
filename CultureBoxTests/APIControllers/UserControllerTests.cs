@@ -56,7 +56,7 @@ namespace CultureBoxTests.APIControllers
             // Now, we test to add another user with the same username
             var user2 = new APIRequestUser() {Username = "Test", Password = "pass2"};
             var res2 = UserController.CreateUser(user2);
-            var objectResult2 = (ObjectResult2) res2.Result;
+            var objectResult2 = (ObjectResult) res2.Result;
             Assert.AreEqual(400, objectResult2.StatusCode);
             
             // We get all users, and verify that there is only 1 user
