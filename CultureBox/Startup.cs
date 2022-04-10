@@ -28,6 +28,9 @@ namespace CultureBox
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -39,13 +42,12 @@ namespace CultureBox
 
             app.UseAuthorization();
 
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
 
-            app.UseOpenApi();
-            app.UseSwaggerUi3();
         }
 
         private void ConfigureDependency(IServiceCollection services)
