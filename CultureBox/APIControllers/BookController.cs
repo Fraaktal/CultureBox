@@ -16,14 +16,13 @@ namespace CultureBox.APIControllers
         {
             _apiBookController = apiBookController;
         }
-
-        //todo pagination
+        
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<List<ApiBook>> GetAll()
+        public ActionResult<List<ApiBook>> GetAll(int resCount = 20, int offset = 0)
         {
-            var books = _apiBookController.GetAllBooks();
+            var books = _apiBookController.GetAllBooks(resCount, offset);
             return Ok(books);
         }
 
@@ -41,23 +40,18 @@ namespace CultureBox.APIControllers
             return NotFound("BOOKS_NOT_FOUND");
         }
 
-        [HttpGet("search")]
+        [HttpGet("Search")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<List<ApiBook>> SearchBook([FromBody] ApiRequestBook b)
+        public ActionResult<List<ApiBook>> SearchBook(string title)
         {
-            if (string.IsNullOrEmpty(b.Title))
+            if (string.IsNullOrEmpty(title))
             {
                 return BadRequest("INVALID_PARAMETERS");
             }
             
-            var res = _apiBookController.Search(b);
+            var res = _apiBookController.Search(title);
             return Ok(res);
         }
-    }
-
-    public class ApiRequestBook
-    {
-        public string Title { get; set; }
     }
 }

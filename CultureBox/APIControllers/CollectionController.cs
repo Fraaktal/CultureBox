@@ -141,19 +141,19 @@ namespace CultureBox.APIControllers
             return BadRequest("INVALID_CREDENTIALS");
         }
 
-        [HttpDelete("/{id}")]
+        [HttpDelete("/{id}/{bookId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<ApiCollection> RemoveBookFromCollection(int id, [FromBody] ApiCollectionItemRequest req)
+        public ActionResult<ApiCollection> RemoveBookFromCollection(int id, int bookId, [FromBody] string apiKey)
         {
-            int userId = GetUserId(req.ApiKey);
+            int userId = GetUserId(apiKey);
             if (userId != -1)
             {
                 var collection = _collectionDao.GetCollectionById(userId, id);
                 if (collection != null)
                 {
-                    collection = _collectionDao.RemoveBookFromCollection(collection, req.BookId, out bool res);
+                    collection = _collectionDao.RemoveBookFromCollection(collection, bookId, out bool res);
                     if (res)
                     {
                         return Ok(collection);

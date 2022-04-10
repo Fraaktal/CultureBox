@@ -10,12 +10,10 @@ namespace CultureBox.APIControllers
     public class UserController : ControllerBase
     {
         private readonly IUserDAO _userDao;
-        private readonly ICollectionDAO _collectionDao;
 
-        public UserController(IUserDAO userDAO, ICollectionDAO collectionDAO)
+        public UserController(IUserDAO userDAO)
         {
             _userDao = userDAO;
-            _collectionDao = collectionDAO;
         }
 
         [HttpGet("{id}")]

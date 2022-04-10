@@ -11,9 +11,9 @@ namespace CultureBox.Control
 {
     public interface IApiBookController
     {
-        List<ApiBook> Search(ApiRequestBook apiRequestBook);
+        List<ApiBook> Search(string title);
         ApiBook GetBookById(int id);
-        List<ApiBook> GetAllBooks();
+        List<ApiBook> GetAllBooks(int resCount, int offset);
     }
 
     public class ApiBookController : IApiBookController
@@ -25,11 +25,11 @@ namespace CultureBox.Control
             _bookDao = bookDao;
         }
 
-        public List<ApiBook> Search(ApiRequestBook apiRequestBook)
+        public List<ApiBook> Search(string title)
         {
             var service = new BooksService(new BaseClientService.Initializer());
 
-            var request = new VolumesResource.ListRequest(service, apiRequestBook.Title)
+            var request = new VolumesResource.ListRequest(service, title)
             {
                 MaxResults = 40
             };
@@ -50,9 +50,9 @@ namespace CultureBox.Control
             return _bookDao.GetBookById(id);
         }
 
-        public List<ApiBook> GetAllBooks()
+        public List<ApiBook> GetAllBooks(int resCount, int offset)
         {
-            return _bookDao.GetAllBooks();
+            return _bookDao.GetAllBooks(resCount, offset);
         }
 
         private List<ApiBook> ConvertToApiBook(List<Volume> googleBooks)

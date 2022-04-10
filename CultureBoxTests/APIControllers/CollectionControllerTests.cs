@@ -24,7 +24,7 @@ namespace CultureBoxTests.APIControllers
             DbExecutor = new DbExecutor();
             DbExecutor.DbPath = Path.Combine(Directory.GetCurrentDirectory(), "testdb.db");
             CollectionController = new CollectionController(new UserDAO(DbExecutor),new CollectionDAO(DbExecutor), new BookDAO(DbExecutor));
-            UserController = new UserController(new UserDAO(DbExecutor), new CollectionDAO(DbExecutor));
+            UserController = new UserController(new UserDAO(DbExecutor));
             BookController = new BookController(new ApiBookController(new BookDAO(DbExecutor)));
         }
         
@@ -272,8 +272,8 @@ namespace CultureBoxTests.APIControllers
             var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
-            
-            var res = BookController.SearchBook(new ApiRequestBook(){Title = "Harry Potter"});
+
+            var res = BookController.SearchBook("Harry Potter");
             var bookRes = (ObjectResult)res.Result;
             var books = (List<ApiBook>)(bookRes.Value);
 
@@ -297,8 +297,8 @@ namespace CultureBoxTests.APIControllers
             var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
-            
-            var res = BookController.SearchBook(new ApiRequestBook(){Title = "Harry Potter"});
+
+            var res = BookController.SearchBook("Harry Potter");
             var bookRes = (ObjectResult)res.Result;
             var books = (List<ApiBook>)(bookRes.Value);
 
@@ -337,8 +337,8 @@ namespace CultureBoxTests.APIControllers
             string apiKey = ((ApiUser)usr.Value).ApiKey;
 
             var apiKey2 = "dsfsdf";
-                        
-            var res = BookController.SearchBook(new ApiRequestBook(){Title = "Harry Potter"});
+
+            var res = BookController.SearchBook("Harry Potter");
             var bookRes = (ObjectResult)res.Result;
             var books = (List<ApiBook>)(bookRes.Value);
             
@@ -360,8 +360,8 @@ namespace CultureBoxTests.APIControllers
             var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
-            
-            var res = BookController.SearchBook(new ApiRequestBook(){Title = "Harry Potter"});
+
+            var res = BookController.SearchBook("Harry Potter");
             var bookRes = (ObjectResult)res.Result;
             var books = (List<ApiBook>)(bookRes.Value);
 
@@ -373,7 +373,7 @@ namespace CultureBoxTests.APIControllers
 
             var r = CollectionController.AddBookToCollection(col.Id, req);
             
-            var res2 = CollectionController.RemoveBookFromCollection(col.Id, req);
+            var res2 = CollectionController.RemoveBookFromCollection(col.Id, req.BookId, req.ApiKey);
             var objectResult = (ObjectResult)res2.Result;
             var result = (ApiCollection)(objectResult.Value);
             
@@ -387,14 +387,14 @@ namespace CultureBoxTests.APIControllers
             var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
-            
-            var res = BookController.SearchBook(new ApiRequestBook(){Title = "Harry Potter"});
+
+            var res = BookController.SearchBook("Harry Potter");
             var bookRes = (ObjectResult)res.Result;
             var books = (List<ApiBook>)(bookRes.Value);
 
             var req = new ApiCollectionItemRequest(){ApiKey = apiKey, BookId = books[0].Id};
 
-            var res2 = CollectionController.RemoveBookFromCollection(15454, req);
+            var res2 = CollectionController.RemoveBookFromCollection(15454, req.BookId, req.ApiKey);
             var objectResult = (ObjectResult)res2.Result;
             
             Assert.AreEqual(objectResult.StatusCode, 404);
@@ -413,7 +413,7 @@ namespace CultureBoxTests.APIControllers
 
             var req = new ApiCollectionItemRequest(){ApiKey = apiKey, BookId = 1000000000};
 
-            var res2 = CollectionController.RemoveBookFromCollection(col.Id, req);
+            var res2 = CollectionController.RemoveBookFromCollection(col.Id, req.BookId, req.ApiKey);
             var objectResult = (ObjectResult)res2.Result;
             
             Assert.AreEqual(404, objectResult.StatusCode);
@@ -427,7 +427,7 @@ namespace CultureBoxTests.APIControllers
             string apiKey = ((ApiUser)usr.Value).ApiKey;
             var apiKey2 = "31561651";
                         
-            var res = BookController.SearchBook(new ApiRequestBook(){Title = "Harry Potter"});
+            var res = BookController.SearchBook("Harry Potter");
             var bookRes = (ObjectResult)res.Result;
             var books = (List<ApiBook>)(bookRes.Value);
             
@@ -437,7 +437,7 @@ namespace CultureBoxTests.APIControllers
             
             var req = new ApiCollectionItemRequest(){ApiKey = apiKey2, BookId = 1};
 
-            var res2 = CollectionController.RemoveBookFromCollection(col.Id, req);
+            var res2 = CollectionController.RemoveBookFromCollection(col.Id, req.BookId, req.ApiKey);
             var objectResult = (ObjectResult)res2.Result;
             
             Assert.AreEqual(400, objectResult.StatusCode);

@@ -32,7 +32,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void SearchBook()
         {
-            var res = BookController.SearchBook(new ApiRequestBook(){Title = "Harry Potter"});
+            var res = BookController.SearchBook("Harry Potter");
 
             var objectResult = (OkObjectResult)res.Result;
             var result = (List<ApiBook>)(objectResult).Value;
@@ -45,7 +45,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void GetAllTest()
         {
-            var res = BookController.SearchBook(new ApiRequestBook() { Title = "Harry Potter" });
+            var res = BookController.SearchBook("Harry Potter");
 
             var objectResult = (OkObjectResult)res.Result;
             var result = (List<ApiBook>)(objectResult).Value;
@@ -64,7 +64,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void GetBookByIdTest()
         {
-            var res = BookController.SearchBook(new ApiRequestBook() { Title = "Harry Potter" });
+            var res = BookController.SearchBook("Harry Potter");
 
             var objectResult = (OkObjectResult)res.Result;
             var result = (List<ApiBook>)(objectResult).Value;
@@ -92,7 +92,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void SearchBookNoTitle()
         {
-            var res = BookController.SearchBook(new ApiRequestBook() {  });
+            var res = BookController.SearchBook(null);
             var objectResult = (ObjectResult)res.Result;
             Assert.AreEqual(400, objectResult.StatusCode);
         }

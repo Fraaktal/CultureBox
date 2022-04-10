@@ -6,7 +6,7 @@ namespace CultureBox.DAO
 {
     public interface IBookDAO
     {
-        List<ApiBook> GetAllBooks();
+        List<ApiBook> GetAllBooks(int resCount, int offset);
         ApiBook GetBookById(int id);
         void AddOrUpdateBook(ApiBook book);
     }
@@ -20,14 +20,14 @@ namespace CultureBox.DAO
             _dbExecutor = dbExecutor;
         }
 
-        public List<ApiBook> GetAllBooks()
+        public List<ApiBook> GetAllBooks(int resCount, int offset)
         {
             List<ApiBook> res = null;
 
             _dbExecutor.Execute(db =>
             {
                 var col = db.GetCollection<ApiBook>("apibook");
-                res = col.FindAll().ToList();
+                res = col.Find(x => true, offset, resCount).ToList();
             });
 
             return res;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CultureBox.DAO;
 using CultureBox.Model;
@@ -145,6 +146,27 @@ namespace CultureBox.APIControllers
             {
                 return Problem("ERROR_ON_THE_SERVER");
             }
+        }
+        
+        [HttpGet("SearchBookToBorrow")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<List<ApiBookToBorrow>> SearchBookToBorrow(string title)
+        {
+            if (string.IsNullOrEmpty(title))
+            {
+                return BadRequest("INVALID_PARAMETERS");
+            }
+
+            var bookAndOwner = _collectionDao.SearchBook(title);
+
+            if (bookAndOwner.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(bookAndOwner);
         }
     }
 

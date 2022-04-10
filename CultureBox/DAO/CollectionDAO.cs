@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CultureBox.Model;
 
@@ -12,6 +13,7 @@ namespace CultureBox.DAO
         bool DeleteCollection(int userId, int id);
         ApiCollection AddBookToCollection(int userId, int id, ApiBook book);
         ApiCollection RemoveBookFromCollection(ApiCollection collection, int reqBookId, out bool b);
+        List<ApiBookToBorrow> SearchBook(string title);
     }
 
     public class CollectionDAO: ICollectionDAO
@@ -120,6 +122,27 @@ namespace CultureBox.DAO
             });
             
             return collection;
+        }
+
+        public List<ApiBookToBorrow> SearchBook(string title)
+        {
+            List<ApiBookToBorrow> res = new List<ApiBookToBorrow>();
+
+            _dbExecutor.Execute(db =>
+            {
+                var col = db.GetCollection<ApiCollection>("apicollection");
+                col.EnsureIndex(x => x.Name);
+
+                var queryResult = col.Find(c => c.Books.Any(b => b.Title == title)).ToList();
+
+                foreach (var c in queryResult)
+                {
+                    var book = c.Books.First(b => Equals(b.Title, title));
+                    res.Add(new ApiBookToBorrow(book.Id, c.IdUser));
+                }
+            });
+
+            return res;
         }
     }
 }

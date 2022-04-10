@@ -19,7 +19,7 @@ namespace CultureBoxTests.APIControllers
         {
             DbExecutor = new DbExecutor();
             DbExecutor.DbPath = Path.Combine(Directory.GetCurrentDirectory(), "testdb.db");
-            UserController = new UserController(new UserDAO(DbExecutor), new CollectionDAO(DbExecutor));
+            UserController = new UserController(new UserDAO(DbExecutor));
         }
 
         [TestCleanup]
