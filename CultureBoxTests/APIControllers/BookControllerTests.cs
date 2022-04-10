@@ -51,7 +51,7 @@ namespace CultureBoxTests.APIControllers
             var result = (List<ApiBook>)(objectResult).Value;
 
 
-            var res2 = BookController.GetAll();
+            var res2 = BookController.GetAll(10000);
             var objectResult2 = (OkObjectResult)res2.Result;
             var result2 = (List<ApiBook>)(objectResult2).Value;
 
