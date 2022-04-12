@@ -23,7 +23,7 @@ namespace CultureBoxTests.APIControllers
         public void Initialize()
         {
             DbExecutor = new DbExecutor();
-            DbExecutor.DbPath = Path.Combine(Directory.GetCurrentDirectory(), "testdb.db");
+            DbExecutor.DbPath = Path.Combine(Directory.GetCurrentDirectory(), "testdb2.db");
             CollectionController = new CollectionController(
                 new UserDAO(DbExecutor),
                 new CollectionDAO(DbExecutor), 
