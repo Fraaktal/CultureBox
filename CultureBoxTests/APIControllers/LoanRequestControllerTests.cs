@@ -253,7 +253,7 @@ namespace CultureBoxTests.APIControllers
             };
 
             var resReqLoan = LoanRequestController.RequestLoan(reqLoan);
-            var objectResultReqLoan = (ObjectResult)resReqLoan.Result;
+            var objectResultReqLoan = (ObjectResult)resReqLoan;
             Assert.AreEqual(200, objectResultReqLoan.StatusCode);
             
             var reqGetBorrow = new LoanSearchRequest()
