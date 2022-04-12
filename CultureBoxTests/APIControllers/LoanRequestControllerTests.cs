@@ -187,8 +187,7 @@ namespace CultureBoxTests.APIControllers
             var user2 = UserController.CreateUser(new APIRequestUser() {Username = "test2", Password = "test2"});
             var usr2 = (ObjectResult)user2.Result; 
             int idUser2 = ((ApiUser)usr2.Value).Id;    
-            
-            // Just a bad API key
+        
             var req3 = new LoanRequest()
             {
                 IdUser = idUser2,
