@@ -46,7 +46,7 @@ namespace CultureBoxTests.APIControllers
         }
 
         [TestMethod]
-        public void TestGetAllRequests()
+        public void TestGetAllRequests_noReqs()
         {
             // Create user 1 
             var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
@@ -90,6 +90,53 @@ namespace CultureBoxTests.APIControllers
             var res3 = LoanRequestController.GetAllRequests(req3);
             var objectResult3 = (ObjectResult)res3.Result;
             Assert.AreEqual(400, objectResult3.StatusCode);
+            
+        }
+        
+        [TestMethod]
+        public void TestSearchBookToBorrow_noTitle() {
+            // Bad request, no title
+            var res1 = LoanRequestController.SearchBookToBorrow("");
+            var objectResult1 = (ObjectResult)res1.Result;
+            Assert.AreEqual(400, objectResult2.StatusCode);
+        }
+                
+        [TestMethod]
+        public void TestSearchBookToBorrow_noBook() {
+            // DB is truncated, no books
+            var res2 = LoanRequestController.SearchBookToBorrow("Harry Potter");
+            var objectResult2 = (ObjectResult)res2.Result;
+            Assert.AreEqual(404, objectResult2.StatusCode);
+        }
+      
+        [TestMethod]
+        public void TestSearchBookToBorrow() {
+            // Create user 1 
+            var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
+            var usr = (ObjectResult)user.Result;
+            string apiKey = ((ApiUser)usr.Value).ApiKey;            
+            
+            // Create a collection, add a book to it
+            var collection = CollectionController.CreateCollection(new ApiCollectionRequest() {ApiKey = apiKey, Name = "Collection"});
+            var objectResult3 = (ObjectResult)collection.Result;
+            var result3 = (ApiCollection)(objectResult3).Value;
+            
+            var book = BookController.SearchBook("Harry Potter");
+            var bookRes = (ObjectResult)book.Result;
+            var books = (List<ApiBook>)(bookRes.Value);
+            
+            var req = new ApiCollectionItemRequest(){ApiKey = apiKey, BookId = books[0].Id};
+            var res4 = CollectionController.AddBookToCollection(col.Id, req);
+            var objectResult4 = (ObjectResult)res4.Result;
+            var result4 = (ApiCollection)(objectResult4.Value);
+            
+            Assert.IsNotNull(result);          
+            Assert.AreEqual(objectResult.StatusCode, 200);
+            
+            // Because we cannot borrow a book from our collection
+            var res5 = LoanRequestController.SearchBookToBorrow("Harry Potter");
+            var objectResult5 = (ObjectResult)res5.Result;
+            Assert.AreEqual(200, objectResult2.StatusCode);  
             
         }
     }
