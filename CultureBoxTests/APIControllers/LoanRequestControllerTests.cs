@@ -98,7 +98,7 @@ namespace CultureBoxTests.APIControllers
             // Bad request, no title
             var res1 = LoanRequestController.SearchBookToBorrow("");
             var objectResult1 = (ObjectResult)res1.Result;
-            Assert.AreEqual(400, objectResult2.StatusCode);
+            Assert.AreEqual(400, objectResult1.StatusCode);
         }
                 
         [TestMethod]
@@ -126,17 +126,20 @@ namespace CultureBoxTests.APIControllers
             var books = (List<ApiBook>)(bookRes.Value);
             
             var req = new ApiCollectionItemRequest(){ApiKey = apiKey, BookId = books[0].Id};
-            var res4 = CollectionController.AddBookToCollection(col.Id, req);
+            var res4 = CollectionController.AddBookToCollection(result3.Id, req);
             var objectResult4 = (ObjectResult)res4.Result;
             var result4 = (ApiCollection)(objectResult4.Value);
             
-            Assert.IsNotNull(result);          
-            Assert.AreEqual(objectResult.StatusCode, 200);
+            Assert.IsNotNull(result4);          
+            Assert.AreEqual(200, objectResult4.StatusCode);
             
-            // Because we cannot borrow a book from our collection
             var res5 = LoanRequestController.SearchBookToBorrow("Harry Potter");
             var objectResult5 = (ObjectResult)res5.Result;
-            Assert.AreEqual(200, objectResult2.StatusCode);  
+            Assert.AreEqual(200, objectResult5.StatusCode); 
+            var searched = (List<ApiBookToBorrow>)(objectResult5.Value); 
+            Assert.AreEqual(1, searched.Count); 
+            
+            
             
         }
     }
