@@ -134,6 +134,12 @@ namespace CultureBoxTests.APIControllers
             Assert.AreEqual(200, objectResult4.StatusCode);
             
             var res5 = LoanRequestController.SearchBookToBorrow("Harry Potter");
+
+            if (res5.Result is NotFoundResult)
+            {
+                Assert.Fail();
+            }
+
             var objectResult5 = (ObjectResult)res5.Result;
             Assert.AreEqual(200, objectResult5.StatusCode); 
             var searched = (List<ApiBookToBorrow>)(objectResult5.Value); 
@@ -223,6 +229,12 @@ namespace CultureBoxTests.APIControllers
             var result4 = (ApiCollection)(objectResult4.Value);
             
             var res5 = LoanRequestController.SearchBookToBorrow("Harry Potter");
+
+            if (res5.Result is NotFoundResult)
+            {
+                Assert.Fail();
+            }
+
             var objectResult5 = (ObjectResult)res5.Result;
             var searched = (List<ApiBookToBorrow>)(objectResult5.Value); 
             
