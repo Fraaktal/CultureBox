@@ -138,6 +138,7 @@ namespace CultureBox.DAO
                 foreach (var c in queryResult)
                 {
                     var book = c.Books.FirstOrDefault(b => b.Title?.Contains(title) ?? false);
+
                     if (book != null)
                     {
                         res.Add(new ApiBookToBorrow(book.Id, c.IdUser));
