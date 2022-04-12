@@ -138,7 +138,129 @@ namespace CultureBoxTests.APIControllers
             Assert.AreEqual(200, objectResult5.StatusCode); 
             var searched = (List<ApiBookToBorrow>)(objectResult5.Value); 
             Assert.AreEqual(1, searched.Count); 
+        }
+        
+        [TestMethod]
+        public void TestRequestLoan_BadCredentials() { 
+            // Just a bad API key
+            var req3 = new LoanRequest()
+            {
+                idUser = 0,
+                idBook = -1,
+                ApiKey = "fezehf"
+            };
+
+            var res3 = LoanRequestController.RequestLoan(req3);
+            var objectResult3 = (ObjectResult)res3.Result;
+            Assert.AreEqual(400, objectResult3.StatusCode);
             
+        }
+        
+        [TestMethod]
+        public void TestRequestLoan_SameUser() { 
+            var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
+            var usr = (ObjectResult)user.Result;
+            string apiKey = ((ApiUser)usr.Value).ApiKey;  
+            int idUser = ((ApiUser)usr.Value).Id;    
+            
+            // Just a bad API key
+            var req3 = new LoanRequest()
+            {
+                IdUser = idUser,
+                IdBook = -1,
+                ApiKey = apiKey
+            };
+
+            var res3 = LoanRequestController.RequestLoan(req3);
+            var objectResult3 = (ObjectResult)res3.Result;
+            Assert.AreEqual(400, objectResult3.StatusCode);
+            
+        }
+        
+        [TestMethod]
+        public void TestRequestLoan_BadBook() { 
+            var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
+            var usr = (ObjectResult)user.Result;
+            string apiKey = ((ApiUser)usr.Value).ApiKey;  
+            int idUser = ((ApiUser)usr.Value).Id; 
+            
+            var user2 = UserController.CreateUser(new APIRequestUser() {Username = "test2", Password = "test2"});
+            var usr2 = (ObjectResult)user2.Result; 
+            int idUser2 = ((ApiUser)usr2.Value).Id;    
+            
+            // Just a bad API key
+            var req3 = new LoanRequest()
+            {
+                IdUser = idUser2,
+                IdBook = -1,
+                ApiKey = apiKey
+            };
+
+            var res3 = LoanRequestController.RequestLoan(req3);
+            var objectResult3 = (ObjectResult)res3.Result;
+            Assert.AreEqual(404, objectResult3.StatusCode);
+            
+        }
+        
+        
+        
+        [TestMethod]
+        public void TestRequestLoan_BadBook() { 
+            var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
+            var usr = (ObjectResult)user.Result;
+            string apiKey = ((ApiUser)usr.Value).ApiKey;  
+            int idUser = ((ApiUser)usr.Value).Id;    
+            
+            // Just a bad API key
+            var req3 = new LoanRequest()
+            {
+                IdUser = idUser,
+                IdBook = -1,
+                ApiKey = apiKey
+            };
+
+            var res3 = LoanRequestController.RequestLoan(req3);
+            var objectResult3 = (ObjectResult)res3.Result;
+            Assert.AreEqual(404, objectResult3.StatusCode);
+            
+        }
+        
+        [TestMethod]
+        public void TestRequestLoan() {
+            // Create user 1 
+            var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
+            var usr = (ObjectResult)user.Result;
+            string apiKey = ((ApiUser)usr.Value).ApiKey;            
+            
+            // Create a collection, add a book to it
+            var collection = CollectionController.CreateCollection(new ApiCollectionRequest() {ApiKey = apiKey, Name = "Collection"});
+            var objectResult3 = (ObjectResult)collection.Result;
+            var result3 = (ApiCollection)(objectResult3).Value;
+            
+            var book = BookController.SearchBook("Harry Potter");
+            var bookRes = (ObjectResult)book.Result;
+            var books = (List<ApiBook>)(bookRes.Value);
+            
+            var req = new ApiCollectionItemRequest(){ApiKey = apiKey, BookId = books[0].Id};
+            var res4 = CollectionController.AddBookToCollection(result3.Id, req);
+            var objectResult4 = (ObjectResult)res4.Result;
+            var result4 = (ApiCollection)(objectResult4.Value);
+            
+            var res5 = LoanRequestController.SearchBookToBorrow("Harry Potter");
+            var objectResult5 = (ObjectResult)res5.Result;
+            var searched = (List<ApiBookToBorrow>)(objectResult5.Value); 
+            
+            // Just a bad API key
+            var req3 = new LoanSearchRequest()
+            {
+                idUser = 0,
+                idBook = -1,
+                ApiKey = "fezehf"
+            };
+
+            var res3 = LoanRequestController.GetAllRequests(req3);
+            var objectResult3 = (ObjectResult)res3.Result;
+            Assert.AreEqual(400, objectResult3.StatusCode);
             
             
         }
