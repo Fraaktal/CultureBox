@@ -31,9 +31,9 @@ namespace CultureBoxTests.APIControllers
             UserController = new UserController(new UserDAO(DbExecutor));
             LoanRequestController = new LoanRequestController(
                 new LoanRequestControllerDAO(DbExecutor), 
-                new ApiBookController(new BookDAO(DbExecutor)), 
-                new UserController(new UserDAO(DbExecutor), 
-                new CollectionController(new UserDAO(DbExecutor),new CollectionDAO(DbExecutor), new BookDAO(DbExecutor))
+                new BookDAO(DbExecutor), 
+                new UserDAO(DbExecutor), 
+                new CollectionDAO(DbExecutor)
             );
             BookController = new BookController(new ApiBookController(new BookDAO(DbExecutor)));
         }
