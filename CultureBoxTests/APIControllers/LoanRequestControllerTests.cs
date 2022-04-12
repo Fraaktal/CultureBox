@@ -145,8 +145,8 @@ namespace CultureBoxTests.APIControllers
             // Just a bad API key
             var req3 = new LoanRequest()
             {
-                idUser = 0,
-                idBook = -1,
+                IdUser = 0,
+                IdBook = -1,
                 ApiKey = "fezehf"
             };
 
@@ -228,10 +228,10 @@ namespace CultureBoxTests.APIControllers
             var searched = (List<ApiBookToBorrow>)(objectResult5.Value); 
             
             // Just a bad API key
-            var req3 = new LoanSearchRequest()
+            var req3 = new LoanRequest()
             {
-                idUser = 0,
-                idBook = -1,
+                IdUser = 0,
+                IdBook = -1,
                 ApiKey = "fezehf"
             };
 
