@@ -105,7 +105,7 @@ namespace CultureBoxTests.APIControllers
         public void TestSearchBookToBorrow_noBook() {
             // DB is truncated, no books
             var res2 = LoanRequestController.SearchBookToBorrow("Harry Potter");
-            var objectResult2 = (ObjectResult)res2.Result;
+            var objectResult2 = (NotFoundResult)res2.Result;
             Assert.AreEqual(404, objectResult2.StatusCode);
         }
       
@@ -151,7 +151,7 @@ namespace CultureBoxTests.APIControllers
             };
 
             var res3 = LoanRequestController.RequestLoan(req3);
-            var objectResult3 = (ObjectResult)res3.Result;
+            var objectResult3 = (ObjectResult)res3;
             Assert.AreEqual(400, objectResult3.StatusCode);
             
         }
@@ -172,7 +172,7 @@ namespace CultureBoxTests.APIControllers
             };
 
             var res3 = LoanRequestController.RequestLoan(req3);
-            var objectResult3 = (ObjectResult)res3.Result;
+            var objectResult3 = (ObjectResult)res3;
             Assert.AreEqual(400, objectResult3.StatusCode); // Same User
             
         }
@@ -196,7 +196,7 @@ namespace CultureBoxTests.APIControllers
             };
 
             var res3 = LoanRequestController.RequestLoan(req3);
-            var objectResult3 = (ObjectResult)res3.Result;
+            var objectResult3 = (ObjectResult)res3;
             Assert.AreEqual(404, objectResult3.StatusCode);
             
         }
@@ -210,8 +210,8 @@ namespace CultureBoxTests.APIControllers
             
             // Create a collection, add a book to it
             var collection = CollectionController.CreateCollection(new ApiCollectionRequest() {ApiKey = apiKey, Name = "Collection"});
-            var objectResult3 = (ObjectResult)collection.Result;
-            var result3 = (ApiCollection)(objectResult3).Value;
+            var objectResult1 = (ObjectResult)collection.Result;
+            var result3 = (ApiCollection)(objectResult1).Value;
             
             var book = BookController.SearchBook("Harry Potter");
             var bookRes = (ObjectResult)book.Result;
@@ -227,11 +227,10 @@ namespace CultureBoxTests.APIControllers
             var searched = (List<ApiBookToBorrow>)(objectResult5.Value); 
             
             // Just a bad API key
-            var req3 = new LoanRequest()
+            var req3 = new LoanSearchRequest()
             {
-                IdUser = 0,
-                IdBook = -1,
-                ApiKey = "fezehf"
+                ApiKey = "fezehf",
+                RequestType = RequestType.All
             };
 
             var res3 = LoanRequestController.GetAllRequests(req3);

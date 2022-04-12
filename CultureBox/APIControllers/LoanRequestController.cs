@@ -82,6 +82,11 @@ namespace CultureBox.APIControllers
                 return BadRequest("INVALID_CREDENTIALS");
             }
 
+            if (idBorrower == br.IdUser)
+            {
+                return BadRequest("CANNOT_BORROW_TO_ONESELF");
+            }
+
             var collections = _collectionDao.GetAllCollection(br.IdUser);
 
             if (collections == null)

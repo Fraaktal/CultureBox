@@ -132,13 +132,16 @@ namespace CultureBox.DAO
             {
                 var col = db.GetCollection<ApiCollection>("apicollection");
                 col.EnsureIndex(x => x.Name);
-
-                var queryResult = col.Find(c => c.Books.Any(b => b.Title == title)).ToList();
+                
+                var queryResult = col.FindAll();
 
                 foreach (var c in queryResult)
                 {
-                    var book = c.Books.First(b => Equals(b.Title, title));
-                    res.Add(new ApiBookToBorrow(book.Id, c.IdUser));
+                    var book = c.Books.FirstOrDefault(b => b.Title?.Contains(title) ?? false);
+                    if (book != null)
+                    {
+                        res.Add(new ApiBookToBorrow(book.Id, c.IdUser));
+                    }
                 }
             });
 
