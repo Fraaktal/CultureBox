@@ -230,14 +230,6 @@ namespace CultureBoxTests.APIControllers
             
             var res5 = LoanRequestController.SearchBookToBorrow("Harry Potter");
 
-            if (res5.Result is NotFoundResult)
-            {
-                Assert.Fail();
-            }
-
-            var objectResult5 = (ObjectResult)res5.Result;
-            var searched = (List<ApiBookToBorrow>)(objectResult5.Value); 
-            
             // Just a bad API key
             var req3 = new LoanSearchRequest()
             {
