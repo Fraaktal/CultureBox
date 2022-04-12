@@ -23,9 +23,18 @@ namespace CultureBoxTests.APIControllers
         {
             DbExecutor = new DbExecutor();
             DbExecutor.DbPath = Path.Combine(Directory.GetCurrentDirectory(), "testdb.db");
-            CollectionController = new CollectionController(new UserDAO(DbExecutor),new CollectionDAO(DbExecutor), new BookDAO(DbExecutor));
+            CollectionController = new CollectionController(
+                new UserDAO(DbExecutor),
+                new CollectionDAO(DbExecutor), 
+                new BookDAO(DbExecutor)
+            );
             UserController = new UserController(new UserDAO(DbExecutor));
-            LoanRequestController = new LoanRequestController(new LoanRequestControllerDAO(DbExecutor));
+            LoanRequestController = new LoanRequestController(
+                new LoanRequestControllerDAO(DbExecutor), 
+                new ApiBookController(new BookDAO(DbExecutor)), 
+                new UserController(new UserDAO(DbExecutor), 
+                new CollectionController(new UserDAO(DbExecutor),new CollectionDAO(DbExecutor), new BookDAO(DbExecutor))
+            );
             BookController = new BookController(new ApiBookController(new BookDAO(DbExecutor)));
         }
         
