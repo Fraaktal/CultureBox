@@ -173,7 +173,7 @@ namespace CultureBoxTests.APIControllers
 
             var res3 = LoanRequestController.RequestLoan(req3);
             var objectResult3 = (ObjectResult)res3.Result;
-            Assert.AreEqual(400, objectResult3.StatusCode);
+            Assert.AreEqual(400, objectResult3.StatusCode); // Same User
             
         }
         
@@ -192,29 +192,6 @@ namespace CultureBoxTests.APIControllers
             var req3 = new LoanRequest()
             {
                 IdUser = idUser2,
-                IdBook = -1,
-                ApiKey = apiKey
-            };
-
-            var res3 = LoanRequestController.RequestLoan(req3);
-            var objectResult3 = (ObjectResult)res3.Result;
-            Assert.AreEqual(404, objectResult3.StatusCode);
-            
-        }
-        
-        
-        
-        [TestMethod]
-        public void TestRequestLoan_BadBook() { 
-            var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
-            var usr = (ObjectResult)user.Result;
-            string apiKey = ((ApiUser)usr.Value).ApiKey;  
-            int idUser = ((ApiUser)usr.Value).Id;    
-            
-            // Just a bad API key
-            var req3 = new LoanRequest()
-            {
-                IdUser = idUser,
                 IdBook = -1,
                 ApiKey = apiKey
             };
