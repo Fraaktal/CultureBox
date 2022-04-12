@@ -48,7 +48,31 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void TestGetAllRequests()
         {
-            Assert.AreEqual(true, true);
+            // Create user 1 
+            var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
+            var usr = (ObjectResult)user.Result;
+            string apiKey = ((ApiUser)usr.Value).ApiKey;
+            
+            // Its collection is empty, normal
+            var res = LoanRequestController.GetAllRequests(apiKey);
+
+            var objectResult = (ObjectResult)res.Result;
+            var result = (List<ApiCollection>)(objectResult).Value;
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(objectResult.StatusCode, 200);
+            Assert.AreEqual(result.Count, 0);
+            
+            // No API Key ?
+            var res = LoanRequestController.GetAllRequests("");
+            var objectResult = (ObjectResult)res.Result;
+            Assert.AreEqual(400, objectResult.StatusCode);
+            
+            // Just a bad API key
+            var res = LoanRequestController.GetAllRequests("dzkefu");
+            var objectResult = (ObjectResult)res.Result;
+            Assert.AreEqual(400, objectResult.StatusCode);
+            
         }
     }
 }
