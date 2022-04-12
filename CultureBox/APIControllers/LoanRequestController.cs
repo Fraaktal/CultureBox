@@ -29,7 +29,7 @@ namespace CultureBox.APIControllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<List<LoanRequest>> GetAllRequests([FromBody] LoanSearchRequest br)
+        public ActionResult<List<ApiLoanRequest>> GetAllRequests([FromBody] LoanSearchRequest br)
         {
             int id = _userDao.GetUserId(br.ApiKey);
             if (id != -1)

@@ -54,33 +54,39 @@ namespace CultureBoxTests.APIControllers
             string apiKey = ((ApiUser)usr.Value).ApiKey;
             
             // Its collection is empty, normal
-            var req1 = LoanSearchRequest(
-                LoanRequestController.RequestType.All, 
-                apiKey
-            );
+            var req1 = new LoanSearchRequest()
+            {
+                RequestType = RequestType.All,
+                ApiKey = apiKey
+            };
+
             var res = LoanRequestController.GetAllRequests(req1);
 
             var objectResult = (ObjectResult)res.Result;
-            var result = (List<ApiCollection>)(objectResult).Value;
+            var result = (List<ApiLoanRequest>)(objectResult).Value;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(objectResult.StatusCode, 200);
             Assert.AreEqual(result.Count, 0);
             
             // No API Key ?
-            var req2 = LoanSearchRequest(
-                LoanRequestController.RequestType.Loan, 
-                ""
-            );
+            var req2 = new LoanSearchRequest()
+            {
+                RequestType = RequestType.Loan,
+                ApiKey = ""
+            };
+
             var res2 = LoanRequestController.GetAllRequests(req2);
             var objectResult2 = (ObjectResult)res2.Result;
             Assert.AreEqual(400, objectResult2.StatusCode);
             
             // Just a bad API key
-            var req3 = LoanSearchRequest(
-                LoanRequestController.RequestType.Borrow, 
-                "fezehf"
-            );
+            var req3 = new LoanSearchRequest()
+            {
+                RequestType = RequestType.Loan,
+                ApiKey = "fezehf"
+            };
+
             var res3 = LoanRequestController.GetAllRequests(req3);
             var objectResult3 = (ObjectResult)res3.Result;
             Assert.AreEqual(400, objectResult3.StatusCode);
