@@ -229,17 +229,56 @@ namespace CultureBoxTests.APIControllers
             var result4 = (ApiCollection)(objectResult4.Value);
             
             var res5 = LoanRequestController.SearchBookToBorrow("Harry Potter");
+            var objectResult5 = (ObjectResult)res5.Result;
+            var result5 = (List<ApiBookToBorrow>)(objectResult5.Value);
+            
+            // Create user 2
+            var user2 = UserController.CreateUser(new APIRequestUser() {Username = "test2", Password = "test2"});
+            var usr2 = (ObjectResult)user2.Result;
+            string apiKey2 = ((ApiUser)usr2.Value).ApiKey;  
 
-            // Just a bad API key
-            var req3 = new LoanSearchRequest()
+            Assert.AreEqual(1, result5.Count);
+            if(result5[0].IdOwner < 1) {
+                Assert.Fail();
+            }
+            if(result5[0].IdBook < 1) {
+                Assert.Fail();
+            }
+
+            var reqLoan = new LoanRequest()
             {
-                ApiKey = "fezehf",
-                RequestType = RequestType.All
+                IdUser = result5[0].IdOwner,
+                IdBook = result5[0].IdBook,
+                ApiKey = apiKey2
             };
 
-            var res3 = LoanRequestController.GetAllRequests(req3);
-            var objectResult3 = (ObjectResult)res3.Result;
-            Assert.AreEqual(400, objectResult3.StatusCode);
+            var resReqLoan = LoanRequestController.RequestLoan(reqLoan);
+            var objectResultReqLoan = (ObjectResult)resReqLoan.Result;
+            Assert.AreEqual(200, objectResultReqLoan.StatusCode);
+            
+            var reqGetBorrow = new LoanSearchRequest()
+            {
+                ApiKey = apiKey,
+                RequestType = RequestType.Borrow
+            };
+            var resSearch1 = LoanRequestController.GetAllRequests(reqGetBorrow);
+            var objectResultSearch1 = (ObjectResult)resSearch1.Result;
+            var resultSearch1 = (List<ApiLoanRequest>)(objectResultSearch1.Value);
+            Assert.AreEqual(200, objectResultSearch1.StatusCode);
+            Assert.AreEqual(1, resultSearch1.Count);
+            
+            var reqGetBorrow2 = new LoanSearchRequest()
+            {
+                ApiKey = apiKey2,
+                RequestType = RequestType.Loan
+            };
+            var resSearch2 = LoanRequestController.GetAllRequests(reqGetBorrow);
+            var objectResultSearch2 = (ObjectResult)resSearch2.Result;
+            var resultSearch2 = (List<ApiLoanRequest>)(objectResultSearch2.Value);
+            Assert.AreEqual(200, objectResultSearch2.StatusCode);
+            Assert.AreEqual(1, resultSearch2.Count);
+
+
             
             
         }
