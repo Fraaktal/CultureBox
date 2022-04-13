@@ -6,52 +6,51 @@ using CultureBox.Model;
 
 namespace CultureBox.DAO
 {
-    public interface IMovieDao
+    public interface ISeriesDao
     {
-        List<ApiMovie> GetAllMovies(int resCount, int offset);
-        ApiMovie GetMovieById(int id);
-        void AddOrUpdateMovie(ApiMovie movie);
+        List<ApiSeries> GetAllSeries(int resCount, int offset);
+        ApiSeries GetSeriesById(int id);
+        void AddOrUpdateSeries(ApiSeries serie);
     }
-
-    public class MovieDao : IMovieDao
+    public class SeriesDao : ISeriesDao
     {
         private readonly IDbExecutor _dbExecutor;
 
-        public MovieDao(IDbExecutor dbExecutor)
+        public SeriesDao(IDbExecutor dbExecutor)
         {
             _dbExecutor = dbExecutor;
         }
-        public List<ApiMovie> GetAllMovies(int resCount, int offset)
+        public List<ApiSeries> GetAllSeries(int resCount, int offset)
         {
-            List<ApiMovie> res = null;
+            List<ApiSeries> res = null;
 
             _dbExecutor.Execute(db =>
             {
-                var col = db.GetCollection<ApiMovie>("apimovie");
+                var col = db.GetCollection<ApiSeries>("apiseries");
                 res = col.Find(x => true, offset, resCount).ToList();
             });
 
             return res;
         }
 
-        public ApiMovie GetMovieById(int id)
+        public ApiSeries GetSeriesById(int id)
         {
-            ApiMovie res = null;
+            ApiSeries res = null;
 
             _dbExecutor.Execute(db =>
             {
-                var col = db.GetCollection<ApiMovie>("apimovie");
+                var col = db.GetCollection<ApiSeries>("apiseries");
                 res = col.FindOne(b => b.Id == id);
             });
 
             return res;
         }
 
-        public void AddOrUpdateMovie(ApiMovie movie)
+        public void AddOrUpdateSeries(ApiSeries movie)
         {
             _dbExecutor.Execute(db =>
             {
-                var col = db.GetCollection<ApiMovie>("apimovie");
+                var col = db.GetCollection<ApiSeries>("apimovie");
                 var existingBook = col.FindOne(b => b.Title == movie.Title);
 
                 if (existingBook == null)

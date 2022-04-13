@@ -39,26 +39,42 @@ namespace CultureBox.Control
 
         public List<ApiMovie> SearchMovie(string title)
         {
+            List<ApiMovie> movies = new List<ApiMovie>();
             var client = new RestClient(IMDB);
             var request = new RestRequest(SEARCH_MOVIE+title, Method.Get);
             var t = (client.ExecuteAsync(request));
             t.Wait();
             if (t?.Result?.Content != null)
             {
-                var res = JsonConvert.DeserializeObject<ImdbMovieResult>(t.Result.Content);
+                var res = JsonConvert.DeserializeObject<ImdbMovieSeriesResult>(t.Result.Content);
+                foreach (var imdb in res.results)
+                {
+                    var movie = new ApiMovie() {Title = imdb.title};
+                    _movieDao.AddOrUpdateMovie(movie);
+                    movies.Add(movie);
+                }
             }
-            return null;
+            return movies;
         }
 
         public List<ApiSeries> SearchSeries(string title)
         {
+            List<ApiSeries> series = new List<ApiSeries>();
             var client = new RestClient(IMDB);
             var request = new RestRequest(SEARCH_SERIES + title, Method.Get);
-            var t = (client.ExecuteAsync<List<object>>(request));
+            var t = (client.ExecuteAsync(request));
             t.Wait();
-            var res = t.Result;
-
-            return null;
+            if (t?.Result?.Content != null)
+            {
+                var res = JsonConvert.DeserializeObject<ImdbMovieSeriesResult>(t.Result.Content);
+                foreach (var imdb in res.results)
+                {
+                    var serie = new ApiSeries() { Title = imdb.title };
+                    _seriesDao.AddOrUpdateSeries(serie);
+                    series.Add(serie);
+                }
+            }
+            return series;
         }
 
         public ApiMovie GetMovieById(int id)
@@ -91,7 +107,7 @@ namespace CultureBox.Control
         public string description { get; set; }
     }
 
-    public class ImdbMovieResult
+    public class ImdbMovieSeriesResult
     {
         public string searchType { get; set; }
         public string expression { get; set; }
