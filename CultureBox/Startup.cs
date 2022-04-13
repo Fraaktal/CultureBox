@@ -53,9 +53,12 @@ namespace CultureBox
         private void ConfigureDependency(IServiceCollection services)
         {
             services.AddSingleton<IDbExecutor, DbExecutor>();
+            services.AddScoped<IApiBookController, ApiBookController>();
+            services.AddScoped<IApiMovieSerieController, ApiMovieSerieController>();
             services.AddScoped<IUserDAO, UserDAO>();
             services.AddScoped<IBookDAO, BookDAO>();
-            services.AddScoped<IApiBookController, ApiBookController>();
+            services.AddScoped<IMovieDao, MovieDao>();
+            services.AddScoped<ISeriesDao, SeriesDao>();
             services.AddScoped<ICollectionDAO, CollectionDAO>();
             services.AddScoped<ILoanRequestControllerDAO, LoanRequestControllerDAO>();
         }

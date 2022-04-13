@@ -8,50 +8,50 @@ namespace CultureBox.APIControllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class BookController : ControllerBase
+    public class MovieController : ControllerBase
     {
         //livres en commun
-        private readonly IApiBookController _apiBookController;
+        private readonly IApiMovieSerieController _apiMovieSerieController;
 
-        public BookController(IApiBookController apiBookController)
+        public MovieController(IApiMovieSerieController apiMovieSerieController)
         {
-            _apiBookController = apiBookController;
+            _apiMovieSerieController = apiMovieSerieController;
         }
-        
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<List<ApiBook>> GetAll(int resCount = 20, int offset = 0)
+        public ActionResult<List<ApiMovie>> GetAll(int resCount = 20, int offset = 0)
         {
-            var books = _apiBookController.GetAllBooks(resCount, offset);
-            return Ok(books);
+            var movies = _apiMovieSerieController.GetAllMovies(resCount, offset);
+            return Ok(movies);
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<ApiBook> GetBookById(int id)
+        public ActionResult<ApiMovie> GetMovieById(int id)
         {
-            var res = _apiBookController.GetBookById(id);
+            var res = _apiMovieSerieController.GetMovieById(id);
             if (res != null)
             {
                 return Ok(res);
             }
 
-            return NotFound("BOOKS_NOT_FOUND");
+            return NotFound("MOVIE_NOT_FOUND");
         }
 
         [HttpGet("Search")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<List<ApiBook>> SearchBook(string title)
+        public ActionResult<List<ApiMovie>> SearchMovie(string title)
         {
             if (string.IsNullOrEmpty(title))
             {
                 return BadRequest("INVALID_PARAMETERS");
             }
-            
-            var res = _apiBookController.Search(title);
+
+            var res = _apiMovieSerieController.SearchMovie(title);
             return Ok(res);
         }
     }
