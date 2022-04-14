@@ -8,7 +8,7 @@
         public int Id { get; set; }
         public int IdRequester { get; set; }
         public int IdOwner { get; set; }
-        public int IdBook { get; set; }
+        public int IdObject { get; set; }
         public RequestState RequestState { get; set; }
         public RequestObjectType RequestType { get; set; }
     }
