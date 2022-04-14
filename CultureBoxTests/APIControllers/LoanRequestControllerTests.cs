@@ -189,7 +189,7 @@ namespace CultureBoxTests.APIControllers
             
             var Movie = MovieController.SearchMovie("Harry Potter");
             var MovieRes = (ObjectResult)Movie.Result;
-            var Movies = (List<ApiBook>)(MovieRes.Value);
+            var Movies = (List<ApiMovie>)(MovieRes.Value);
             
             var req = new ApiCollectionItemRequest(){ApiKey = apiKey, ObjectId = Movies[0].Id};
             var res4 = CollectionMovieController.AddMovieToCollection(result3.Id, req);
@@ -945,7 +945,7 @@ namespace CultureBoxTests.APIControllers
             var objectResult1 = (ObjectResult)collection.Result;
             var result3 = (ApiSeriesCollection)(objectResult1).Value;
             
-            var book = BookController.SearchBook("House");
+            var book = SeriesController.SearchSeries("House");
             var bookRes = (ObjectResult)book.Result;
             var books = (List<ApiSeries>)(bookRes.Value);
             
