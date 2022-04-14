@@ -135,7 +135,7 @@ namespace CultureBox.APIControllers
                     return NotFound("COLLECTION_NOT_FOUND");
                 }
 
-                return NotFound("Series_NOT_FOUND");
+                return NotFound("SERIES_NOT_FOUND");
             }
 
             return BadRequest("INVALID_CREDENTIALS");
@@ -159,7 +159,7 @@ namespace CultureBox.APIControllers
                         return Ok(collection);
                     }
 
-                    return NotFound("Series_NOT_FOUND");
+                    return NotFound("SERIES_NOT_FOUND");
                 }
 
                 return NotFound("COLLECTION_NOT_FOUND");

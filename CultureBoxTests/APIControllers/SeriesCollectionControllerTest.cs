@@ -273,7 +273,7 @@ namespace CultureBoxTests.APIControllers
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
 
-            var res = SeriesController.SearchSeries("Harry Potter");
+            var res = SeriesController.SearchSeries("House");
             var SeriesRes = (ObjectResult)res.Result;
             var Seriess = (List<ApiSeries>)(SeriesRes.Value);
 
@@ -298,7 +298,7 @@ namespace CultureBoxTests.APIControllers
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
 
-            var res = SeriesController.SearchSeries("Harry Potter");
+            var res = SeriesController.SearchSeries("House");
             var SeriesRes = (ObjectResult)res.Result;
             var Seriess = (List<ApiSeries>)(SeriesRes.Value);
 
@@ -338,7 +338,7 @@ namespace CultureBoxTests.APIControllers
 
             var apiKey2 = "dsfsdf";
 
-            var res = SeriesController.SearchSeries("Harry Potter");
+            var res = SeriesController.SearchSeries("House");
             var SeriesRes = (ObjectResult)res.Result;
             var Seriess = (List<ApiSeries>)(SeriesRes.Value);
 
@@ -361,7 +361,7 @@ namespace CultureBoxTests.APIControllers
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
 
-            var res = SeriesController.SearchSeries("Harry Potter");
+            var res = SeriesController.SearchSeries("House");
             var SeriesRes = (ObjectResult)res.Result;
             var Seriess = (List<ApiSeries>)(SeriesRes.Value);
 
@@ -388,7 +388,7 @@ namespace CultureBoxTests.APIControllers
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
 
-            var res = SeriesController.SearchSeries("Harry Potter");
+            var res = SeriesController.SearchSeries("House");
             var SeriesRes = (ObjectResult)res.Result;
             var Seriess = (List<ApiSeries>)(SeriesRes.Value);
 
@@ -427,7 +427,7 @@ namespace CultureBoxTests.APIControllers
             string apiKey = ((ApiUser)usr.Value).ApiKey;
             var apiKey2 = "31561651";
 
-            var res = SeriesController.SearchSeries("Harry Potter");
+            var res = SeriesController.SearchSeries("House");
             var SeriesRes = (ObjectResult)res.Result;
             var Seriess = (List<ApiSeries>)(SeriesRes.Value);
 

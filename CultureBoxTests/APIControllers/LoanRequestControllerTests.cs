@@ -33,9 +33,10 @@ namespace CultureBoxTests.APIControllers
             BookController = new BookController(new ApiBookController(new BookDAO(DbExecutor)));
             LoanRequestController = new LoanRequestController(
                 new LoanRequestControllerDAO(DbExecutor), 
-                new BookDAO(DbExecutor), 
                 new UserDAO(DbExecutor), 
-                new BookCollectionDao(DbExecutor)
+                new BookCollectionDao(DbExecutor), 
+                new MovieCollectionDao(DbExecutor), 
+                new SeriesCollectionDAO(DbExecutor)
             );
         }
         
@@ -96,7 +97,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void TestSearchBookToBorrow_noTitle() {
             // Bad request, no title
-            var res1 = LoanRequestController.SearchBookToBorrow("");
+            var res1 = LoanRequestController.SearchObjectToBorrow(new SearchObjectToBorrowRequest() { Title = "", RequestObjectType = RequestObjectType.Book });
             var objectResult1 = (ObjectResult)res1.Result;
             Assert.AreEqual(400, objectResult1.StatusCode);
         }
@@ -104,7 +105,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void TestSearchBookToBorrow_noBook() {
             // DB is truncated, no books
-            var res2 = LoanRequestController.SearchBookToBorrow("Harry Potter");
+            var res2 = LoanRequestController.SearchObjectToBorrow(new SearchObjectToBorrowRequest(){Title = "Harry Potter", RequestObjectType = RequestObjectType.Book});
             var objectResult2 = (NotFoundResult)res2.Result;
             Assert.AreEqual(404, objectResult2.StatusCode);
         }
@@ -133,12 +134,7 @@ namespace CultureBoxTests.APIControllers
             Assert.IsNotNull(result4);          
             Assert.AreEqual(200, objectResult4.StatusCode);
             
-            var res5 = LoanRequestController.SearchBookToBorrow("Harry Potter");
-
-            if (res5.Result is NotFoundResult)
-            {
-                Assert.Fail();
-            }
+            var res5 = LoanRequestController.SearchObjectToBorrow(new SearchObjectToBorrowRequest() { Title = "Harry Potter", RequestObjectType = RequestObjectType.Book });
 
             var objectResult5 = (ObjectResult)res5.Result;
             Assert.AreEqual(200, objectResult5.StatusCode); 
@@ -152,7 +148,7 @@ namespace CultureBoxTests.APIControllers
             var req3 = new LoanRequest()
             {
                 IdUser = 0,
-                IdBook = -1,
+                IdObject = -1,
                 ApiKey = "fezehf"
             };
 
@@ -173,7 +169,7 @@ namespace CultureBoxTests.APIControllers
             var req3 = new LoanRequest()
             {
                 IdUser = idUser,
-                IdBook = -1,
+                IdObject = -1,
                 ApiKey = apiKey
             };
 
@@ -197,7 +193,7 @@ namespace CultureBoxTests.APIControllers
             var req3 = new LoanRequest()
             {
                 IdUser = idUser2,
-                IdBook = -1,
+                IdObject = -1,
                 ApiKey = apiKey
             };
 
@@ -228,7 +224,7 @@ namespace CultureBoxTests.APIControllers
             var objectResult4 = (ObjectResult)res4.Result;
             var result4 = (ApiBookCollection)(objectResult4.Value);
             
-            var res5 = LoanRequestController.SearchBookToBorrow("Harry Potter");
+            var res5 = LoanRequestController.SearchObjectToBorrow(new SearchObjectToBorrowRequest() { Title = "Harry Potter", RequestObjectType = RequestObjectType.Book });
             var objectResult5 = (ObjectResult)res5.Result;
             var result5 = (List<ApiObjectToBorrow>)(objectResult5.Value);
             
@@ -238,28 +234,25 @@ namespace CultureBoxTests.APIControllers
             string apiKey2 = ((ApiUser)usr2.Value).ApiKey;  
 
             Assert.AreEqual(1, result5.Count);
-            if(result5[0].IdOwner < 1) {
-                Assert.Fail();
-            }
-            if(result5[0].IdObject < 1) {
-                Assert.Fail();
-            }
+            
+            Assert.IsFalse(result5[0].IdOwner < 1);
+            Assert.IsFalse(result5[0].IdObject < 1);
 
             var reqLoan = new LoanRequest()
             {
                 IdUser = result5[0].IdOwner,
-                IdBook = result5[0].IdObject,
+                IdObject = result5[0].IdObject,
                 ApiKey = apiKey2
             };
 
             var resReqLoan = LoanRequestController.RequestLoan(reqLoan);
-            var objectResultReqLoan = (ObjectResult)resReqLoan;
+            var objectResultReqLoan = (StatusCodeResult)resReqLoan;
             Assert.AreEqual(200, objectResultReqLoan.StatusCode);
             
             var reqGetBorrow = new LoanSearchRequest()
             {
                 ApiKey = apiKey,
-                RequestType = RequestType.Borrow
+                RequestType = RequestType.Loan
             };
             var resSearch1 = LoanRequestController.GetAllRequests(reqGetBorrow);
             var objectResultSearch1 = (ObjectResult)resSearch1.Result;
@@ -270,7 +263,7 @@ namespace CultureBoxTests.APIControllers
             var reqGetBorrow2 = new LoanSearchRequest()
             {
                 ApiKey = apiKey2,
-                RequestType = RequestType.Loan
+                RequestType = RequestType.Borrow
             };
             var resSearch2 = LoanRequestController.GetAllRequests(reqGetBorrow);
             var objectResultSearch2 = (ObjectResult)resSearch2.Result;

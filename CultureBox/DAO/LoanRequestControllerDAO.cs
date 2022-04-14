@@ -10,10 +10,10 @@ namespace CultureBox.DAO
     public interface ILoanRequestControllerDAO
     {
         List<ApiLoanRequest> GetAllRequests(RequestType requestType, int id);
-        void RequestLoan(int brIdBook, int brIdUser, int idBorrower);
+        void RequestLoan(int brIdBook, int brIdUser, int idBorrower, RequestObjectType type);
         ApiLoanRequest GetRequestById(int id);
         bool UpdateLoanRequest(ApiLoanRequest lr);
-        bool IsBorrowed(int brIdBook, int brIdUser);
+        bool IsBorrowed(int brIdBook, int brIdUser, RequestObjectType type);
     }
 
     public class LoanRequestControllerDAO : ILoanRequestControllerDAO
@@ -50,14 +50,15 @@ namespace CultureBox.DAO
             return res;
         }
 
-        public void RequestLoan(int idBook, int idOwner, int idBorrower)
+        public void RequestLoan(int idBook, int idOwner, int idBorrower, RequestObjectType type)
         {
             ApiLoanRequest r = new ApiLoanRequest()
             {
                 IdBook = idBook,
                 IdOwner = idOwner,
                 IdRequester = idBorrower,
-                RequestState = RequestState.Pending
+                RequestState = RequestState.Pending,
+                RequestType = type
             };
 
             _dbExecutor.Execute(db =>
@@ -95,7 +96,7 @@ namespace CultureBox.DAO
             return res;
         }
 
-        public bool IsBorrowed(int IdBook, int IdUser)
+        public bool IsBorrowed(int IdBook, int IdUser, RequestObjectType type)
         {
             bool res = false;
 
@@ -103,7 +104,10 @@ namespace CultureBox.DAO
             {
                 var col = db.GetCollection<ApiLoanRequest>("apiloanrequest");
 
-                var result = col.FindOne(x => x.IdOwner == IdUser && x.IdRequester == IdBook && x.RequestState != RequestState.Ended);
+                var result = col.FindOne(x => x.IdOwner == IdUser && 
+                                              x.IdRequester == IdBook &&
+                                              x.RequestState != RequestState.Ended
+                                              && x.RequestType == type);
                 res = result != null;
             });
 
