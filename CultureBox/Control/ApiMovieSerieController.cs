@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using CultureBox.DAO;
 using CultureBox.Model;
-using Google.Apis.Books.v1;
-using Google.Apis.Books.v1.Data;
-using Google.Apis.Services;
 using Newtonsoft.Json;
 using RestSharp;
 
@@ -24,14 +18,14 @@ namespace CultureBox.Control
 
     public class ApiMovieSerieController : IApiMovieSerieController
     {
-        private readonly IMovieDao _movieDao;
+        private readonly IMovieDAO _movieDao;
         private readonly ISeriesDao _seriesDao;
         public const string IMDB = "https://imdb-api.com/fr";
         public const string SEARCH_MOVIE = "/API/SearchMovie/k_h13xs282/";
         public const string SEARCH_SERIES = "/API/SearchSeries/k_h13xs282/";
         
 
-        public ApiMovieSerieController(IMovieDao movieDao, ISeriesDao seriesDao)
+        public ApiMovieSerieController(IMovieDAO movieDao, ISeriesDao seriesDao)
         {
             _movieDao = movieDao;
             _seriesDao = seriesDao;
@@ -47,11 +41,14 @@ namespace CultureBox.Control
             if (t?.Result?.Content != null)
             {
                 var res = JsonConvert.DeserializeObject<ImdbMovieSeriesResult>(t.Result.Content);
-                foreach (var imdb in res.results)
+                if (res != null)
                 {
-                    var movie = new ApiMovie() {Title = imdb.title};
-                    _movieDao.AddOrUpdateMovie(movie);
-                    movies.Add(movie);
+                    foreach (var imdb in res.results)
+                    {
+                        var movie = new ApiMovie() { Title = imdb.title };
+                        _movieDao.AddOrUpdateMovie(movie);
+                        movies.Add(movie);
+                    }
                 }
             }
             return movies;
@@ -67,12 +64,16 @@ namespace CultureBox.Control
             if (t?.Result?.Content != null)
             {
                 var res = JsonConvert.DeserializeObject<ImdbMovieSeriesResult>(t.Result.Content);
-                foreach (var imdb in res.results)
+                if (res != null)
                 {
-                    var serie = new ApiSeries() { Title = imdb.title };
-                    _seriesDao.AddOrUpdateSeries(serie);
-                    series.Add(serie);
+                    foreach (var imdb in res.results)
+                    {
+                        var serie = new ApiSeries() { Title = imdb.title };
+                        _seriesDao.AddOrUpdateSeries(serie);
+                        series.Add(serie);
+                    }
                 }
+                
             }
             return series;
         }
@@ -101,17 +102,11 @@ namespace CultureBox.Control
     public class MovieResult
     {
         public string id { get; set; }
-        public string resultType { get; set; }
-        public string image { get; set; }
         public string title { get; set; }
-        public string description { get; set; }
     }
 
     public class ImdbMovieSeriesResult
     {
-        public string searchType { get; set; }
-        public string expression { get; set; }
         public List<MovieResult> results { get; set; }
-        public string errorMessage { get; set; }
     }
 }

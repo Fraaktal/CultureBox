@@ -2,9 +2,9 @@
 
 namespace CultureBox.Model
 {
-    public class ApiCollection
+    public class ApiBookCollection
     {
-        public ApiCollection()
+        public ApiBookCollection()
         {
             Books = new List<ApiBook>();
         }

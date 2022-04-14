@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 
 namespace CultureBox.Model
 {
-    public class ApiBookToBorrow
+    public class ApiObjectToBorrow
     {
-        public ApiBookToBorrow(int bookId, int idUser)
+        public ApiObjectToBorrow(int objectId, int idUser)
         {
             IdOwner = idUser;
-            IdBook = bookId;
+            IdObject = objectId;
         }
 
         public int IdOwner { get; set; }
-        public int IdBook { get; set; }
+        public int IdObject { get; set; }
     }
 }

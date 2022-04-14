@@ -5,33 +5,33 @@ using CultureBox.Model;
 
 namespace CultureBox.DAO
 {
-    public interface ICollectionDAO
+    public interface IBookCollectionDAO
     {
-        List<ApiCollection> GetAllCollection(int id);
-        ApiCollection GetCollectionById(int userId, int id);
-        ApiCollection CreateCollection(string name, int userId);
+        List<ApiBookCollection> GetAllCollection(int id);
+        ApiBookCollection GetCollectionById(int userId, int id);
+        ApiBookCollection CreateCollection(string name, int userId);
         bool DeleteCollection(int userId, int id);
-        ApiCollection AddBookToCollection(int userId, int id, ApiBook book);
-        ApiCollection RemoveBookFromCollection(ApiCollection collection, int reqBookId, out bool b);
-        List<ApiBookToBorrow> SearchBook(string title);
+        ApiBookCollection AddBookToCollection(int userId, int id, ApiBook book);
+        ApiBookCollection RemoveBookFromCollection(ApiBookCollection collection, int reqBookId, out bool b);
+        List<ApiObjectToBorrow> SearchBook(string title);
     }
 
-    public class CollectionDAO: ICollectionDAO
+    public class BookCollectionDao: IBookCollectionDAO
     {
         private readonly IDbExecutor _dbExecutor;
 
-        public CollectionDAO(IDbExecutor dbExecutor)
+        public BookCollectionDao(IDbExecutor dbExecutor)
         {
             _dbExecutor = dbExecutor;
         }
 
-        public List<ApiCollection> GetAllCollection(int id)
+        public List<ApiBookCollection> GetAllCollection(int id)
         {
-            List<ApiCollection> res = null;
+            List<ApiBookCollection> res = null;
 
             _dbExecutor.Execute(db =>
             {
-                var col = db.GetCollection<ApiCollection>("apicollection");
+                var col = db.GetCollection<ApiBookCollection>("apibookcollection");
                 col.EnsureIndex(x => x.IdUser);
                 res = col.Find(c => c.IdUser == id).ToList();
             });
@@ -39,13 +39,13 @@ namespace CultureBox.DAO
             return res;
         }
 
-        public ApiCollection GetCollectionById(int userId, int id)
+        public ApiBookCollection GetCollectionById(int userId, int id)
         {
-            ApiCollection res = null;
+            ApiBookCollection res = null;
 
             _dbExecutor.Execute(db =>
             {
-                var col = db.GetCollection<ApiCollection>("apicollection");
+                var col = db.GetCollection<ApiBookCollection>("apibookcollection");
                 col.EnsureIndex(x => x.IdUser);
                 res = col.FindOne(c => c.IdUser == userId && c.Id == id);
             });
@@ -53,15 +53,15 @@ namespace CultureBox.DAO
             return res;
         }
 
-        public ApiCollection CreateCollection(string name, int userId)
+        public ApiBookCollection CreateCollection(string name, int userId)
         {
-            ApiCollection res = new ApiCollection();
+            ApiBookCollection res = new ApiBookCollection();
             res.Name = name;
             res.IdUser = userId;
 
             _dbExecutor.Execute(db =>
             {
-                var col = db.GetCollection<ApiCollection>("apicollection");
+                var col = db.GetCollection<ApiBookCollection>("apibookcollection");
                 var collection = col.FindOne(x => x.Name == name);
                 if(collection == null)
                 {
@@ -82,7 +82,7 @@ namespace CultureBox.DAO
             bool isOk = false;
             _dbExecutor.Execute(db =>
             {
-                var col = db.GetCollection<ApiCollection>("apicollection");
+                var col = db.GetCollection<ApiBookCollection>("apibookcollection");
 
                 if (col.FindOne(x => x.Id == id && x.IdUser == id) != null)
                 {
@@ -93,16 +93,16 @@ namespace CultureBox.DAO
             return isOk;
         }
 
-        public ApiCollection AddBookToCollection(int userId, int id, ApiBook book)
+        public ApiBookCollection AddBookToCollection(int userId, int id, ApiBook book)
         {
-            ApiCollection res = GetCollectionById(userId,id);
+            ApiBookCollection res = GetCollectionById(userId,id);
 
             if (res != null)
             {
                 res.Books.Add(book);
                 _dbExecutor.Execute(db =>
                 {
-                    var col = db.GetCollection<ApiCollection>("apicollection");
+                    var col = db.GetCollection<ApiBookCollection>("apibookcollection");
                     col.Update(res);
                 });
             }
@@ -110,27 +110,27 @@ namespace CultureBox.DAO
             return res;
         }
 
-        public ApiCollection RemoveBookFromCollection(ApiCollection collection, int bookId, out bool res)
+        public ApiBookCollection RemoveBookFromCollection(ApiBookCollection collection, int bookId, out bool res)
         {
             int removed = collection.Books.RemoveAll(b => b.Id == bookId);
             res = removed > 0;
 
             _dbExecutor.Execute(db =>
             {
-                var col = db.GetCollection<ApiCollection>("apicollection");
+                var col = db.GetCollection<ApiBookCollection>("apibookcollection");
                 col.Update(collection);
             });
             
             return collection;
         }
 
-        public List<ApiBookToBorrow> SearchBook(string title)
+        public List<ApiObjectToBorrow> SearchBook(string title)
         {
-            List<ApiBookToBorrow> res = new List<ApiBookToBorrow>();
+            List<ApiObjectToBorrow> res = new List<ApiObjectToBorrow>();
 
             _dbExecutor.Execute(db =>
             {
-                var col = db.GetCollection<ApiCollection>("apicollection");
+                var col = db.GetCollection<ApiBookCollection>("apibookcollection");
                 col.EnsureIndex(x => x.Name);
                 
                 var queryResult = col.FindAll();
@@ -141,7 +141,7 @@ namespace CultureBox.DAO
 
                     if (book != null)
                     {
-                        res.Add(new ApiBookToBorrow(book.Id, c.IdUser));
+                        res.Add(new ApiObjectToBorrow(book.Id, c.IdUser));
                     }
                 }
             });

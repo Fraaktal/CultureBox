@@ -12,7 +12,7 @@ namespace CultureBoxTests.APIControllers
     [TestClass]
     public class LoanRequestControllerTests
     {
-        public CollectionController CollectionController { get; set; }
+        public BookCollectionController CollectionController { get; set; }
 
         public UserController UserController { get; set; }
         public BookController BookController { get; set; }
@@ -24,9 +24,9 @@ namespace CultureBoxTests.APIControllers
         {
             DbExecutor = new DbExecutor();
             DbExecutor.DbPath = Path.Combine(Directory.GetCurrentDirectory(), "testdb2.db");
-            CollectionController = new CollectionController(
+            CollectionController = new BookCollectionController(
                 new UserDAO(DbExecutor),
-                new CollectionDAO(DbExecutor), 
+                new BookCollectionDao(DbExecutor), 
                 new BookDAO(DbExecutor)
             );
             UserController = new UserController(new UserDAO(DbExecutor));
@@ -35,7 +35,7 @@ namespace CultureBoxTests.APIControllers
                 new LoanRequestControllerDAO(DbExecutor), 
                 new BookDAO(DbExecutor), 
                 new UserDAO(DbExecutor), 
-                new CollectionDAO(DbExecutor)
+                new BookCollectionDao(DbExecutor)
             );
         }
         
@@ -119,16 +119,16 @@ namespace CultureBoxTests.APIControllers
             // Create a collection, add a book to it
             var collection = CollectionController.CreateCollection(new ApiCollectionRequest() {ApiKey = apiKey, Name = "Collection"});
             var objectResult3 = (ObjectResult)collection.Result;
-            var result3 = (ApiCollection)(objectResult3).Value;
+            var result3 = (ApiBookCollection)(objectResult3).Value;
             
             var book = BookController.SearchBook("Harry Potter");
             var bookRes = (ObjectResult)book.Result;
             var books = (List<ApiBook>)(bookRes.Value);
             
-            var req = new ApiCollectionItemRequest(){ApiKey = apiKey, BookId = books[0].Id};
+            var req = new ApiCollectionItemRequest(){ApiKey = apiKey, ObjectId = books[0].Id};
             var res4 = CollectionController.AddBookToCollection(result3.Id, req);
             var objectResult4 = (ObjectResult)res4.Result;
-            var result4 = (ApiCollection)(objectResult4.Value);
+            var result4 = (ApiBookCollection)(objectResult4.Value);
             
             Assert.IsNotNull(result4);          
             Assert.AreEqual(200, objectResult4.StatusCode);
@@ -142,7 +142,7 @@ namespace CultureBoxTests.APIControllers
 
             var objectResult5 = (ObjectResult)res5.Result;
             Assert.AreEqual(200, objectResult5.StatusCode); 
-            var searched = (List<ApiBookToBorrow>)(objectResult5.Value); 
+            var searched = (List<ApiObjectToBorrow>)(objectResult5.Value); 
             Assert.AreEqual(1, searched.Count); 
         }
         
@@ -217,20 +217,20 @@ namespace CultureBoxTests.APIControllers
             // Create a collection, add a book to it
             var collection = CollectionController.CreateCollection(new ApiCollectionRequest() {ApiKey = apiKey, Name = "Collection"});
             var objectResult1 = (ObjectResult)collection.Result;
-            var result3 = (ApiCollection)(objectResult1).Value;
+            var result3 = (ApiBookCollection)(objectResult1).Value;
             
             var book = BookController.SearchBook("Harry Potter");
             var bookRes = (ObjectResult)book.Result;
             var books = (List<ApiBook>)(bookRes.Value);
             
-            var req = new ApiCollectionItemRequest(){ApiKey = apiKey, BookId = books[0].Id};
+            var req = new ApiCollectionItemRequest(){ApiKey = apiKey, ObjectId = books[0].Id};
             var res4 = CollectionController.AddBookToCollection(result3.Id, req);
             var objectResult4 = (ObjectResult)res4.Result;
-            var result4 = (ApiCollection)(objectResult4.Value);
+            var result4 = (ApiBookCollection)(objectResult4.Value);
             
             var res5 = LoanRequestController.SearchBookToBorrow("Harry Potter");
             var objectResult5 = (ObjectResult)res5.Result;
-            var result5 = (List<ApiBookToBorrow>)(objectResult5.Value);
+            var result5 = (List<ApiObjectToBorrow>)(objectResult5.Value);
             
             // Create user 2
             var user2 = UserController.CreateUser(new APIRequestUser() {Username = "test2", Password = "test2"});
@@ -241,14 +241,14 @@ namespace CultureBoxTests.APIControllers
             if(result5[0].IdOwner < 1) {
                 Assert.Fail();
             }
-            if(result5[0].IdBook < 1) {
+            if(result5[0].IdObject < 1) {
                 Assert.Fail();
             }
 
             var reqLoan = new LoanRequest()
             {
                 IdUser = result5[0].IdOwner,
-                IdBook = result5[0].IdBook,
+                IdBook = result5[0].IdObject,
                 ApiKey = apiKey2
             };
 

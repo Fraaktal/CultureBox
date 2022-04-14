@@ -50,7 +50,7 @@ namespace CultureBox.DAO
         {
             _dbExecutor.Execute(db =>
             {
-                var col = db.GetCollection<ApiSeries>("apimovie");
+                var col = db.GetCollection<ApiSeries>("apiseries");
                 var existingBook = col.FindOne(b => b.Title == movie.Title);
 
                 if (existingBook == null)

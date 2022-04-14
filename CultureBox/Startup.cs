@@ -57,9 +57,9 @@ namespace CultureBox
             services.AddScoped<IApiMovieSerieController, ApiMovieSerieController>();
             services.AddScoped<IUserDAO, UserDAO>();
             services.AddScoped<IBookDAO, BookDAO>();
-            services.AddScoped<IMovieDao, MovieDao>();
+            services.AddScoped<IMovieDAO, MovieDao>();
             services.AddScoped<ISeriesDao, SeriesDao>();
-            services.AddScoped<ICollectionDAO, CollectionDAO>();
+            services.AddScoped<IBookCollectionDAO, BookCollectionDao>();
             services.AddScoped<ILoanRequestControllerDAO, LoanRequestControllerDAO>();
         }
     }

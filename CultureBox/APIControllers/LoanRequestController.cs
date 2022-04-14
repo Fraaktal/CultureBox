@@ -15,15 +15,15 @@ namespace CultureBox.APIControllers
         private readonly ILoanRequestControllerDAO _loanRequestControllerDAO;
         private readonly IBookDAO _bookDao;
         private readonly IUserDAO _userDao;
-        private readonly ICollectionDAO _collectionDao;
+        private readonly IBookCollectionDAO _bookCollectionDao;
 
         public LoanRequestController(ILoanRequestControllerDAO loanRequestControllerDAO, IBookDAO bookDao, 
-            IUserDAO userDao, ICollectionDAO collectionDao)
+            IUserDAO userDao, IBookCollectionDAO bookCollectionDao)
         {
             _loanRequestControllerDAO = loanRequestControllerDAO;
             _bookDao = bookDao;
             _userDao = userDao;
-            _collectionDao = collectionDao;
+            _bookCollectionDao = bookCollectionDao;
         }
         
         [HttpGet]
@@ -87,7 +87,7 @@ namespace CultureBox.APIControllers
                 return BadRequest("CANNOT_BORROW_TO_ONESELF");
             }
 
-            var collections = _collectionDao.GetAllCollection(br.IdUser);
+            var collections = _bookCollectionDao.GetAllCollection(br.IdUser);
 
             if (collections == null)
             {
@@ -157,14 +157,14 @@ namespace CultureBox.APIControllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<List<ApiBookToBorrow>> SearchBookToBorrow(string title)
+        public ActionResult<List<ApiObjectToBorrow>> SearchBookToBorrow(string title)
         {
             if (string.IsNullOrEmpty(title))
             {
                 return BadRequest("INVALID_PARAMETERS");
             }
 
-            var bookAndOwner = _collectionDao.SearchBook(title);
+            var bookAndOwner = _bookCollectionDao.SearchBook(title);
 
             if (bookAndOwner.Count == 0)
             {

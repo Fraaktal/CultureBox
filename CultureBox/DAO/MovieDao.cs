@@ -6,14 +6,14 @@ using CultureBox.Model;
 
 namespace CultureBox.DAO
 {
-    public interface IMovieDao
+    public interface IMovieDAO
     {
         List<ApiMovie> GetAllMovies(int resCount, int offset);
         ApiMovie GetMovieById(int id);
         void AddOrUpdateMovie(ApiMovie movie);
     }
 
-    public class MovieDao : IMovieDao
+    public class MovieDao : IMovieDAO
     {
         private readonly IDbExecutor _dbExecutor;
 

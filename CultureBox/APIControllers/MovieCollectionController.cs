@@ -8,29 +8,29 @@ namespace CultureBox.APIControllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CollectionController : ControllerBase
+    public class MovieCollectionController : ControllerBase
     {
         private readonly IUserDAO _userDao;
-        private readonly ICollectionDAO _collectionDao;
-        private readonly IBookDAO _bookDao;
+        private readonly IMovieCollectionDAO _movieCollectionDao;
+        private readonly IMovieDAO _movieDao;
 
-        public CollectionController(IUserDAO userDao, ICollectionDAO collectionDAO, IBookDAO bookDao)
+        public MovieCollectionController(IUserDAO userDao, IMovieCollectionDAO movieCollectionDao, IMovieDAO movieDao)
         {
             _userDao = userDao;
-            _collectionDao = collectionDAO;
-            _bookDao = bookDao;
+            _movieCollectionDao = movieCollectionDao;
+            _movieDao = movieDao;
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<List<ApiCollection>> GetAllCollection([FromBody] string apiKey)
+        public ActionResult<List<ApiMovieCollection>> GetAllCollection([FromBody] string apiKey)
         {
             int userId = _userDao.GetUserId(apiKey);
             if (userId != -1)
             {
-                var res = _collectionDao.GetAllCollection(userId);
+                var res = _movieCollectionDao.GetAllCollection(userId);
                 return Ok(res);
             }
 
@@ -41,12 +41,12 @@ namespace CultureBox.APIControllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<ApiCollection> GetCollectionById(int id, [FromBody] string apiKey)
+        public ActionResult<ApiMovieCollection> GetCollectionById(int id, [FromBody] string apiKey)
         {
             int userId = _userDao.GetUserId(apiKey);
             if (userId != -1)
             {
-                var res = _collectionDao.GetCollectionById(userId, id);
+                var res = _movieCollectionDao.GetCollectionById(userId, id);
                 if (res != null)
                 {
                     return Ok(res);
@@ -62,20 +62,20 @@ namespace CultureBox.APIControllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<ApiCollection> CreateCollection([FromBody] ApiCollectionRequest req)
+        public ActionResult<ApiMovieCollection> CreateCollection([FromBody] ApiCollectionRequest req)
         {
             if (req == null)
             {
                 return BadRequest("EMPTY_PARAMETERS");
             }
-            
+
             int userId = GetUserId(req.ApiKey);
 
             if (userId != -1)
             {
                 if (!string.IsNullOrEmpty(req.Name))
                 {
-                    var res = _collectionDao.CreateCollection(req.Name, userId);
+                    var res = _movieCollectionDao.CreateCollection(req.Name, userId);
 
                     if (res != null)
                     {
@@ -101,7 +101,7 @@ namespace CultureBox.APIControllers
 
             if (userId != -1)
             {
-                bool res = _collectionDao.DeleteCollection(userId, id);
+                bool res = _movieCollectionDao.DeleteCollection(userId, id);
                 if (res)
                 {
                     return Ok();
@@ -117,16 +117,16 @@ namespace CultureBox.APIControllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<ApiCollection> AddBookToCollection(int id, [FromBody] ApiCollectionItemRequest req)
+        public ActionResult<ApiMovieCollection> AddMovieToCollection(int id, [FromBody] ApiCollectionItemRequest req)
         {
             int userId = GetUserId(req.ApiKey);
             if (userId != -1)
             {
-                var book = _bookDao.GetBookById(req.BookId);
+                var Movie = _movieDao.GetMovieById(req.ObjectId);
 
-                if (book != null)
+                if (Movie != null)
                 {
-                    var collection = _collectionDao.AddBookToCollection(userId, id, book);
+                    var collection = _movieCollectionDao.AddMovieToCollection(userId, id, Movie);
                     if (collection != null)
                     {
                         return Ok(collection);
@@ -135,31 +135,31 @@ namespace CultureBox.APIControllers
                     return NotFound("COLLECTION_NOT_FOUND");
                 }
 
-                return NotFound("BOOK_NOT_FOUND");
+                return NotFound("Movie_NOT_FOUND");
             }
 
             return BadRequest("INVALID_CREDENTIALS");
         }
 
-        [HttpDelete("/{id}/{bookId}")]
+        [HttpDelete("/{id}/{MovieId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<ApiCollection> RemoveBookFromCollection(int id, int bookId, [FromBody] string apiKey)
+        public ActionResult<ApiMovieCollection> RemoveMovieFromCollection(int id, int MovieId, [FromBody] string apiKey)
         {
             int userId = GetUserId(apiKey);
             if (userId != -1)
             {
-                var collection = _collectionDao.GetCollectionById(userId, id);
+                var collection = _movieCollectionDao.GetCollectionById(userId, id);
                 if (collection != null)
                 {
-                    collection = _collectionDao.RemoveBookFromCollection(collection, bookId, out bool res);
+                    collection = _movieCollectionDao.RemoveMovieFromCollection(collection, MovieId, out bool res);
                     if (res)
                     {
                         return Ok(collection);
                     }
 
-                    return NotFound("BOOK_NOT_FOUND");
+                    return NotFound("Movie_NOT_FOUND");
                 }
 
                 return NotFound("COLLECTION_NOT_FOUND");
@@ -180,17 +180,5 @@ namespace CultureBox.APIControllers
 
             return res;
         }
-    }
-
-    public class ApiCollectionRequest
-    {
-        public string Name { get; set; }
-        public string ApiKey { get; set; }
-    }
-    
-    public class ApiCollectionItemRequest
-    {
-        public int BookId { get; set; }
-        public string ApiKey { get; set; }
     }
 }
