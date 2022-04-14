@@ -31,7 +31,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void CreateUserTest()
         {
-            var user = new APIRequestUser() {Username = "Test", Password = "pass"};
+            var user = new RequestUser() {Username = "Test", Password = "pass"};
             var res = UserController.CreateUser(user);
 
             var objectResult = (OkObjectResult) res.Result;
@@ -46,7 +46,7 @@ namespace CultureBoxTests.APIControllers
         public void CreateUserTest_2UsersSamePseudo()
         {
             // We test to create 1 user (OK)
-            var user = new APIRequestUser() {Username = "Test", Password = "pass"};
+            var user = new RequestUser() {Username = "Test", Password = "pass"};
             var res1 = UserController.CreateUser(user);
             var objectResult = (ObjectResult) res1.Result;
             var result = (ApiUser)(objectResult).Value;
@@ -55,7 +55,7 @@ namespace CultureBoxTests.APIControllers
             Assert.AreEqual(200, objectResult.StatusCode);
             
             // Now, we test to add another user with the same username
-            var user2 = new APIRequestUser() {Username = "Test", Password = "pass2"};
+            var user2 = new RequestUser() {Username = "Test", Password = "pass2"};
             var res2 = UserController.CreateUser(user2);
             var objectResult2 = (ObjectResult) res2.Result;
             Assert.AreEqual(400, objectResult2.StatusCode);
@@ -70,7 +70,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void GetTest()
         {
-            var user = new APIRequestUser() { Username = "Test", Password = "pass" };
+            var user = new RequestUser() { Username = "Test", Password = "pass" };
             var res = UserController.CreateUser(user);
 
             var objectResult = (OkObjectResult)res.Result;
@@ -94,7 +94,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void GetApiKeyTest()
         {
-            var user = new APIRequestUser() { Username = "Test", Password = "pass" };
+            var user = new RequestUser() { Username = "Test", Password = "pass" };
             var res = UserController.CreateUser(user);
 
             var objectResult = (OkObjectResult)res.Result;
@@ -114,7 +114,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void DeleteUserTest()
         {
-            var user = new APIRequestUser() { Username = "Test", Password = "pass" };
+            var user = new RequestUser() { Username = "Test", Password = "pass" };
             var res = UserController.CreateUser(user);
 
             var objectResult = (OkObjectResult)res.Result;
@@ -139,7 +139,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void CreateFalseUserNoPass()
         {
-            var user = new APIRequestUser() {Username = "Test"};
+            var user = new RequestUser() {Username = "Test"};
             var res = UserController.CreateUser(user);
 
             var objectResult = (BadRequestObjectResult) res.Result;
@@ -150,7 +150,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void CreateFalseUserNoUser()
         {
-            var user = new APIRequestUser() { };
+            var user = new RequestUser() { };
             var res = UserController.CreateUser(user);
 
             var objectResult = (BadRequestObjectResult) res.Result;
@@ -161,7 +161,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void CreateFalseUserNoUserButPasswd()
         {
-            var user = new APIRequestUser() { Password = "pass"  };
+            var user = new RequestUser() { Password = "pass"  };
             var res = UserController.CreateUser(user);
 
             var objectResult = (BadRequestObjectResult) res.Result;
@@ -173,7 +173,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void GetApiKeyNoUser()
         {
-            var user = new APIRequestUser() { };
+            var user = new RequestUser() { };
             var res = UserController.GetApiKey(user);
 
             var objectResult = (ObjectResult)res.Result;
@@ -184,7 +184,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void GetApiKeyBadUser()
         {  
-            var user = new APIRequestUser() { Username = "Toto", Password = "tata" };
+            var user = new RequestUser() { Username = "Toto", Password = "tata" };
             var res = UserController.GetApiKey(user);
 
             var objectResult = (ObjectResult)res.Result;
@@ -203,7 +203,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void TestDeleteUser()
         {
-            var user = new APIRequestUser() { Username = "Test", Password = "pass" };
+            var user = new RequestUser() { Username = "Test", Password = "pass" };
             UserController.CreateUser(user);
             var res = UserController.DeleteUser(1, "test");
 
@@ -224,11 +224,11 @@ namespace CultureBoxTests.APIControllers
         public void TestDeleteUser_BadAPIKey()
         {
             // User id = 1 because the database is truncated.
-            var user = new APIRequestUser() { Username = "Test", Password = "pass" };
+            var user = new RequestUser() { Username = "Test", Password = "pass" };
             UserController.CreateUser(user);
             
             // User id = 2 because the database is truncated.
-            var user2 = new APIRequestUser() { Username = "Test2", Password = "pass2" };
+            var user2 = new RequestUser() { Username = "Test2", Password = "pass2" };
             UserController.CreateUser(user2);
             var apiKey2 = UserController.GetApiKey(user2);
             var apiKey2s = ((ObjectResult) apiKey2.Result).Value.ToString();

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
-using CultureBox.APIControllers;
 using CultureBox.Model;
 
 namespace CultureBox.DAO

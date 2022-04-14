@@ -50,7 +50,7 @@ namespace CultureBoxTests.APIControllers
         public void TestGetAllRequests_noReqs()
         {
             // Create user 1 
-            var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
+            var user = UserController.CreateUser(new RequestUser() {Username = "test", Password = "test"});
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
             
@@ -113,7 +113,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void TestSearchBookToBorrow() {
             // Create user 1 
-            var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
+            var user = UserController.CreateUser(new RequestUser() {Username = "test", Password = "test"});
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;            
             
@@ -160,7 +160,7 @@ namespace CultureBoxTests.APIControllers
         
         [TestMethod]
         public void TestRequestLoan_SameUser() { 
-            var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
+            var user = UserController.CreateUser(new RequestUser() {Username = "test", Password = "test"});
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;  
             int idUser = ((ApiUser)usr.Value).Id;    
@@ -181,12 +181,12 @@ namespace CultureBoxTests.APIControllers
         
         [TestMethod]
         public void TestRequestLoan_BadBook() { 
-            var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
+            var user = UserController.CreateUser(new RequestUser() {Username = "test", Password = "test"});
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;  
             int idUser = ((ApiUser)usr.Value).Id; 
             
-            var user2 = UserController.CreateUser(new APIRequestUser() {Username = "test2", Password = "test2"});
+            var user2 = UserController.CreateUser(new RequestUser() {Username = "test2", Password = "test2"});
             var usr2 = (ObjectResult)user2.Result; 
             int idUser2 = ((ApiUser)usr2.Value).Id;    
         
@@ -206,7 +206,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void TestRequestLoan() {
             // Create user 1 
-            var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
+            var user = UserController.CreateUser(new RequestUser() {Username = "test", Password = "test"});
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;            
             
@@ -229,7 +229,7 @@ namespace CultureBoxTests.APIControllers
             var result5 = (List<ApiObjectToBorrow>)(objectResult5.Value);
             
             // Create user 2
-            var user2 = UserController.CreateUser(new APIRequestUser() {Username = "test2", Password = "test2"});
+            var user2 = UserController.CreateUser(new RequestUser() {Username = "test2", Password = "test2"});
             var usr2 = (ObjectResult)user2.Result;
             string apiKey2 = ((ApiUser)usr2.Value).ApiKey;  
 

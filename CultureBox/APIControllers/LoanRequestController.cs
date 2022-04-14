@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using CultureBox.DAO;
 using CultureBox.Model;
@@ -261,33 +260,5 @@ namespace CultureBox.APIControllers
 
             return Ok(apiObjectToBorrow);
         }
-    }
-
-    //Borrow => objet que j'ai emprunté à quelqu'un, Loan => Objet que j'ai prêté à quelqu'un.
-    public enum RequestType {Borrow, Loan, All}
-    public class LoanSearchRequest
-    {
-        public RequestType RequestType { get; set; }
-        public string ApiKey { get; set; }
-    } 
-    
-    public class ApiLoanRequestUpdate
-    {
-        public RequestState RequestState { get; set; }
-        public string ApiKey { get; set; }
-    }
-    
-    public class SearchObjectToBorrowRequest
-    {
-        public RequestObjectType RequestObjectType { get; set; }
-        public string Title { get; set; }
-    }
-
-    public class LoanRequest
-    {
-        public int IdUser { get; set; }
-        public int IdObject { get; set; }
-        public string ApiKey { get; set; }
-        public RequestObjectType RequestObjectType { get; set; }
     }
 }

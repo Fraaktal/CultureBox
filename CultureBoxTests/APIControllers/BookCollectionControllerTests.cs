@@ -37,7 +37,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void GetAllCollectionTest()
         {
-            var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
+            var user = UserController.CreateUser(new RequestUser() {Username = "test", Password = "test"});
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
 
@@ -64,7 +64,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void GetAllCollectionTest_1()
         {
-            var user = UserController.CreateUser(new APIRequestUser() { Username = "test", Password = "test" });
+            var user = UserController.CreateUser(new RequestUser() { Username = "test", Password = "test" });
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
 
@@ -86,7 +86,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void GetCollectionByIdTest()
         {
-            var user = UserController.CreateUser(new APIRequestUser() { Username = "test", Password = "test" });
+            var user = UserController.CreateUser(new RequestUser() { Username = "test", Password = "test" });
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
             
@@ -106,7 +106,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void GetCollectionByIdNotFound()
         {
-            var user = UserController.CreateUser(new APIRequestUser() { Username = "test", Password = "test" });
+            var user = UserController.CreateUser(new RequestUser() { Username = "test", Password = "test" });
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
             
@@ -119,7 +119,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void GetCollectionByIdBadReq()
         {
-            var user = UserController.CreateUser(new APIRequestUser() { Username = "test", Password = "test" });
+            var user = UserController.CreateUser(new RequestUser() { Username = "test", Password = "test" });
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
             var apiKey2 = "dfgdfgdfg";
@@ -137,7 +137,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void CreateCollectionTest()
         {
-            var user = UserController.CreateUser(new APIRequestUser() { Username = "test", Password = "test" });
+            var user = UserController.CreateUser(new RequestUser() { Username = "test", Password = "test" });
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
             
@@ -155,7 +155,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void CreateCollectionBadReqNameTaken()
         {
-            var user = UserController.CreateUser(new APIRequestUser() { Username = "test", Password = "test" });
+            var user = UserController.CreateUser(new RequestUser() { Username = "test", Password = "test" });
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
             
@@ -171,7 +171,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void CreateCollectionBadReqEmpty()
         {
-            var user = UserController.CreateUser(new APIRequestUser() { Username = "test", Password = "test" });
+            var user = UserController.CreateUser(new RequestUser() { Username = "test", Password = "test" });
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
             
@@ -186,7 +186,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void CreateCollectionBadReqNameEmpty()
         {
-            var user = UserController.CreateUser(new APIRequestUser() { Username = "test", Password = "test" });
+            var user = UserController.CreateUser(new RequestUser() { Username = "test", Password = "test" });
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
             
@@ -216,7 +216,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void DeleteCollection()
         {
-            var user = UserController.CreateUser(new APIRequestUser() { Username = "test", Password = "test" });
+            var user = UserController.CreateUser(new RequestUser() { Username = "test", Password = "test" });
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
             
@@ -237,7 +237,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void DeleteCollectionNotFound()
         {
-            var user = UserController.CreateUser(new APIRequestUser() { Username = "test", Password = "test" });
+            var user = UserController.CreateUser(new RequestUser() { Username = "test", Password = "test" });
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
             
@@ -250,7 +250,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void DeleteCollectionBadReq()
         {
-            var user = UserController.CreateUser(new APIRequestUser() { Username = "test", Password = "test" });
+            var user = UserController.CreateUser(new RequestUser() { Username = "test", Password = "test" });
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
             var apiKey2 = "dvsdf";
@@ -269,7 +269,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void AddBookToCollectionTest()
         {
-            var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
+            var user = UserController.CreateUser(new RequestUser() {Username = "test", Password = "test"});
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
 
@@ -294,7 +294,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void AddBooktoCollectionNotFound()
         {
-            var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
+            var user = UserController.CreateUser(new RequestUser() {Username = "test", Password = "test"});
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
 
@@ -313,7 +313,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void AddBookToCollectionBookNotFound()
         {
-            var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
+            var user = UserController.CreateUser(new RequestUser() {Username = "test", Password = "test"});
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
             
@@ -332,7 +332,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void AddBookToCollectionBadReq()
         {
-            var user = UserController.CreateUser(new APIRequestUser() { Username = "test", Password = "test" });
+            var user = UserController.CreateUser(new RequestUser() { Username = "test", Password = "test" });
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
 
@@ -357,7 +357,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void RemoveBookFromCollectionTest()
         {
-            var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
+            var user = UserController.CreateUser(new RequestUser() {Username = "test", Password = "test"});
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
 
@@ -384,7 +384,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void RemoveBooktoCollectionNotFound()
         {
-            var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
+            var user = UserController.CreateUser(new RequestUser() {Username = "test", Password = "test"});
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
 
@@ -403,7 +403,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void RemoveBookToCollectionBookNotFound()
         {
-            var user = UserController.CreateUser(new APIRequestUser() {Username = "test", Password = "test"});
+            var user = UserController.CreateUser(new RequestUser() {Username = "test", Password = "test"});
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
             
@@ -422,7 +422,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void RemoveBookToCollectionBadReq()
         {
-            var user = UserController.CreateUser(new APIRequestUser() { Username = "test", Password = "test" });
+            var user = UserController.CreateUser(new RequestUser() { Username = "test", Password = "test" });
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;
             var apiKey2 = "31561651";

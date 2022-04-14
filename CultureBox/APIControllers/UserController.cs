@@ -42,7 +42,7 @@ namespace CultureBox.APIControllers
         [HttpGet("apikey")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<string> GetApiKey([FromBody] APIRequestUser u)
+        public ActionResult<string> GetApiKey([FromBody] RequestUser u)
         {
             var apiKey = _userDao.GetApiKey(u.Username, u.Password);
             if (!string.IsNullOrEmpty(apiKey))
@@ -56,7 +56,7 @@ namespace CultureBox.APIControllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<ApiUser> CreateUser([FromBody] APIRequestUser u)
+        public ActionResult<ApiUser> CreateUser([FromBody] RequestUser u)
         {
             if (string.IsNullOrEmpty(u.Username) && string.IsNullOrEmpty(u.Password))
             {
@@ -120,11 +120,5 @@ namespace CultureBox.APIControllers
 
             return NotFound("USER_NOT_FOUND");
         }
-    }
-
-    public class APIRequestUser
-    {
-        public string Username { get; set; }
-        public string Password { get; set; }
     }
 }
