@@ -5,33 +5,33 @@ using CultureBox.Model;
 
 namespace CultureBox.DAO
 {
-    public interface IMovieCollectionDAO
+    public interface ISeriesCollectionDAO
     {
-        List<ApiMovieCollection> GetAllCollection(int id);
-        ApiMovieCollection GetCollectionById(int userId, int id);
-        ApiMovieCollection CreateCollection(string name, int userId);
+        List<ApiSeriesCollection> GetAllCollection(int id);
+        ApiSeriesCollection GetCollectionById(int userId, int id);
+        ApiSeriesCollection CreateCollection(string name, int userId);
         bool DeleteCollection(int userId, int id);
-        ApiMovieCollection AddMovieToCollection(int userId, int id, ApiMovie Movie);
-        ApiMovieCollection RemoveMovieFromCollection(ApiMovieCollection collection, int reqMovieId, out bool b);
-        List<ApiObjectToBorrow> SearchMovie(string title);
+        ApiSeriesCollection AddSeriesToCollection(int userId, int id, ApiSeries Series);
+        ApiSeriesCollection RemoveSeriesFromCollection(ApiSeriesCollection collection, int reqSeriesId, out bool b);
+        List<ApiObjectToBorrow> SearchSeries(string title);
     }
 
-    public class MovieCollectionDao : IMovieCollectionDAO
+    public class SeriesCollectionDAO : ISeriesCollectionDAO
     {
         private readonly IDbExecutor _dbExecutor;
 
-        public MovieCollectionDao(IDbExecutor dbExecutor)
+        public SeriesCollectionDAO(IDbExecutor dbExecutor)
         {
             _dbExecutor = dbExecutor;
         }
 
-        public List<ApiMovieCollection> GetAllCollection(int id)
+        public List<ApiSeriesCollection> GetAllCollection(int id)
         {
-            List<ApiMovieCollection> res = null;
+            List<ApiSeriesCollection> res = null;
 
             _dbExecutor.Execute(db =>
             {
-                var col = db.GetCollection<ApiMovieCollection>("apimoviecollection");
+                var col = db.GetCollection<ApiSeriesCollection>("apiseriescollection");
                 col.EnsureIndex(x => x.IdUser);
                 res = col.Find(c => c.IdUser == id).ToList();
             });
@@ -39,13 +39,13 @@ namespace CultureBox.DAO
             return res;
         }
 
-        public ApiMovieCollection GetCollectionById(int userId, int id)
+        public ApiSeriesCollection GetCollectionById(int userId, int id)
         {
-            ApiMovieCollection res = null;
+            ApiSeriesCollection res = null;
 
             _dbExecutor.Execute(db =>
             {
-                var col = db.GetCollection<ApiMovieCollection>("apimoviecollection");
+                var col = db.GetCollection<ApiSeriesCollection>("apiseriescollection");
                 col.EnsureIndex(x => x.IdUser);
                 res = col.FindOne(c => c.IdUser == userId && c.Id == id);
             });
@@ -53,15 +53,15 @@ namespace CultureBox.DAO
             return res;
         }
 
-        public ApiMovieCollection CreateCollection(string name, int userId)
+        public ApiSeriesCollection CreateCollection(string name, int userId)
         {
-            ApiMovieCollection res = new ApiMovieCollection();
+            ApiSeriesCollection res = new ApiSeriesCollection();
             res.Name = name;
             res.IdUser = userId;
 
             _dbExecutor.Execute(db =>
             {
-                var col = db.GetCollection<ApiMovieCollection>("apimoviecollection");
+                var col = db.GetCollection<ApiSeriesCollection>("apiseriescollection");
                 var collection = col.FindOne(x => x.Name == name);
                 if (collection == null)
                 {
@@ -82,7 +82,7 @@ namespace CultureBox.DAO
             bool isOk = false;
             _dbExecutor.Execute(db =>
             {
-                var col = db.GetCollection<ApiMovieCollection>("apimoviecollection");
+                var col = db.GetCollection<ApiSeriesCollection>("apiseriescollection");
 
                 if (col.FindOne(x => x.Id == id && x.IdUser == id) != null)
                 {
@@ -93,16 +93,16 @@ namespace CultureBox.DAO
             return isOk;
         }
 
-        public ApiMovieCollection AddMovieToCollection(int userId, int id, ApiMovie Movie)
+        public ApiSeriesCollection AddSeriesToCollection(int userId, int id, ApiSeries Series)
         {
-            ApiMovieCollection res = GetCollectionById(userId, id);
+            ApiSeriesCollection res = GetCollectionById(userId, id);
 
             if (res != null)
             {
-                res.Movies.Add(Movie);
+                res.Series.Add(Series);
                 _dbExecutor.Execute(db =>
                 {
-                    var col = db.GetCollection<ApiMovieCollection>("apimoviecollection");
+                    var col = db.GetCollection<ApiSeriesCollection>("apiseriescollection");
                     col.Update(res);
                 });
             }
@@ -110,38 +110,38 @@ namespace CultureBox.DAO
             return res;
         }
 
-        public ApiMovieCollection RemoveMovieFromCollection(ApiMovieCollection collection, int MovieId, out bool res)
+        public ApiSeriesCollection RemoveSeriesFromCollection(ApiSeriesCollection collection, int SeriesId, out bool res)
         {
-            int removed = collection.Movies.RemoveAll(b => b.Id == MovieId);
+            int removed = collection.Series.RemoveAll(b => b.Id == SeriesId);
             res = removed > 0;
 
             _dbExecutor.Execute(db =>
             {
-                var col = db.GetCollection<ApiMovieCollection>("apimoviecollection");
+                var col = db.GetCollection<ApiSeriesCollection>("apiseriescollection");
                 col.Update(collection);
             });
 
             return collection;
         }
 
-        public List<ApiObjectToBorrow> SearchMovie(string title)
+        public List<ApiObjectToBorrow> SearchSeries(string title)
         {
             List<ApiObjectToBorrow> res = new List<ApiObjectToBorrow>();
 
             _dbExecutor.Execute(db =>
             {
-                var col = db.GetCollection<ApiMovieCollection>("apimoviecollection");
+                var col = db.GetCollection<ApiSeriesCollection>("apiseriescollection");
                 col.EnsureIndex(x => x.Name);
 
                 var queryResult = col.FindAll();
 
                 foreach (var c in queryResult)
                 {
-                    var Movie = c.Movies.FirstOrDefault(b => b.Title?.Contains(title) ?? false);
+                    var Series = c.Series.FirstOrDefault(b => b.Title?.Contains(title) ?? false);
 
-                    if (Movie != null)
+                    if (Series != null)
                     {
-                        res.Add(new ApiObjectToBorrow(Movie.Id, c.IdUser));
+                        res.Add(new ApiObjectToBorrow(Series.Id, c.IdUser));
                     }
                 }
             });

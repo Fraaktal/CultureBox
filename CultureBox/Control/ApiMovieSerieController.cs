@@ -41,7 +41,7 @@ namespace CultureBox.Control
             if (t?.Result?.Content != null)
             {
                 var res = JsonConvert.DeserializeObject<ImdbMovieSeriesResult>(t.Result.Content);
-                if (res != null)
+                if (res?.results != null)
                 {
                     foreach (var imdb in res.results)
                     {
@@ -64,7 +64,7 @@ namespace CultureBox.Control
             if (t?.Result?.Content != null)
             {
                 var res = JsonConvert.DeserializeObject<ImdbMovieSeriesResult>(t.Result.Content);
-                if (res != null)
+                if (res?.results != null)
                 {
                     foreach (var imdb in res.results)
                     {
