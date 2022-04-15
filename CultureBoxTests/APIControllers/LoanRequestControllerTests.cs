@@ -841,6 +841,13 @@ namespace CultureBoxTests.APIControllers
             var resultSearch2 = (List<ApiLoanRequest>)(objectResultSearch2.Value);
             Assert.AreEqual(200, objectResultSearch2.StatusCode);
             Assert.AreEqual(1, resultSearch2.Count);
+            
+            // Can we get id ?
+            var reqGet = LoanRequestController.GetRequestById(1, apiKey);
+            var objetResReqGet = (ObjectResult)reqGet.Result;
+            var resultReqGet = (List<ApiLoanRequest>)(objetResReqGet.Value);
+            Assert.AreEqual(200, objetResReqGet.StatusCode);
+            Assert.AreEqual(1, resultReqGet.Count);
 
             var reqLoan2 = new LoanRequest()
             {
@@ -921,6 +928,13 @@ namespace CultureBoxTests.APIControllers
             var resultSearch2 = (List<ApiLoanRequest>)(objectResultSearch2.Value);
             Assert.AreEqual(200, objectResultSearch2.StatusCode);
             Assert.AreEqual(1, resultSearch2.Count);
+            
+            // Can we get id ?
+            var reqGet = LoanRequestController.GetRequestById(1, apiKey);
+            var objetResReqGet = (ObjectResult)reqGet.Result;
+            var resultReqGet = (List<ApiLoanRequest>)(objetResReqGet.Value);
+            Assert.AreEqual(200, objetResReqGet.StatusCode);
+            Assert.AreEqual(1, resultReqGet.Count);
 
             var reqLoan2 = new LoanRequest()
             {
@@ -1002,6 +1016,15 @@ namespace CultureBoxTests.APIControllers
             Assert.AreEqual(200, objectResultSearch2.StatusCode);
             Assert.AreEqual(1, resultSearch2.Count);
 
+            
+            // Can we get id ?
+            var reqGet = LoanRequestController.GetRequestById(1, apiKey);
+            var objetResReqGet = (ObjectResult)reqGet.Result;
+            var resultReqGet = (List<ApiLoanRequest>)(objetResReqGet.Value);
+            Assert.AreEqual(200, objetResReqGet.StatusCode);
+            Assert.AreEqual(1, resultReqGet.Count);
+
+
             var reqLoan2 = new LoanRequest()
             {
                 IdUser = result5[0].IdOwner,
@@ -1012,6 +1035,8 @@ namespace CultureBoxTests.APIControllers
             var resReqLoan2 = LoanRequestController.RequestLoan(reqLoan2);
             var objectResultReqLoan2 = (StatusCodeResult)resReqLoan2;
             Assert.AreEqual(400, objectResultReqLoan2.StatusCode); // Because already borrowed
+
+
         }
     }
 }
