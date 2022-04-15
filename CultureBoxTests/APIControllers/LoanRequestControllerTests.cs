@@ -1168,7 +1168,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void TestUpdateReq_BadCred() {
             var reqGet = LoanRequestController.UpdateLoanRequest(1, new ApiLoanRequestUpdate() {RequestState = RequestState.Pending, ApiKey = ""} );
-            var objetResReqGet = (StatusCodeResult)reqGet.Result;
+            var objetResReqGet = (ObjectResult)reqGet.Result;
             Assert.AreEqual(400, objetResReqGet.StatusCode); // No APIKEY
 
             // Create user 1 
@@ -1176,9 +1176,9 @@ namespace CultureBoxTests.APIControllers
             var usr = (ObjectResult)user.Result;
             string apiKey = ((ApiUser)usr.Value).ApiKey;  
             
-            var reqGet = LoanRequestController.UpdateLoanRequest(1, new ApiLoanRequestUpdate() {RequestState = RequestState.Pending, ApiKey = "apiKey"} );
-            var objetResReqGet = (StatusCodeResult)reqGet.Result;
-            Assert.AreEqual(400, objetResReqGet.StatusCode); // Bad APIKEY
+            var reqGet2 = LoanRequestController.UpdateLoanRequest(1, new ApiLoanRequestUpdate() {RequestState = RequestState.Pending, ApiKey = "apiKey"} );
+            var objetResReqGet2 = (ObjectResult)reqGet2.Result;
+            Assert.AreEqual(400, objetResReqGet2.StatusCode); // Bad APIKEY
 
         }
         [TestMethod]
@@ -1189,7 +1189,7 @@ namespace CultureBoxTests.APIControllers
             string apiKey = ((ApiUser)usr.Value).ApiKey;  
             
             var reqGet = LoanRequestController.UpdateLoanRequest(1, new ApiLoanRequestUpdate() {RequestState = RequestState.Pending, ApiKey = apiKey} );
-            var objetResReqGet = (StatusCodeResult)reqGet.Result;
+            var objetResReqGet = (ObjectResult)reqGet.Result;
             Assert.AreEqual(404, objetResReqGet.StatusCode); // No request 
 
         }
@@ -1241,7 +1241,7 @@ namespace CultureBoxTests.APIControllers
             string apiKey3 = ((ApiUser)usr3.Value).ApiKey;  
 
             var reqGet = LoanRequestController.UpdateLoanRequest(1, new ApiLoanRequestUpdate() {RequestState = RequestState.Pending, ApiKey = apiKey3} );
-            var objetResReqGet = (StatusCodeResult)reqGet.Result;
+            var objetResReqGet = (ObjectResult)reqGet.Result;
             Assert.AreEqual(400, objetResReqGet.StatusCode); // INVALID_CREDENTIALS (not the borrower and not the loaner)
 
         }
@@ -1287,22 +1287,22 @@ namespace CultureBoxTests.APIControllers
             var resReqLoan = LoanRequestController.RequestLoan(reqLoan);
             var objectResultReqLoan = (StatusCodeResult)resReqLoan;
 
-            var reqGet = LoanRequestController.UpdateLoanRequest(1, new ApiLoanRequestUpdate() {RequestState = RequestState.Accepted, ApiKey = apiKey3} );
-            var objetResReqGet = (StatusCodeResult)reqGet.Result;
-            Assert.AreEqual(200, objetResReqGet.StatusCode); // Ok
+            var reqGet1 = LoanRequestController.UpdateLoanRequest(1, new ApiLoanRequestUpdate() {RequestState = RequestState.Accepted, ApiKey = apiKey3} );
+            var objetResReqGet1 = (StatusCodeResult)reqGet1.Result;
+            Assert.AreEqual(200, objetResReqGet1.StatusCode); // Ok
 
-            var reqGet = LoanRequestController.UpdateLoanRequest(1, new ApiLoanRequestUpdate() {RequestState = RequestState.Refused, ApiKey = apiKey3} );
-            var objetResReqGet = (StatusCodeResult)reqGet.Result;
-            Assert.AreEqual(200, objetResReqGet.StatusCode); // Ok
+            var reqGe2t = LoanRequestController.UpdateLoanRequest(1, new ApiLoanRequestUpdate() {RequestState = RequestState.Refused, ApiKey = apiKey3} );
+            var objetResReqGet2 = (StatusCodeResult)reqGet2.Result;
+            Assert.AreEqual(200, objetResReqGet2.StatusCode); // Ok
 
             
-            var reqGet = LoanRequestController.UpdateLoanRequest(1, new ApiLoanRequestUpdate() {RequestState = RequestState.Ongoing, ApiKey = apiKey3} );
-            var objetResReqGet = (StatusCodeResult)reqGet.Result;
-            Assert.AreEqual(200, objetResReqGet.StatusCode); // Ok
+            var reqGet3 = LoanRequestController.UpdateLoanRequest(1, new ApiLoanRequestUpdate() {RequestState = RequestState.Ongoing, ApiKey = apiKey3} );
+            var objetResReqGet3 = (StatusCodeResult)reqGet3.Result;
+            Assert.AreEqual(200, objetResReqGet3.StatusCode); // Ok
 
-            var reqGet = LoanRequestController.UpdateLoanRequest(1, new ApiLoanRequestUpdate() {RequestState = RequestState.Ended, ApiKey = apiKey3} );
-            var objetResReqGet = (StatusCodeResult)reqGet.Result;
-            Assert.AreEqual(200, objetResReqGet.StatusCode); // Ok
+            var reqGet4 = LoanRequestController.UpdateLoanRequest(1, new ApiLoanRequestUpdate() {RequestState = RequestState.Ended, ApiKey = apiKey3} );
+            var objetResReqGet4 = (StatusCodeResult)reqGet4.Result;
+            Assert.AreEqual(200, objetResReqGet4.StatusCode); // Ok
 
         }
     }
