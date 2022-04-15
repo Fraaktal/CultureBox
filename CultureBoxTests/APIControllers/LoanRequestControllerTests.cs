@@ -1093,7 +1093,6 @@ namespace CultureBoxTests.APIControllers
 
             var reqGet = LoanRequestController.GetRequestById(1, "eie");
             var objetResReqGet = (ObjectResult)reqGet.Result;
-            var resultReqGet = (ApiLoanRequest)(objetResReqGet.Value);
             Assert.AreEqual(400, objetResReqGet.StatusCode); // Bad Request, API KEY not exists
 
             var reqGet2 = LoanRequestController.GetRequestById(1, "");
@@ -1161,7 +1160,7 @@ namespace CultureBoxTests.APIControllers
             string apiKey = ((ApiUser)usr.Value).ApiKey;  
 
             var reqGet = LoanRequestController.GetRequestById(1, apiKey);
-            var objetResReqGet = (ObjectResult)reqGet.Result;
+            var objetResReqGet = (StatusCodeResult)reqGet.Result;
             Assert.AreEqual(404, objetResReqGet.StatusCode); // Not found, no request
 
         }
