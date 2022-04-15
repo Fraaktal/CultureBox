@@ -423,7 +423,7 @@ namespace CultureBoxTests.APIControllers
             
             var book = MovieController.SearchMovie("Harry Potter");
             var bookRes = (ObjectResult)book.Result;
-            var books = (List<ApiBook>)(bookRes.Value);
+            var books = (List<ApiMovie>)(bookRes.Value);
             
             var req = new ApiCollectionItemRequest(){ApiKey = apiKey, ObjectId = books[0].Id};
             var res4 = CollectionMovieController.AddMovieToCollection(result3.Id, req);
@@ -813,7 +813,8 @@ namespace CultureBoxTests.APIControllers
             {
                 IdUser = result5[0].IdOwner,
                 IdObject = result5[0].IdObject,
-                ApiKey = apiKey2
+                ApiKey = apiKey2,
+                RequestObjectType = RequestObjectType.Book
             };
 
             var resReqLoan = LoanRequestController.RequestLoan(reqLoan);
@@ -853,11 +854,12 @@ namespace CultureBoxTests.APIControllers
             {
                 IdUser = result5[0].IdOwner,
                 IdObject = result5[0].IdObject,
-                ApiKey = apiKey2
+                ApiKey = apiKey2,
+                RequestObjectType = RequestObjectType.Book
             };
 
             var resReqLoan2 = LoanRequestController.RequestLoan(reqLoan2);
-            var objectResultReqLoan2 = (StatusCodeResult)resReqLoan2;
+            var objectResultReqLoan2 = (ObjectResult)resReqLoan2;
             Assert.AreEqual(400, objectResultReqLoan2.StatusCode); // Because already borrowed
         }
         [TestMethod]
@@ -940,11 +942,12 @@ namespace CultureBoxTests.APIControllers
             {
                 IdUser = result5[0].IdOwner,
                 IdObject = result5[0].IdObject,
-                ApiKey = apiKey2
+                ApiKey = apiKey2,
+                RequestObjectType = RequestObjectType.Movie
             };
 
             var resReqLoan2 = LoanRequestController.RequestLoan(reqLoan2);
-            var objectResultReqLoan2 = (StatusCodeResult)resReqLoan2;
+            var objectResultReqLoan2 = (ObjectResult)resReqLoan2;
             Assert.AreEqual(400, objectResultReqLoan2.StatusCode); // Because already borrowed
         }
         [TestMethod]
@@ -1029,11 +1032,12 @@ namespace CultureBoxTests.APIControllers
             {
                 IdUser = result5[0].IdOwner,
                 IdObject = result5[0].IdObject,
-                ApiKey = apiKey2
+                ApiKey = apiKey2,
+                RequestObjectType = RequestObjectType.Series
             };
 
             var resReqLoan2 = LoanRequestController.RequestLoan(reqLoan2);
-            var objectResultReqLoan2 = (StatusCodeResult)resReqLoan2;
+            var objectResultReqLoan2 = (ObjectResult)resReqLoan2;
             Assert.AreEqual(400, objectResultReqLoan2.StatusCode); // Because already borrowed
 
 

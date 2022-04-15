@@ -104,12 +104,13 @@ namespace CultureBox.APIControllers
 
         private ActionResult RequestBookLoan(LoanRequest lr, int idBorrower)
         {
-            var collections = _bookCollectionDao.GetAllCollection(lr.IdUser);
-
-            if (collections == null)
+            var user = _userDao.GetUserById(lr.IdUser);
+            if (user == null)
             {
                 return BadRequest("INVALID_USER_ID");
             }
+
+            var collections = _bookCollectionDao.GetAllCollection(lr.IdUser);
 
             if (collections.Any(c => c.Books.Any(b => b.Id == lr.IdObject)))
             {
@@ -133,14 +134,15 @@ namespace CultureBox.APIControllers
         
         private ActionResult RequestMovieLoan(LoanRequest lr, int idBorrower)
         {
-            var collections = _bookCollectionDao.GetAllCollection(lr.IdUser);
-
-            if (collections == null)
+            var user = _userDao.GetUserById(lr.IdUser);
+            if (user == null)
             {
                 return BadRequest("INVALID_USER_ID");
             }
 
-            if (collections.Any(c => c.Books.Any(b => b.Id == lr.IdObject)))
+            var collections = _movieCollectionDao.GetAllCollection(lr.IdUser);
+
+            if (collections.Any(c => c.Movies.Any(b => b.Id == lr.IdObject)))
             {
                 bool isBorrowed = _loanRequestControllerDAO.IsBorrowed(lr.IdObject, lr.IdUser, RequestObjectType.Movie);
 
@@ -162,12 +164,13 @@ namespace CultureBox.APIControllers
         
         private ActionResult RequestSeriesLoan(LoanRequest lr, int idBorrower)
         {
-            var collections = _seriesCollectionDao.GetAllCollection(lr.IdUser);
-
-            if (collections == null)
+            var user = _userDao.GetUserById(lr.IdUser);
+            if (user == null)
             {
                 return BadRequest("INVALID_USER_ID");
             }
+
+            var collections = _seriesCollectionDao.GetAllCollection(lr.IdUser);
 
             if (collections.Any(c => c.Series.Any(b => b.Id == lr.IdObject)))
             {

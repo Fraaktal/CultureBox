@@ -51,7 +51,7 @@ namespace CultureBox.DAO
         {
             ApiLoanRequest r = new ApiLoanRequest()
             {
-                IdBook = idBook,
+                IdObject = idBook,
                 IdOwner = idOwner,
                 IdRequester = idBorrower,
                 RequestState = RequestState.Pending,
@@ -102,9 +102,9 @@ namespace CultureBox.DAO
                 var col = db.GetCollection<ApiLoanRequest>("apiloanrequest");
 
                 var result = col.FindOne(x => x.IdOwner == IdUser && 
-                                              x.IdRequester == IdBook &&
-                                              x.RequestState != RequestState.Ended
-                                              && x.RequestType == type);
+                                              x.IdObject == IdBook &&
+                                              x.RequestState != RequestState.Ended &&
+                                              x.RequestType == type);
                 res = result != null;
             });
 
