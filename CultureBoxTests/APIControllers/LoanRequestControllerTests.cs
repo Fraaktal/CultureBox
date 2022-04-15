@@ -1168,7 +1168,7 @@ namespace CultureBoxTests.APIControllers
         [TestMethod]
         public void TestUpdateReq_BadCred() {
             var reqGet = LoanRequestController.UpdateLoanRequest(1, new ApiLoanRequestUpdate() {RequestState = RequestState.Pending, ApiKey = ""} );
-            var objetResReqGet = (StatusCodeResult)reqGet;
+            var objetResReqGet = (ObjectResult)reqGet.Result;
             Assert.AreEqual(400, objetResReqGet.StatusCode); // No APIKEY
 
             // Create user 1 
@@ -1241,7 +1241,7 @@ namespace CultureBoxTests.APIControllers
             string apiKey3 = ((ApiUser)usr3.Value).ApiKey;  
 
             var reqGet = LoanRequestController.UpdateLoanRequest(1, new ApiLoanRequestUpdate() {RequestState = RequestState.Pending, ApiKey = apiKey3} );
-            var objetResReqGet = (StatusCodeResult)reqGet;
+            var objetResReqGet = (ObjectResult)reqGet.Result;
             Assert.AreEqual(400, objetResReqGet.StatusCode); // INVALID_CREDENTIALS (not the borrower and not the loaner)
 
         }
