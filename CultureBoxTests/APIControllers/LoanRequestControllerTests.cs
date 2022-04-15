@@ -1246,7 +1246,7 @@ namespace CultureBoxTests.APIControllers
 
         }
         [TestMethod]
-        public void TestUpdateReq_BadUser() {
+        public void TestUpdateReq_Ok() {
 
             // Create user 1 
             var user = UserController.CreateUser(new RequestUser() {Username = "test", Password = "test"});
