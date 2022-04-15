@@ -846,9 +846,11 @@ namespace CultureBoxTests.APIControllers
             // Can we get id ?
             var reqGet = LoanRequestController.GetRequestById(1, apiKey);
             var objetResReqGet = (ObjectResult)reqGet.Result;
-            var resultReqGet = (List<ApiLoanRequest>)(objetResReqGet.Value);
+            var resultReqGet = (ApiLoanRequest)(objetResReqGet.Value);
             Assert.AreEqual(200, objetResReqGet.StatusCode);
-            Assert.AreEqual(1, resultReqGet.Count);
+            Assert.AreEqual(1, resultReqGet.Id);
+            Assert.IsNotNull(resultReqGet.IdOwner);
+            Assert.IsNotNull(resultReqGet.IdRequester);
 
             var reqLoan2 = new LoanRequest()
             {
@@ -934,9 +936,11 @@ namespace CultureBoxTests.APIControllers
             // Can we get id ?
             var reqGet = LoanRequestController.GetRequestById(1, apiKey);
             var objetResReqGet = (ObjectResult)reqGet.Result;
-            var resultReqGet = (List<ApiLoanRequest>)(objetResReqGet.Value);
+            var resultReqGet = (ApiLoanRequest)(objetResReqGet.Value);
             Assert.AreEqual(200, objetResReqGet.StatusCode);
-            Assert.AreEqual(1, resultReqGet.Count);
+            Assert.AreEqual(1, resultReqGet.Id);
+            Assert.IsNotNull(resultReqGet.IdOwner);
+            Assert.IsNotNull(resultReqGet.IdRequester);
 
             var reqLoan2 = new LoanRequest()
             {
@@ -1023,9 +1027,11 @@ namespace CultureBoxTests.APIControllers
             // Can we get id ?
             var reqGet = LoanRequestController.GetRequestById(1, apiKey);
             var objetResReqGet = (ObjectResult)reqGet.Result;
-            var resultReqGet = (List<ApiLoanRequest>)(objetResReqGet.Value);
+            var resultReqGet = (ApiLoanRequest)(objetResReqGet.Value);
             Assert.AreEqual(200, objetResReqGet.StatusCode);
-            Assert.AreEqual(1, resultReqGet.Count);
+            Assert.AreEqual(1, resultReqGet.Id);
+            Assert.IsNotNull(resultReqGet.IdOwner);
+            Assert.IsNotNull(resultReqGet.IdRequester);
 
 
             var reqLoan2 = new LoanRequest()
