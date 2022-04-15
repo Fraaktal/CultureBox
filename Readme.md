@@ -1,4 +1,3 @@
-
 ![Workflow](https://github.com/Fraaktal/CultureBox/actions/workflows/workflow.yml/badge.svg)
 ![](https://img.shields.io/github/languages/top/Fraaktal/CultureBox)
 ![](https://img.shields.io/github/issues-raw/Fraaktal/CultureBox)
