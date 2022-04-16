@@ -52,7 +52,7 @@ namespace CultureBox.APIControllers
         public ActionResult<ApiLoanRequest> GetRequestById(int id, [FromBody] string apiKey)
         {
             int userId = _userDao.GetUserId(apiKey);
-            if (id == -1)
+            if (userId == -1)
             {
                 return BadRequest("INVALID_CREDENTIALS");
             }
