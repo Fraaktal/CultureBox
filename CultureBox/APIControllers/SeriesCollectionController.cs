@@ -62,20 +62,20 @@ namespace CultureBox.APIControllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<ApiSeriesCollection> CreateCollection([FromBody] ApiCollectionRequest req)
+        public ActionResult<ApiSeriesCollection> CreateCollection([FromBody] ApiCollectionRequest request)
         {
-            if (req == null)
+            if (request == null)
             {
                 return BadRequest("EMPTY_PARAMETERS");
             }
 
-            int userId = GetUserId(req.ApiKey);
+            int userId = GetUserId(request.ApiKey);
 
             if (userId != -1)
             {
-                if (!string.IsNullOrEmpty(req.Name))
+                if (!string.IsNullOrEmpty(request.Name))
                 {
-                    var res = _seriesCollectionDao.CreateCollection(req.Name, userId);
+                    var res = _seriesCollectionDao.CreateCollection(request.Name, userId);
 
                     if (res != null)
                     {
@@ -117,12 +117,12 @@ namespace CultureBox.APIControllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<ApiSeriesCollection> AddSeriesToCollection(int id, [FromBody] ApiCollectionItemRequest req)
+        public ActionResult<ApiSeriesCollection> AddSeriesToCollection(int id, [FromBody] ApiCollectionItemRequest request)
         {
-            int userId = GetUserId(req.ApiKey);
+            int userId = GetUserId(request.ApiKey);
             if (userId != -1)
             {
-                var series = _seriesDao.GetSeriesById(req.ObjectId);
+                var series = _seriesDao.GetSeriesById(request.ObjectId);
 
                 if (series != null)
                 {

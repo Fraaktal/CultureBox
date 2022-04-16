@@ -12,7 +12,7 @@ namespace CultureBox.Model
         public List<string> Themes { get; set; }
         public string ISBN { get; set; }
 
-        public override bool Equals(object? obj)
+        public override bool Equals(object obj)
         {
             if (obj == null)
             {

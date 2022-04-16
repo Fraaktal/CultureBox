@@ -42,9 +42,9 @@ namespace CultureBox.APIControllers
         [HttpGet("apikey")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<string> GetApiKey([FromBody] RequestUser u)
+        public ActionResult<string> GetApiKey([FromBody] RequestUser request)
         {
-            var apiKey = _userDao.GetApiKey(u.Username, u.Password);
+            var apiKey = _userDao.GetApiKey(request.Username, request.Password);
             if (!string.IsNullOrEmpty(apiKey))
             {
                 return Ok(apiKey);
@@ -56,24 +56,24 @@ namespace CultureBox.APIControllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<ApiUser> CreateUser([FromBody] RequestUser u)
+        public ActionResult<ApiUser> CreateUser([FromBody] RequestUser request)
         {
-            if (string.IsNullOrEmpty(u.Username) && string.IsNullOrEmpty(u.Password))
+            if (string.IsNullOrEmpty(request.Username) && string.IsNullOrEmpty(request.Password))
             {
                 return BadRequest("MISSING_USERNAME_AND_PASSWORD");
             }
 
-            if (string.IsNullOrEmpty(u.Username))
+            if (string.IsNullOrEmpty(request.Username))
             {
                 return BadRequest("MISSING_USERNAME");
             }
 
-            if (string.IsNullOrEmpty(u.Password))
+            if (string.IsNullOrEmpty(request.Password))
             {
                 return BadRequest("MISSING_PASSWORD");
             }
 
-            var user = _userDao.CreateUser(u.Username, u.Password);
+            var user = _userDao.CreateUser(request.Username, request.Password);
             if (user != null)
             {
                 return Ok(user);

@@ -31,12 +31,12 @@ namespace CultureBox.APIControllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<List<ApiLoanRequest>> GetAllRequests([FromBody] LoanSearchRequest br)
+        public ActionResult<List<ApiLoanRequest>> GetAllRequests([FromBody] LoanSearchRequest request)
         {
-            int id = _userDao.GetUserId(br.ApiKey);
+            int id = _userDao.GetUserId(request.ApiKey);
             if (id != -1)
             {
-                var requests = _loanRequestControllerDAO.GetAllRequests(br.RequestType, id);
+                var requests = _loanRequestControllerDAO.GetAllRequests(request.RequestType, id);
                 return Ok(requests);
             }
             else
@@ -76,49 +76,49 @@ namespace CultureBox.APIControllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult RequestLoan([FromBody] LoanRequest lr)
+        public ActionResult RequestLoan([FromBody] LoanRequest request)
         {
-            int idBorrower = _userDao.GetUserId(lr.ApiKey);
+            int idBorrower = _userDao.GetUserId(request.ApiKey);
             if (idBorrower == -1)
             {
                 return BadRequest("INVALID_CREDENTIALS");
             }
 
-            if (idBorrower == lr.IdUser)
+            if (idBorrower == request.IdUser)
             {
                 return BadRequest("CANNOT_BORROW_TO_ONESELF");
             }
 
-            switch (lr.RequestObjectType)
+            switch (request.RequestObjectType)
             {
                 case RequestObjectType.Book:
-                    return RequestBookLoan(lr, idBorrower);
+                    return RequestBookLoan(request, idBorrower);
                 case RequestObjectType.Movie:
-                    return RequestMovieLoan(lr, idBorrower);
+                    return RequestMovieLoan(request, idBorrower);
                 case RequestObjectType.Series:
-                    return RequestSeriesLoan(lr, idBorrower);
+                    return RequestSeriesLoan(request, idBorrower);
                 default:
                     return BadRequest("INVALID_OBJECT_TYPE");
             }
         }
 
-        private ActionResult RequestBookLoan(LoanRequest lr, int idBorrower)
+        private ActionResult RequestBookLoan(LoanRequest request, int idBorrower)
         {
-            var user = _userDao.GetUserById(lr.IdUser);
+            var user = _userDao.GetUserById(request.IdUser);
             if (user == null)
             {
                 return BadRequest("INVALID_USER_ID");
             }
 
-            var collections = _bookCollectionDao.GetAllCollection(lr.IdUser);
+            var collections = _bookCollectionDao.GetAllCollection(request.IdUser);
 
-            if (collections.Any(c => c.Books.Any(b => b.Id == lr.IdObject)))
+            if (collections.Any(c => c.Books.Any(b => b.Id == request.IdObject)))
             {
-                bool isBorrowed = _loanRequestControllerDAO.IsBorrowed(lr.IdObject, lr.IdUser, RequestObjectType.Book);
+                bool isBorrowed = _loanRequestControllerDAO.IsBorrowed(request.IdObject, request.IdUser, RequestObjectType.Book);
 
                 if (!isBorrowed)
                 {
-                    _loanRequestControllerDAO.RequestLoan(lr.IdObject, lr.IdUser, idBorrower, RequestObjectType.Book);
+                    _loanRequestControllerDAO.RequestLoan(request.IdObject, request.IdUser, idBorrower, RequestObjectType.Book);
                     return Ok();
                 }
                 else
@@ -132,23 +132,23 @@ namespace CultureBox.APIControllers
             }
         }
         
-        private ActionResult RequestMovieLoan(LoanRequest lr, int idBorrower)
+        private ActionResult RequestMovieLoan(LoanRequest request, int idBorrower)
         {
-            var user = _userDao.GetUserById(lr.IdUser);
+            var user = _userDao.GetUserById(request.IdUser);
             if (user == null)
             {
                 return BadRequest("INVALID_USER_ID");
             }
 
-            var collections = _movieCollectionDao.GetAllCollection(lr.IdUser);
+            var collections = _movieCollectionDao.GetAllCollection(request.IdUser);
 
-            if (collections.Any(c => c.Movies.Any(b => b.Id == lr.IdObject)))
+            if (collections.Any(c => c.Movies.Any(b => b.Id == request.IdObject)))
             {
-                bool isBorrowed = _loanRequestControllerDAO.IsBorrowed(lr.IdObject, lr.IdUser, RequestObjectType.Movie);
+                bool isBorrowed = _loanRequestControllerDAO.IsBorrowed(request.IdObject, request.IdUser, RequestObjectType.Movie);
 
                 if (!isBorrowed)
                 {
-                    _loanRequestControllerDAO.RequestLoan(lr.IdObject, lr.IdUser, idBorrower, RequestObjectType.Movie);
+                    _loanRequestControllerDAO.RequestLoan(request.IdObject, request.IdUser, idBorrower, RequestObjectType.Movie);
                     return Ok();
                 }
                 else
@@ -162,23 +162,23 @@ namespace CultureBox.APIControllers
             }
         }
         
-        private ActionResult RequestSeriesLoan(LoanRequest lr, int idBorrower)
+        private ActionResult RequestSeriesLoan(LoanRequest request, int idBorrower)
         {
-            var user = _userDao.GetUserById(lr.IdUser);
+            var user = _userDao.GetUserById(request.IdUser);
             if (user == null)
             {
                 return BadRequest("INVALID_USER_ID");
             }
 
-            var collections = _seriesCollectionDao.GetAllCollection(lr.IdUser);
+            var collections = _seriesCollectionDao.GetAllCollection(request.IdUser);
 
-            if (collections.Any(c => c.Series.Any(b => b.Id == lr.IdObject)))
+            if (collections.Any(c => c.Series.Any(b => b.Id == request.IdObject)))
             {
-                bool isBorrowed = _loanRequestControllerDAO.IsBorrowed(lr.IdObject, lr.IdUser, RequestObjectType.Series);
+                bool isBorrowed = _loanRequestControllerDAO.IsBorrowed(request.IdObject, request.IdUser, RequestObjectType.Series);
 
                 if (!isBorrowed)
                 {
-                    _loanRequestControllerDAO.RequestLoan(lr.IdObject, lr.IdUser, idBorrower, RequestObjectType.Series);
+                    _loanRequestControllerDAO.RequestLoan(request.IdObject, request.IdUser, idBorrower, RequestObjectType.Series);
                     return Ok();
                 }
                 else
@@ -197,29 +197,29 @@ namespace CultureBox.APIControllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult UpdateLoanRequest(int id, [FromBody] ApiLoanRequestUpdate lr)
+        public ActionResult UpdateLoanRequest(int id, [FromBody] ApiLoanRequestUpdate request)
         {
-            var userId = _userDao.GetUserId(lr.ApiKey);
+            var userId = _userDao.GetUserId(request.ApiKey);
 
             if (userId == -1)
             {
                 return BadRequest("INVALID_CREDENTIALS");
             }
 
-            var request = _loanRequestControllerDAO.GetRequestById(id);
-            if (request == null)
+            var loanRequest = _loanRequestControllerDAO.GetRequestById(id);
+            if (loanRequest == null)
             {
                 return NotFound();
             }
 
-            if (request.IdOwner != userId && request.IdRequester != userId)
+            if (loanRequest.IdOwner != userId && loanRequest.IdRequester != userId)
             {
                 return BadRequest("INVALID_CREDENTIALS");
             }
 
-            request.RequestState = lr.RequestState;
+            loanRequest.RequestState = request.RequestState;
 
-            bool isOk = _loanRequestControllerDAO.UpdateLoanRequest(request);
+            bool isOk = _loanRequestControllerDAO.UpdateLoanRequest(loanRequest);
             
             if (isOk)
             {
@@ -231,7 +231,7 @@ namespace CultureBox.APIControllers
             }
         }
         
-        [HttpGet("SearchBookToBorrow")]
+        [HttpGet("searchBookToBorrow")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

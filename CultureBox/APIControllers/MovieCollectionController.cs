@@ -62,20 +62,20 @@ namespace CultureBox.APIControllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<ApiMovieCollection> CreateCollection([FromBody] ApiCollectionRequest req)
+        public ActionResult<ApiMovieCollection> CreateCollection([FromBody] ApiCollectionRequest request)
         {
-            if (req == null)
+            if (request == null)
             {
                 return BadRequest("EMPTY_PARAMETERS");
             }
 
-            int userId = GetUserId(req.ApiKey);
+            int userId = GetUserId(request.ApiKey);
 
             if (userId != -1)
             {
-                if (!string.IsNullOrEmpty(req.Name))
+                if (!string.IsNullOrEmpty(request.Name))
                 {
-                    var res = _movieCollectionDao.CreateCollection(req.Name, userId);
+                    var res = _movieCollectionDao.CreateCollection(request.Name, userId);
 
                     if (res != null)
                     {
@@ -117,12 +117,12 @@ namespace CultureBox.APIControllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<ApiMovieCollection> AddMovieToCollection(int id, [FromBody] ApiCollectionItemRequest req)
+        public ActionResult<ApiMovieCollection> AddMovieToCollection(int id, [FromBody] ApiCollectionItemRequest request)
         {
-            int userId = GetUserId(req.ApiKey);
+            int userId = GetUserId(request.ApiKey);
             if (userId != -1)
             {
-                var Movie = _movieDao.GetMovieById(req.ObjectId);
+                var Movie = _movieDao.GetMovieById(request.ObjectId);
 
                 if (Movie != null)
                 {
@@ -145,7 +145,7 @@ namespace CultureBox.APIControllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<ApiMovieCollection> RemoveMovieFromCollection(int id, int MovieId, [FromBody] string apiKey)
+        public ActionResult<ApiMovieCollection> RemoveMovieFromCollection(int id, int movieId, [FromBody] string apiKey)
         {
             int userId = GetUserId(apiKey);
             if (userId != -1)
@@ -153,7 +153,7 @@ namespace CultureBox.APIControllers
                 var collection = _movieCollectionDao.GetCollectionById(userId, id);
                 if (collection != null)
                 {
-                    collection = _movieCollectionDao.RemoveMovieFromCollection(collection, MovieId, out bool res);
+                    collection = _movieCollectionDao.RemoveMovieFromCollection(collection, movieId, out bool res);
                     if (res)
                     {
                         return Ok(collection);

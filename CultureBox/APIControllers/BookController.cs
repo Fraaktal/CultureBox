@@ -21,9 +21,9 @@ namespace CultureBox.APIControllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<List<ApiBook>> GetAll(int resCount = 20, int offset = 0)
+        public ActionResult<List<ApiBook>> GetAll(int resultCount = 20, int offset = 0)
         {
-            var books = _apiBookController.GetAllBooks(resCount, offset);
+            var books = _apiBookController.GetAllBooks(resultCount, offset);
             return Ok(books);
         }
 
@@ -41,7 +41,7 @@ namespace CultureBox.APIControllers
             return NotFound("BOOKS_NOT_FOUND");
         }
 
-        [HttpGet("Search")]
+        [HttpGet("search")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<List<ApiBook>> SearchBook(string title)

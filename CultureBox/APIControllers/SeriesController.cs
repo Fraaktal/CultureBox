@@ -21,9 +21,9 @@ namespace CultureBox.APIControllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<List<ApiSeries>> GetAll(int resCount = 20, int offset = 0)
+        public ActionResult<List<ApiSeries>> GetAll(int resultCount = 20, int offset = 0)
         {
-            var Seriess = _apiMovieSerieController.GetAllSeries(resCount, offset);
+            var Seriess = _apiMovieSerieController.GetAllSeries(resultCount, offset);
             return Ok(Seriess);
         }
 

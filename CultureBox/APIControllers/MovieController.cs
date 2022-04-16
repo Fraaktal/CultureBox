@@ -21,9 +21,9 @@ namespace CultureBox.APIControllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<List<ApiMovie>> GetAll(int resCount = 20, int offset = 0)
+        public ActionResult<List<ApiMovie>> GetAll(int resultCount = 20, int offset = 0)
         {
-            var movies = _apiMovieSerieController.GetAllMovies(resCount, offset);
+            var movies = _apiMovieSerieController.GetAllMovies(resultCount, offset);
             return Ok(movies);
         }
 
@@ -41,7 +41,7 @@ namespace CultureBox.APIControllers
             return NotFound("MOVIE_NOT_FOUND");
         }
 
-        [HttpGet("Search")]
+        [HttpGet("search")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<List<ApiMovie>> SearchMovie(string title)
