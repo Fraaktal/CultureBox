@@ -5,7 +5,12 @@
     <UserSecretsId>f4ea6656-8d79-493c-822c-d790bcb686f7</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
-
+  
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="Google.Apis.Books.v1" Version="1.55.0.2231" />
     <PackageReference Include="LiteDB" Version="5.0.11" />

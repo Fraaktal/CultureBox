@@ -21,6 +21,11 @@ namespace CultureBox.APIControllers
             _bookDao = bookDao;
         }
 
+        /// <summary>
+        /// Get all of the collection corresponding to the user linked to the apiKey.
+        /// </summary>
+        /// <param name="apiKey">Your apikey</param>
+        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -37,6 +42,12 @@ namespace CultureBox.APIControllers
             return BadRequest("INVALID_CREDENTIALS");
         }
 
+        /// <summary>
+        /// Get the collection corresponding to the given id if it's linked to the user corresponding to the apikey.
+        /// </summary>
+        /// <param name="id">Id of the collection</param>
+        /// <param name="apiKey">Your apikey</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -59,6 +70,12 @@ namespace CultureBox.APIControllers
             return BadRequest("INVALID_CREDENTIALS");
         }
 
+        /// <summary>
+        /// Create a new collection with the given name using your apiKey.
+        /// </summary>
+        /// <param name="request">Name: The name of your collection
+        /// ApiKey: your apikey</param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -91,6 +108,12 @@ namespace CultureBox.APIControllers
             return BadRequest("INVALID_CREDENTIALS");
         }
 
+        /// <summary>
+        /// Deletes the collection corresponding to the given id if it's linked to the user corresponding to the apikey.
+        /// </summary>
+        /// <param name="id">Id of the collection</param>
+        /// <param name="apiKey">Your apikey</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -113,6 +136,13 @@ namespace CultureBox.APIControllers
             return BadRequest("INVALID_CREDENTIALS");
         }
 
+        /// <summary>
+        /// Add a book the collection corresponding to the given id if it's linked to the user corresponding to the apikey.
+        /// </summary>
+        /// <param name="id">Id of the collection</param>
+        /// <param name="request">ObjectId: id of the book to add to the collection
+        /// ApiKey: your apikey</param>
+        /// <returns></returns>
         [HttpPost("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -141,6 +171,13 @@ namespace CultureBox.APIControllers
             return BadRequest("INVALID_CREDENTIALS");
         }
 
+        /// <summary>
+        /// Add the book corresponding to the given book id from the collection corresponding to the given id if it's linked to the user corresponding to the apikey.
+        /// </summary>
+        /// <param name="id">Id of the collection</param>
+        /// <param name="bookId">The book corresponding to the id that you want to remove</param>
+        /// <param name="apiKey">Your apikey</param>
+        /// <returns></returns>
         [HttpDelete("/{id}/{bookId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
