@@ -27,7 +27,13 @@ namespace CultureBox.APIControllers
             _movieCollectionDao = movieCollectionDao;
             _seriesCollectionDao = seriesCollectionDao;
         }
-        
+
+        /// <summary>
+        /// Get all loan requests
+        /// </summary>
+        /// <param name="request">RequestType: enumeration, can be: Borrow(0) the objets that you borrowed, Loan(1) the objects that you lent, All(2) all requests.
+        /// ApiKey: your apiKey.</param>
+        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -45,6 +51,12 @@ namespace CultureBox.APIControllers
             }
         }
 
+        /// <summary>
+        /// Get the loan request corresponding to the given id.
+        /// </summary>
+        /// <param name="id">Id of the loan request.</param>
+        /// <param name="apiKey">Your apiKey.</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -72,6 +84,14 @@ namespace CultureBox.APIControllers
             return Ok(request);
         }
 
+        /// <summary>
+        /// Request a loan of the given object from the given user.
+        /// </summary>
+        /// <param name="request">IdUser: the id of the owner of the object.
+        /// IdObject: the id of the object to borrow.
+        /// ApiKey: your apiKey.
+        /// RequestObjectType: enumeration, can be: Book (0), Movie(1) or Series(2).</param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -192,6 +212,13 @@ namespace CultureBox.APIControllers
             }
         }
 
+        /// <summary>
+        /// Update the current request it the loaner matches the given apiKey.
+        /// </summary>
+        /// <param name="id">The id of the request</param>
+        /// <param name="request">RequestState: enumeration, can be: Accepted(0), Refused(1), Pending(2), Ongoing(3), Ended(4).
+        /// ApiKey: your apiKey.</param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -230,8 +257,14 @@ namespace CultureBox.APIControllers
                 return Problem("ERROR_ON_THE_SERVER");
             }
         }
-        
-        [HttpGet("searchBookToBorrow")]
+
+        /// <summary>
+        /// Search an object to borrow with the given title and given type.
+        /// </summary>
+        /// <param name="request">RequestObjectType: enumeration, can be: Book (0), Movie(1) or Series(2).
+        /// Title: the title of the object.</param>
+        /// <returns></returns>
+        [HttpGet("searchObjectToBorrow")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

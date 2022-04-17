@@ -18,6 +18,12 @@ namespace CultureBox.APIControllers
             _apiMovieSerieController = apiMovieSerieController;
         }
 
+        /// <summary>
+        /// Get all the series in the database
+        /// </summary>
+        /// <param name="resultCount">Maximum number of results.</param>
+        /// <param name="offset">Offset from the first result.</param>
+        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -27,6 +33,11 @@ namespace CultureBox.APIControllers
             return Ok(Seriess);
         }
 
+        /// <summary>
+        /// Get the series corresponding to the given id.
+        /// </summary>
+        /// <param name="id">Id of the series.</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -41,7 +52,12 @@ namespace CultureBox.APIControllers
             return NotFound("Series_NOT_FOUND");
         }
 
-        [HttpGet("Search")]
+        /// <summary>
+        /// Search for series using the title.
+        /// </summary>
+        /// <param name="title">The title of the series researched.</param>
+        /// <returns></returns>
+        [HttpGet("search")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<List<ApiSeries>> SearchSeries(string title)

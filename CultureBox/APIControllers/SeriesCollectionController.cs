@@ -21,6 +21,11 @@ namespace CultureBox.APIControllers
             _seriesDao = seriesDao;
         }
 
+        /// <summary>
+        /// Get all of the collection corresponding to the user linked to the apiKey.
+        /// </summary>
+        /// <param name="apiKey">Your apikey.</param>
+        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -37,6 +42,12 @@ namespace CultureBox.APIControllers
             return BadRequest("INVALID_CREDENTIALS");
         }
 
+        /// <summary>
+        /// Get the collection corresponding to the given id if it's linked to the user corresponding to the apikey.
+        /// </summary>
+        /// <param name="id">Id of the collection.</param>
+        /// <param name="apiKey">Your apikey.</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -59,6 +70,12 @@ namespace CultureBox.APIControllers
             return BadRequest("INVALID_CREDENTIALS");
         }
 
+        /// <summary>
+        /// Create a new collection with the given name using your apiKey.
+        /// </summary>
+        /// <param name="request">Name: The name of your collection.
+        /// ApiKey: your apikey.</param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -91,6 +108,12 @@ namespace CultureBox.APIControllers
             return BadRequest("INVALID_CREDENTIALS");
         }
 
+        /// <summary>
+        /// Delete the collection corresponding to the given id if it's linked to the user corresponding to the apikey.
+        /// </summary>
+        /// <param name="id">Id of the collection.</param>
+        /// <param name="apiKey">Your apikey.</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -113,6 +136,13 @@ namespace CultureBox.APIControllers
             return BadRequest("INVALID_CREDENTIALS");
         }
 
+        /// <summary>
+        /// Add a series the collection corresponding to the given id if it's linked to the user corresponding to the apikey.
+        /// </summary>
+        /// <param name="id">Id of the collection.</param>
+        /// <param name="request">ObjectId: id of the series to add to the collection.
+        /// ApiKey: your apikey.</param>
+        /// <returns></returns>
         [HttpPost("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -141,11 +171,18 @@ namespace CultureBox.APIControllers
             return BadRequest("INVALID_CREDENTIALS");
         }
 
-        [HttpDelete("/{id}/{SeriesId}")]
+        /// <summary>
+        /// Delete the series corresponding to the given series id from the collection corresponding to the given id if it's linked to the user corresponding to the apikey.
+        /// </summary>
+        /// <param name="id">Id of the collection.</param>
+        /// <param name="seriesId">The series corresponding to the id that you want to remove.</param>
+        /// <param name="apiKey">Your apikey.</param>
+        /// <returns></returns>
+        [HttpDelete("/{id}/{seriesId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<ApiSeriesCollection> RemoveSeriesFromCollection(int id, int SeriesId, [FromBody] string apiKey)
+        public ActionResult<ApiSeriesCollection> RemoveSeriesFromCollection(int id, int seriesId, [FromBody] string apiKey)
         {
             int userId = GetUserId(apiKey);
             if (userId != -1)
@@ -153,7 +190,7 @@ namespace CultureBox.APIControllers
                 var collection = _seriesCollectionDao.GetCollectionById(userId, id);
                 if (collection != null)
                 {
-                    collection = _seriesCollectionDao.RemoveSeriesFromCollection(collection, SeriesId, out bool res);
+                    collection = _seriesCollectionDao.RemoveSeriesFromCollection(collection, seriesId, out bool res);
                     if (res)
                     {
                         return Ok(collection);

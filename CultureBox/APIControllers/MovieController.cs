@@ -10,7 +10,6 @@ namespace CultureBox.APIControllers
     [Route("[controller]")]
     public class MovieController : ControllerBase
     {
-        //livres en commun
         private readonly IApiMovieSerieController _apiMovieSerieController;
 
         public MovieController(IApiMovieSerieController apiMovieSerieController)
@@ -18,6 +17,12 @@ namespace CultureBox.APIControllers
             _apiMovieSerieController = apiMovieSerieController;
         }
 
+        /// <summary>
+        /// Get all the movies in the database
+        /// </summary>
+        /// <param name="resultCount">Maximum number of results.</param>
+        /// <param name="offset">Offset from the first result.</param>
+        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -27,6 +32,11 @@ namespace CultureBox.APIControllers
             return Ok(movies);
         }
 
+        /// <summary>
+        /// Get the movie corresponding to the given id.
+        /// </summary>
+        /// <param name="id">Id of the movie.</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -41,6 +51,11 @@ namespace CultureBox.APIControllers
             return NotFound("MOVIE_NOT_FOUND");
         }
 
+        /// <summary>
+        /// Search for movies using the title.
+        /// </summary>
+        /// <param name="title">The title of the movie researched.</param>
+        /// <returns></returns>
         [HttpGet("search")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

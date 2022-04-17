@@ -17,7 +17,13 @@ namespace CultureBox.APIControllers
         {
             _apiBookController = apiBookController;
         }
-        
+
+        /// <summary>
+        /// Get all the books in the database
+        /// </summary>
+        /// <param name="resultCount">Maximum number of results.</param>
+        /// <param name="offset">Offset from the first result.</param>
+        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -27,6 +33,11 @@ namespace CultureBox.APIControllers
             return Ok(books);
         }
 
+        /// <summary>
+        /// Get the book corresponding to the given id.
+        /// </summary>
+        /// <param name="id">Id of the book.</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -41,6 +52,11 @@ namespace CultureBox.APIControllers
             return NotFound("BOOKS_NOT_FOUND");
         }
 
+        /// <summary>
+        /// Search for books using the title.
+        /// </summary>
+        /// <param name="title">The title of the book researched.</param>
+        /// <returns></returns>
         [HttpGet("search")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

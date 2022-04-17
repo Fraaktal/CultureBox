@@ -16,6 +16,11 @@ namespace CultureBox.APIControllers
             _userDao = userDAO;
         }
 
+        /// <summary>
+        /// Get the user corresponding to the given id.
+        /// </summary>
+        /// <param name="id">Id of the user.</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -30,6 +35,10 @@ namespace CultureBox.APIControllers
             return Ok(user);
         }
 
+        /// <summary>
+        /// Get all users.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -39,6 +48,12 @@ namespace CultureBox.APIControllers
             return Ok(users);
         }
 
+        /// <summary>
+        /// Get the apiKey of the given user.
+        /// </summary>
+        /// <param name="request">Username: the name of the user.
+        /// Password: the password of the user.</param>
+        /// <returns></returns>
         [HttpGet("apikey")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -53,6 +68,12 @@ namespace CultureBox.APIControllers
             return BadRequest("INVALID_CREDENTIALS");
         }
 
+        /// <summary>
+        /// Create a new user.
+        /// </summary>
+        /// <param name="request">Username: the name of the user.
+        /// Password: the password of the user.</param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -82,6 +103,12 @@ namespace CultureBox.APIControllers
             return BadRequest("USERNAME_ALREADY_TAKEN");
         }
 
+        /// <summary>
+        /// Delete the user corresponding to the given id if it corresponds to the apikey.
+        /// </summary>
+        /// <param name="id">The id of the user.</param>
+        /// <param name="apiKey">Your apikey.</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
