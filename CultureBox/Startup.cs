@@ -25,6 +25,7 @@ namespace CultureBox
             {
                 settings.Title = "CultureBox";
             });
+
             ConfigureDependency(services);
         }
 
