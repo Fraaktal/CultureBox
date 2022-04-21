@@ -23,7 +23,7 @@ Notre application se sert d'une Api Google et IMDB et est contenue dans un Docke
 
 
 #### Documentation des Routes
-[Swagger](http://server-fraaktal.ddns.net:4208/swagger/index.html#/User/User_GetAllUser)
+[Swagger](http://server-fraaktal.ddns.net:4208/swagger/index.html#)
 
 
 #### Docker
