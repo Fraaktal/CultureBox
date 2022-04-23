@@ -141,6 +141,7 @@ namespace CultureBox.DAO
                     foreach (var apiUser in users)
                     {
                         apiUser.Password = "*****";
+                        apiUser.ApiKey = "*****";
                     }
                 }
             });
