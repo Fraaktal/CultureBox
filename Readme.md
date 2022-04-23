@@ -48,4 +48,4 @@ Notre application se sert d'une Api Google et IMDB et est contenue dans un Docke
 ## Lancement de l'application
 Afin de compiler et d'exécuter l'application, il est nécessaire d'utiliser Visual Studio 2019 ou 2022 avec les modules "développement .Net multiplateforme" (pour ASP.NET Core) et "Développement Web et ASP.NET". 
 Importer la solution dans le logiciel et tout devrait se lancer automatiquement dans un docker.
-S'il y a des problèmes pour exécuter l'application, vous pouvez contacter Tom R.
+S'il y a des problèmes pour exécuter l'application, vous pouvez contacter Tom R (Fraaktal).
