@@ -239,7 +239,7 @@ namespace CultureBox.APIControllers
                 return NotFound();
             }
 
-            if (loanRequest.IdOwner != userId && loanRequest.IdRequester != userId)
+            if (loanRequest.IdOwner != userId)
             {
                 return BadRequest("INVALID_CREDENTIALS");
             }

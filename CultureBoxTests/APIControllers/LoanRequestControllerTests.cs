@@ -1288,19 +1288,19 @@ namespace CultureBoxTests.APIControllers
             var resReqLoan = LoanRequestController.RequestLoan(reqLoan);
             var objectResultReqLoan = (StatusCodeResult)resReqLoan;
 
-            var reqGet1 = LoanRequestController.UpdateLoanRequest(1, new ApiLoanRequestUpdate() {RequestState = RequestState.Accepted, ApiKey = apiKey2} );
+            var reqGet1 = LoanRequestController.UpdateLoanRequest(1, new ApiLoanRequestUpdate() {RequestState = RequestState.Accepted, ApiKey = apiKey } );
             var objetResReqGet1 = (StatusCodeResult)reqGet1;
             Assert.AreEqual(200, objetResReqGet1.StatusCode); // Ok
 
-            var reqGet2 = LoanRequestController.UpdateLoanRequest(1, new ApiLoanRequestUpdate() {RequestState = RequestState.Refused, ApiKey = apiKey2} );
+            var reqGet2 = LoanRequestController.UpdateLoanRequest(1, new ApiLoanRequestUpdate() {RequestState = RequestState.Refused, ApiKey = apiKey } );
             var objetResReqGet2 = (StatusCodeResult)reqGet2;
             Assert.AreEqual(200, objetResReqGet2.StatusCode); // Ok
             
-            var reqGet3 = LoanRequestController.UpdateLoanRequest(1, new ApiLoanRequestUpdate() {RequestState = RequestState.Ongoing, ApiKey = apiKey2} );
+            var reqGet3 = LoanRequestController.UpdateLoanRequest(1, new ApiLoanRequestUpdate() {RequestState = RequestState.Ongoing, ApiKey = apiKey } );
             var objetResReqGet3 = (StatusCodeResult)reqGet3;
             Assert.AreEqual(200, objetResReqGet3.StatusCode); // Ok
 
-            var reqGet4 = LoanRequestController.UpdateLoanRequest(1, new ApiLoanRequestUpdate() {RequestState = RequestState.Ended, ApiKey = apiKey2} );
+            var reqGet4 = LoanRequestController.UpdateLoanRequest(1, new ApiLoanRequestUpdate() {RequestState = RequestState.Ended, ApiKey = apiKey } );
             var objetResReqGet4 = (StatusCodeResult)reqGet4;
             Assert.AreEqual(200, objetResReqGet4.StatusCode); // Ok
 
