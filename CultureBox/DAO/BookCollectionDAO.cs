@@ -136,7 +136,7 @@ namespace CultureBox.DAO
 
                 foreach (var c in queryResult)
                 {
-                    var book = c.Books.FirstOrDefault(b => b.Title?.Contains(title) ?? false);
+                    var book = c.Books.FirstOrDefault(b => b.Title?.ToLower()?.Contains(title.ToLower()) ?? false);
 
                     if (book != null)
                     {
