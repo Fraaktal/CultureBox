@@ -157,6 +157,7 @@ namespace CultureBox.DAO
             {
                 var col = db.GetCollection<ApiUser>("apiusers");
                 var usr = col.FindOne(x => x.ApiKey == apiKey);
+
                 if (usr != null)
                 {
                     id = usr.Id;
