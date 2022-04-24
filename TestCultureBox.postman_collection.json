@@ -1,0 +1,782 @@
+{
+	"info": {
+		"_postman_id": "6ba3f4fc-0527-4861-abf4-802815251902",
+		"name": "TestCultureBox",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "server-fraaktal.ddns.net:4208/user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"test\",\r\n    \"password\":\"pass\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/user",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/user/1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/user/1",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"user",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/user/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/user/",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"user",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/user/apiKey",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"test\",\r\n    \"password\":\"pass\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/user/apiKey",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"user",
+						"apiKey"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/user/apiKey",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\"BAA23ACVUT_24L9HO1RPG\"",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/user/1",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"user",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/book/search?title=harry potter",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/book/search?title=harry potter",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"book",
+						"search"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "harry potter"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/movie/search?title=harry potter",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/movie/search?title=harry potter",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"movie",
+						"search"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "harry potter"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/series/search?title=house",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/series/search?title=house",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"series",
+						"search"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "house"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/bookcollection/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Harry Potter books\",\r\n  \"apiKey\": \"WIWEXJAYLJ_AWJ9A3CEL2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/bookcollection/",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"bookcollection",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/moviecollection/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Harry Potter movie\",\r\n  \"apiKey\": \"WIWEXJAYLJ_AWJ9A3CEL2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/moviecollection/",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"moviecollection",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/seriescollection/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"House series\",\r\n  \"apiKey\": \"WIWEXJAYLJ_AWJ9A3CEL2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/seriescollection/",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"seriescollection",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/bookcollection/1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"objectId\": 1,\r\n  \"apiKey\": \"WIWEXJAYLJ_AWJ9A3CEL2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/bookcollection/1",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"bookcollection",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/moviecollection/1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"objectId\": 1,\r\n  \"apiKey\": \"WIWEXJAYLJ_AWJ9A3CEL2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/moviecollection/1",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"moviecollection",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/seriescollection/1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"objectId\": 1,\r\n  \"apiKey\": \"WIWEXJAYLJ_AWJ9A3CEL2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/seriescollection/1",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"seriescollection",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/bookcollection",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\"WIWEXJAYLJ_AWJ9A3CEL2\"",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/bookcollection",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"bookcollection"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/moviecollection",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\"WIWEXJAYLJ_AWJ9A3CEL2\"",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/moviecollection",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"moviecollection"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/seriescollection",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\"WIWEXJAYLJ_AWJ9A3CEL2\"",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/seriescollection",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"seriescollection"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/seriescollection/1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\"WIWEXJAYLJ_AWJ9A3CEL2\"",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/seriescollection/1",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"seriescollection",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/moviecollection/1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\"WIWEXJAYLJ_AWJ9A3CEL2\"",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/moviecollection/1",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"moviecollection",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/bookcollection/1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\"WIWEXJAYLJ_AWJ9A3CEL2\"",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/bookcollection/1",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"bookcollection",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/bookcollection/1/1",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\"WIWEXJAYLJ_AWJ9A3CEL2\"",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/bookcollection/1/1",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"bookcollection",
+						"1",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/seriescollection/1/1",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\"WIWEXJAYLJ_AWJ9A3CEL2\"",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/seriescollection/1/1",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"seriescollection",
+						"1",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/moviecollection/1/1",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\"WIWEXJAYLJ_AWJ9A3CEL2\"",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/moviecollection/1/1",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"moviecollection",
+						"1",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/moviecollection/1",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\"WIWEXJAYLJ_AWJ9A3CEL2\"",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/moviecollection/1",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"moviecollection",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/seriescollection/1",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\"WIWEXJAYLJ_AWJ9A3CEL2\"",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/seriescollection/1",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"seriescollection",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server-fraaktal.ddns.net:4208/bookcollection/1",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\"WIWEXJAYLJ_AWJ9A3CEL2\"",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "server-fraaktal.ddns.net:4208/bookcollection/1",
+					"host": [
+						"server-fraaktal",
+						"ddns",
+						"net"
+					],
+					"port": "4208",
+					"path": [
+						"bookcollection",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
