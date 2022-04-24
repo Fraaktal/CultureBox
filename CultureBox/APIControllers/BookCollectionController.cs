@@ -175,28 +175,27 @@ namespace CultureBox.APIControllers
         /// Delete the book corresponding to the given book id from the collection corresponding to the given id if it's linked to the user corresponding to the apikey.
         /// </summary>
         /// <param name="id">Id of the collection.</param>
-        /// <param name="bookId">The book corresponding to the id that you want to remove.</param>
-        /// <param name="apiKey">Your apikey.</param>
+        /// <param name="request">ObjectId: id of the book to add to the collection.
+        /// ApiKey: your apikey.</param>
         /// <returns></returns>
-        [HttpDelete("/{id}/{bookId}")]
+        [HttpDelete("{id}/DeleteBook")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<ApiBookCollection> RemoveBookFromCollection(int id, int bookId, [FromBody] string apiKey)
+        public ActionResult<ApiBookCollection> RemoveBookFromCollection(int id, [FromBody] ApiCollectionItemRequest request)
         {
-            int userId = GetUserId(apiKey);
+            int userId = GetUserId(request.ApiKey);
             if (userId != -1)
             {
                 var collection = _bookCollectionDao.GetCollectionById(userId, id);
                 if (collection != null)
                 {
-                    collection = _bookCollectionDao.RemoveBookFromCollection(collection, bookId, out bool res);
+                    collection = _bookCollectionDao.RemoveBookFromCollection(collection, request.ObjectId, out bool res);
                     if (res)
                     {
                         return Ok(collection);
                     }
-
-                    return NotFound("BOOK_NOT_FOUND");
+           return NotFound("BOOK_NOT_FOUND");
                 }
 
                 return NotFound("COLLECTION_NOT_FOUND");

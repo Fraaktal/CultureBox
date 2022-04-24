@@ -40,6 +40,7 @@ namespace CultureBox.DAO
                 if (user != null)
                 {
                     user.Password = "*****";
+                    user.ApiKey = "*****";
                 }
             });
 

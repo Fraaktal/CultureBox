@@ -175,22 +175,22 @@ namespace CultureBox.APIControllers
         /// Delete the series corresponding to the given series id from the collection corresponding to the given id if it's linked to the user corresponding to the apikey.
         /// </summary>
         /// <param name="id">Id of the collection.</param>
-        /// <param name="seriesId">The series corresponding to the id that you want to remove.</param>
-        /// <param name="apiKey">Your apikey.</param>
+        /// <param name="request">ObjectId: id of the series to add to the collection.
+        /// ApiKey: your apikey.</param>
         /// <returns></returns>
-        [HttpDelete("/{id}/{seriesId}")]
+        [HttpDelete("{id}/DeleteSeries")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<ApiSeriesCollection> RemoveSeriesFromCollection(int id, int seriesId, [FromBody] string apiKey)
+        public ActionResult<ApiSeriesCollection> RemoveSeriesFromCollection(int id, [FromBody] ApiCollectionItemRequest request)
         {
-            int userId = GetUserId(apiKey);
+            int userId = GetUserId(request.ApiKey);
             if (userId != -1)
             {
                 var collection = _seriesCollectionDao.GetCollectionById(userId, id);
                 if (collection != null)
                 {
-                    collection = _seriesCollectionDao.RemoveSeriesFromCollection(collection, seriesId, out bool res);
+                    collection = _seriesCollectionDao.RemoveSeriesFromCollection(collection, request.ObjectId, out bool res);
                     if (res)
                     {
                         return Ok(collection);

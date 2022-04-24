@@ -373,7 +373,7 @@ namespace CultureBoxTests.APIControllers
 
             var r = CollectionController.AddMovieToCollection(col.Id, req);
 
-            var res2 = CollectionController.RemoveMovieFromCollection(col.Id, req.ObjectId, req.ApiKey);
+            var res2 = CollectionController.RemoveMovieFromCollection(col.Id, req);
             var objectResult = (ObjectResult)res2.Result;
             var result = (ApiMovieCollection)(objectResult.Value);
 
@@ -394,7 +394,7 @@ namespace CultureBoxTests.APIControllers
 
             var req = new ApiCollectionItemRequest() { ApiKey = apiKey, ObjectId = Movies[0].Id };
 
-            var res2 = CollectionController.RemoveMovieFromCollection(15454, req.ObjectId, req.ApiKey);
+            var res2 = CollectionController.RemoveMovieFromCollection(15454, req);
             var objectResult = (ObjectResult)res2.Result;
 
             Assert.AreEqual(objectResult.StatusCode, 404);
@@ -413,7 +413,7 @@ namespace CultureBoxTests.APIControllers
 
             var req = new ApiCollectionItemRequest() { ApiKey = apiKey, ObjectId = 1000000000 };
 
-            var res2 = CollectionController.RemoveMovieFromCollection(col.Id, req.ObjectId, req.ApiKey);
+            var res2 = CollectionController.RemoveMovieFromCollection(col.Id, req);
             var objectResult = (ObjectResult)res2.Result;
 
             Assert.AreEqual(404, objectResult.StatusCode);
@@ -437,7 +437,7 @@ namespace CultureBoxTests.APIControllers
 
             var req = new ApiCollectionItemRequest() { ApiKey = apiKey2, ObjectId = 1 };
 
-            var res2 = CollectionController.RemoveMovieFromCollection(col.Id, req.ObjectId, req.ApiKey);
+            var res2 = CollectionController.RemoveMovieFromCollection(col.Id, req);
             var objectResult = (ObjectResult)res2.Result;
 
             Assert.AreEqual(400, objectResult.StatusCode);

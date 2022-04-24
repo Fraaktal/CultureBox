@@ -175,22 +175,22 @@ namespace CultureBox.APIControllers
         /// Delete the movie corresponding to the given movie id from the collection corresponding to the given id if it's linked to the user corresponding to the apikey.
         /// </summary>
         /// <param name="id">Id of the collection.</param>
-        /// <param name="movieId">The movie corresponding to the id that you want to remove.</param>
-        /// <param name="apiKey">Your apikey.</param>
+        /// <param name="request">ObjectId: id of the movie to add to the collection.
+        /// ApiKey: your apikey.</param>
         /// <returns></returns>
-        [HttpDelete("/{id}/{movieId}")]
+        [HttpDelete("{id}/DeleteMovie")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<ApiMovieCollection> RemoveMovieFromCollection(int id, int movieId, [FromBody] string apiKey)
+        public ActionResult<ApiMovieCollection> RemoveMovieFromCollection(int id, [FromBody] ApiCollectionItemRequest request)
         {
-            int userId = GetUserId(apiKey);
+            int userId = GetUserId(request.ApiKey);
             if (userId != -1)
             {
                 var collection = _movieCollectionDao.GetCollectionById(userId, id);
                 if (collection != null)
                 {
-                    collection = _movieCollectionDao.RemoveMovieFromCollection(collection, movieId, out bool res);
+                    collection = _movieCollectionDao.RemoveMovieFromCollection(collection, request.ObjectId, out bool res);
                     if (res)
                     {
                         return Ok(collection);
