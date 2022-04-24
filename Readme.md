@@ -20,6 +20,8 @@ Cette application est destinée a répertorier et gérer les collections de livr
 Notre application se sert d'une Api Google et IMDB et est contenue dans un Docker.
 Étant hebergé sur un serveur, la page web est constamment accessible.
 
+### Rapport
+[Drive](https://docs.google.com/document/d/1q7xsgz6QPfUXMV3AgMGCK5lw_0PmsKDCRsIm510Hj3k/edit?usp=sharing)
 
 
 #### Documentation des Routes
