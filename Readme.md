@@ -21,7 +21,7 @@ Notre application se sert d'une Api Google et IMDB et est contenue dans un Docke
 Étant hebergé sur un serveur, la page web est constamment accessible.
 
 ### Rapport
-Le rapport est disponible à la racine du repository
+Le rapport est disponible à la racine du repository.
 
 
 #### Documentation des Routes
